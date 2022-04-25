@@ -1,0 +1,30 @@
+@use './variables.scss' as *;
+
+.header{
+    background-color: $brand-color;
+    img{
+        width: 250px;
+        padding: 10px 0;
+    }
+    nav{
+        display: flex;
+        justify-content: space-between;
+    }
+    .navLinks{
+        display: flex;
+        margin-right: 100px;
+    }
+    .navLink{
+        padding: 5px;
+        display: block;
+        text-decoration: none;
+        color: white;
+        font-size: 1.5em;
+        width: 200px;
+        text-align: center;
+        padding-top: 30px;
+    }
+    a:hover {
+        background-color: $hover-color;
+    }
+}
