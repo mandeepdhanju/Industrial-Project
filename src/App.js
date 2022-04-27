@@ -9,6 +9,7 @@ import Upload from "./components/Upload";
 import Detail1 from "./components/Detail1";
 import Detail2 from "./components/Detail2";
 import Footer from "./components/Footer";
+import Branch from "./components/Branch";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/organization" element={<Organization />} />
+        <Route path="/organization/:organizationID" element={<Branch />} />
         <Route path="/detail1" element={<Detail1 />} />
         <Route path="/detail2" element={<Detail2 />} />
         <Route path="/search" element={<Search />} />
