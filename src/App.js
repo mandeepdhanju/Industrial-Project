@@ -10,6 +10,8 @@ import Detail1 from "./components/Detail1";
 import Detail2 from "./components/Detail2";
 import Footer from "./components/Footer";
 import Branch from "./components/Branch";
+import Community from "./components/Community";
+import EmployeeCount from "./components/EmployeeCount";
 
 function App() {
   return (
@@ -19,6 +21,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/organization" element={<Organization />} />
         <Route path="/organization/:organizationID" element={<Branch />} />
+
+        <Route path="/community" element={<Community />} />
+        <Route path="/community/:communityID" element={<Branch />} />
+
+        <Route path="/employeeCount" element={<EmployeeCount />} />
+        <Route path="/employeeCount/:employeeCountID" element={<Branch />} />
+
         <Route path="/detail1" element={<Detail1 />} />
         <Route path="/detail2" element={<Detail2 />} />
         <Route path="/search" element={<Search />} />

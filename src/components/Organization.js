@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import OrganizationUpdateForm from "./OrganizationUpdateForm"
 const axios = require('axios')
-const path = "https://localhost:5001/api/"
+const path = "https://localhost:5001/api/community"
+// const path = "https://localhost:5001/swagger/index.html"
 
 function Organization() {
   const [orgs, setOrgs] = useState([])
@@ -34,7 +35,8 @@ function Organization() {
       <thead><tr>
         <th>#</th>
         <th>Organization</th>
-        <th>SubCategory</th>
+        <th>Community</th>
+        {/* <th>SubCategory</th> */}
         <th>Number of Active Branches</th>
         <th>Number of Emphoyees</th>
         <th>Actions</th>

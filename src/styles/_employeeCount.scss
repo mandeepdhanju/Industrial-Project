@@ -1,0 +1,48 @@
+@use './variables' as *;
+
+.employeeCount{
+    padding: 30px;
+
+    .overview{
+        margin-top: 20px;
+        border: 2px solid green;    
+        height: 500px;  
+        .heading{
+            border-bottom: 2px solid green;        
+            h3{
+                padding-left: 10px;
+                display: inline-block;
+                padding-right: 700px;
+            }
+            button{
+                margin-left: 10px;
+            }
+        }
+    }  
+}
+
+form{
+    padding-top: 50px;
+    padding-left: 70px;
+    // border: 2px solid green;
+}
+table {
+    margin: 15px auto auto auto;
+    border: 1px solid black;
+    min-width: 80vw;
+    border-collapse: separate;
+}
+th {
+    background-color: $brand-color;
+    color: white;
+    padding: 5px;
+}
+
+td {
+    text-align: center;
+}
+
+
+tr:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.377);
+}
