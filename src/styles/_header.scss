@@ -1,5 +1,7 @@
 @use './variables.scss' as *;
-
+body{
+    font-family: 'Roboto', sans-serif;
+}
 .header{
     background-color: $brand-color;
     img{
@@ -9,20 +11,22 @@
     nav{
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .navLinks{
         display: flex;
         margin-right: 100px;
     }
     .navLink{
-        padding: 5px;
+        padding: 10px;
         display: block;
+        text-transform: uppercase;
+        font-weight: 400;
         text-decoration: none;
         color: white;
-        font-size: 1.5em;
+        font-size: 1em;
         width: 200px;
         text-align: center;
-        padding-top: 30px;
     }
     a:hover {
         background-color: $hover-color;

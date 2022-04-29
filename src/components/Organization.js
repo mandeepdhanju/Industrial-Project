@@ -33,12 +33,19 @@ function Organization() {
   return <div className="organization">
     <table>
       <thead><tr>
+<<<<<<< HEAD
         <th>#</th>
         <th>Organization</th>
         <th>Community</th>
         {/* <th>SubCategory</th> */}
+=======
+        <th className="sticky-col org-num">#</th>
+        <th className="sticky-col org-name">Organization</th>
+        <th>SubCategory</th>
+>>>>>>> 9ecc21fe3ba5d78b7bb25e40e4913d881f66d6f7
         <th>Number of Active Branches</th>
-        <th>Number of Emphoyees</th>
+        <th>Number of Employees</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr></thead>
 
@@ -46,17 +53,16 @@ function Organization() {
         return <tbody key={(org.organizationID)}>
 
           <tr onClick={() => { getBranchInfo(org.organizationID) }}>
-            <td>{index + 1}</td>
-            <td>{org.organizationName}</td>
+            <td className="sticky-col org-num">{index + 1}</td>
+            <td className="sticky-col org-name">{org.organizationName}</td>
             <td>{org.activeBranches}</td>
             <td>{org.numberOfEmployees}</td>
             <td>{org.subCategory}</td>
+            <td>{org.active}</td>
             <td>
               <button onClick={() => { setEdit(true); setOrgObj(org) }}>✏️</button>
-              <button>🗑️</button>
             </td>
           </tr>
-
         </tbody>
       })}
     </table>
