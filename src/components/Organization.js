@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import OrganizationCreateForm from "./OrganizationCreateForm"
 import OrganizationUpdateForm from "./OrganizationUpdateForm"
 const axios = require('axios')
 const path = "https://localhost:5001/api/"
@@ -8,6 +9,7 @@ function Organization() {
   const [orgs, setOrgs] = useState([])
   const [orgObj, setOrgObj] = useState({})
   const [edit, setEdit] = useState(false)
+  const [create, setCreate] = useState(false)
 
   let navigate = useNavigate();
 
@@ -19,45 +21,58 @@ function Organization() {
     getAllOrgs()
   }, [])
 
-  async function updateOrg() {
-    const response = await axios.put(path + "Organization")
-    console.log(response)
-  }
-
   function getBranchInfo(id) {
     let path = "/organization/" + id
     navigate(path)
   }
 
+  async function markInactive(id) {
+    const response = await axios.delete(path + "Organization/" + id)
+    console.log(response)
+
+    //update again
+  }
+
+  function pushToArray(newOrgObj) {
+    setOrgs([...orgs, newOrgObj])
+  }
+
   return <div className="organization">
+    {create ? <OrganizationCreateForm pushToArray={pushToArray}></OrganizationCreateForm> : ""}
+    <button onClick={() => setCreate(!create)}>Create New Organization</button>
     <table>
       <thead><tr>
         <th>#</th>
         <th>Organization</th>
+        <th>Category</th>
         <th>SubCategory</th>
         <th>Number of Active Branches</th>
         <th>Number of Emphoyees</th>
+        <th>Website</th>
         <th>Actions</th>
       </tr></thead>
 
       {orgs.map((org, index) => {
         return <tbody key={(org.organizationID)}>
 
-          <tr> 
+          <tr onClick={() => { getBranchInfo(org.organizationID) }}>
             <td>{index + 1}</td>
             <td>{org.organizationName}</td>
+            <td>{org.category}</td>
+            <td>{org.subCategory}</td>
             <td>{org.activeBranches}</td>
             <td>{org.numberOfEmployees}</td>
-            <td>{org.subCategory}</td>
+            <td onClick={(e) => e.stopPropagation()}>{org.website ? <a href={org.website}>Website</a> : ""}</td>
             <td>
-              <button onClick={() => { setEdit(true); setOrgObj(org) }}>✏️</button>
-              <button>🗑️</button>
+              <button onClick={(e) => { e.stopPropagation(); setEdit(!edit); setOrgObj(org) }}>✏️</button>
+              <button onClick={(e) => { e.stopPropagation(); markInactive(org.organizationID) }}>{org.active ? "🟢" : "🔴"}</button>
             </td>
           </tr>
 
         </tbody>
       })}
     </table>
+
     {edit ? <OrganizationUpdateForm orgObj={orgObj}></OrganizationUpdateForm> : ""}
   </div >
 }
