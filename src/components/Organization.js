@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import OrganizationCreateForm from "./OrganizationCreateForm"
 import OrganizationUpdateForm from "./OrganizationUpdateForm"
 const axios = require('axios')
-const path = "https://localhost:5001/api/"
+const path = "https://localhost:5001/api/community"
 
 function Organization() {
   const [orgs, setOrgs] = useState([])
@@ -46,6 +46,7 @@ function Organization() {
         <th>Organization</th>
         <th>Category</th>
         <th>SubCategory</th>
+
         <th>Number of Active Branches</th>
         <th>Number of Emphoyees</th>
         <th>Website</th>
@@ -68,7 +69,6 @@ function Organization() {
               <button onClick={(e) => { e.stopPropagation(); markInactive(org.organizationID) }}>{org.active ? "🟢" : "🔴"}</button>
             </td>
           </tr>
-
         </tbody>
       })}
     </table>

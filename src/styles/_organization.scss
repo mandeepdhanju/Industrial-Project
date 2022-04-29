@@ -18,3 +18,18 @@ td {
 tr:nth-child(even) {
     background-color: rgba(128, 128, 128, 0.377);
 }
+
+
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+}
+.org-num {
+    width: 50px;
+    left: 0px;
+}
+
+.org-name {
+    width: 200px;
+    left: 50px;
+}
