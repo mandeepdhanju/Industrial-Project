@@ -32,29 +32,29 @@ function Organization() {
   return <div className="organization">
     <table>
       <thead><tr>
-        <th>#</th>
-        <th>Organization</th>
+        <th className="sticky-col org-num">#</th>
+        <th className="sticky-col org-name">Organization</th>
         <th>SubCategory</th>
         <th>Number of Active Branches</th>
-        <th>Number of Emphoyees</th>
+        <th>Number of Employees</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr></thead>
 
       {orgs.map((org, index) => {
         return <tbody key={(org.organizationID)}>
 
-          <tr> 
-            <td>{index + 1}</td>
-            <td>{org.organizationName}</td>
+          <tr onClick={() => { getBranchInfo(org.organizationID) }}>
+            <td className="sticky-col org-num">{index + 1}</td>
+            <td className="sticky-col org-name">{org.organizationName}</td>
             <td>{org.activeBranches}</td>
             <td>{org.numberOfEmployees}</td>
             <td>{org.subCategory}</td>
+            <td>{org.active}</td>
             <td>
               <button onClick={() => { setEdit(true); setOrgObj(org) }}>✏️</button>
-              <button>🗑️</button>
             </td>
           </tr>
-
         </tbody>
       })}
     </table>
