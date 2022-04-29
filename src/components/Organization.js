@@ -43,7 +43,7 @@ function Organization() {
       {orgs.map((org, index) => {
         return <tbody key={(org.organizationID)}>
 
-          <tr onClick={() => { getBranchInfo(org.organizationID) }}>
+          <tr> 
             <td>{index + 1}</td>
             <td>{org.organizationName}</td>
             <td>{org.activeBranches}</td>
