@@ -42,15 +42,14 @@ function Organization() {
     <button onClick={() => setCreate(!create)}>Create New Organization</button>
     <table>
       <thead><tr>
-        <th>#</th>
-        <th>Organization</th>
+        <th className="t-num">#</th>
+        <th className="t-name">Organization</th>
         <th>Category</th>
         <th>SubCategory</th>
-
         <th>Number of Active Branches</th>
-        <th>Number of Emphoyees</th>
+        <th>Number of Employees</th>
         <th>Website</th>
-        <th>Actions</th>
+        <th className="t-actions">Actions</th>
       </tr></thead>
 
       {orgs.map((org, index) => {

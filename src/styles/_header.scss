@@ -5,7 +5,7 @@ body{
 .header{
     background-color: $brand-color;
     img{
-        width: 250px;
+        width: 150px;
         padding: 10px 0;
     }
     nav{
@@ -18,10 +18,11 @@ body{
         margin-right: 100px;
     }
     .navLink{
-        padding: 10px;
+        padding: 20px;
         display: block;
         text-transform: uppercase;
         font-weight: 400;
+        letter-spacing: .5px;
         text-decoration: none;
         color: white;
         font-size: 1em;

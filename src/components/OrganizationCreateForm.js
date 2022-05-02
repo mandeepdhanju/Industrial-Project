@@ -68,42 +68,44 @@ function OrganizationCreateForm({ pushToArray }) {
     }, [newOrg])
 
     return (
-        <div>
+        <div className='form-container'>
             <form onSubmit={loadFormData}>
-                <label htmlFor="organizationName">Organization Name</label>
-                <input type="text" name="organizationName" placeholder="Please enter the Doing Business As (DBA) or Business Legal Name"></input>
-                <br />
-                <label htmlFor="website">Website</label>
-                <input type="text" name="website" placeholder="Business website"></input>
-                <br />
+                <label>Organization Name
+                    <input type="text" name="organizationName" placeholder="Please enter the Business Legal Name"/>
+                </label>
+                
+                
+                <label>Website
+                    <input type="text" name="website" placeholder="Business website"/>
+                </label>
 
-                <label htmlFor="numberOfEmployees">Number of employees</label>
-                <select name="numberOfEmployees">
-                    {employeeCount.map((ec, index) => {
-                        return <option key={index} value={ec.EmployeeCountID}>{ec.EmployeeCountRange}</option>
-                    })}
-                </select>
-                <br />
+                <label>Number of employees
+                    <select name="numberOfEmployees">
+                        {employeeCount.map((ec, index) => {
+                            return <option key={index} value={ec.EmployeeCountID}>{ec.EmployeeCountRange}</option>
+                        })}
+                    </select>
+                </label>
 
-                <label htmlFor="category">Categry</label>
-                <select name="category">
-                    {category.map((ec, index) => {
-                        return <option key={index} value={ec.CategoryID}>{ec.CategoryName}</option>
-                    })}
-                </select>
-                <br />
+                <label>Category
+                    <select name="category">
+                        {category.map((ec, index) => {
+                            return <option key={index} value={ec.CategoryID}>{ec.CategoryName}</option>
+                        })}
+                    </select>
+                </label>
 
-                <label htmlFor="subCategory">SubCategory</label>
-                <select name="subCategory">
-                    {subCategory.map((ec, index) => {
-                        return <option key={index} value={ec.SubCategoryID}>{ec.SubCategoryName}</option>
-                    })}
-                </select>
-                <br />
+                <label>SubCategory
+                    <select name="subCategory">
+                        {subCategory.map((ec, index) => {
+                            return <option key={index} value={ec.SubCategoryID}>{ec.SubCategoryName}</option>
+                        })}
+                    </select>
+                </label>
 
-                <label htmlFor="comment">Comment</label>
-                <textarea name="comment" placeholder='[optional] Add a comment'></textarea>
-                <br />
+                <label>Comment [optional]
+                    <textarea name="comment" placeholder='Add a comment'/>
+                </label>
                 <button type='submit'>Submit</button>
             </form>
         </div>

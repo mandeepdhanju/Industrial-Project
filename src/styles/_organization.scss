@@ -1,22 +1,56 @@
 @use './variables' as *;
+.organizations, .branches{
+    overflow: hidden;
+}
+.branches h1{
+    margin-left: 10vw;
+}
 table {
     margin: 15px auto auto auto;
-    border: 1px solid black;
-    min-width: 80vw;
+    width: 80vw;
+    border-radius: 5px;
+    overflow-x: auto;
+    display: block;
     border-collapse: separate;
 }
 th {
-    background-color: $brand-color;
+    background-color: #005c48;
     color: white;
-    padding: 5px;
+    padding: 15px;
+    border: 1px solid $brand-color;
+    text-transform: uppercase;
 }
-
+th:nth-child(1), th:nth-child(2), th:last-child{
+    background-color: $brand-color;
+}
+th:nth-child(1), th:nth-child(2), th:last-child,
+td:nth-child(1), td:nth-child(2), td:last-child{
+    position: -webkit-sticky;
+    position: sticky;
+    
+}
+td:nth-child(1){
+    min-width: 80px;
+    left: 0px;
+}
+td:nth-child(2){
+    min-width: 300px;
+    left: 80px;
+}
+td:last-child{
+    min-width: 100px;
+    right: 0px;
+    border-left: 1px solid #B3B3B3;
+}
 td {
     text-align: center;
+    border-right: 1px solid #B3B3B3;
+    padding: 20px 10px;
+    background-color: white;
 }
 
-tr:nth-child(even) {
-    background-color: rgba(128, 128, 128, 0.377);
+tr:nth-child(odd) td {
+    background-color: #EFEFEF;
 }
 
 
@@ -24,12 +58,55 @@ tr:nth-child(even) {
     position: -webkit-sticky;
     position: sticky;
 }
-.org-num {
-    width: 50px;
+.t-num {
+    min-width: 80px;
     left: 0px;
 }
 
-.org-name {
-    width: 200px;
-    left: 50px;
+.t-name {
+    min-width: 300px;
+    left: 80px;
+}
+.t-address{
+    min-width: 500px;
+
+}
+.t-community{
+    min-width: 300px;
+}
+.t-actions{
+    min-width: 100px;
+    right: 0;
+}
+.form-container{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 400px;
+    label{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    input, textarea{
+        max-width: 400px;
+        padding: 10px 5px;
+        margin-top: 5px;
+    }
+    select{
+        max-width: 300px;
+        padding: 10px 5px;
+        margin-top: 5px;
+    }
+    button{
+        padding: 10px;
+        
+        max-width: 100px;
+    }
 }
