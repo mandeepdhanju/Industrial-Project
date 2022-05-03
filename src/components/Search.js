@@ -6,6 +6,7 @@ import {
   useFilters,
 } from "react-table";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://localhost:5001/api/";
 
@@ -78,6 +79,7 @@ function SelectColumnFilter({
 
 function Search() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   async function getData() {
     const result = await axios(API_URL + "search/all");
     setData(result.data);
@@ -272,21 +274,23 @@ function Search() {
     page,
     prepareRow,
     state,
-    setGlobalFilter,
     preGlobalFilteredRows,
-
     rows,
     nextPage,
     previousPage,
     canPreviousPage,
     canNextPage,
     pageOptions,
+
+    // for clearing column filters
+    setAllFilters,
+    // for setting the global filter and clearing it
+    setGlobalFilter,
   } = table;
 
   const { globalFilter, pageIndex } = state;
   return (
     <>
-      {console.log(rows)}
       <GlobalFilter
         filter={globalFilter}
         setFilter={setGlobalFilter}
@@ -329,7 +333,7 @@ function Search() {
         <div>
           <span>
             Page {pageIndex + 1} of {pageOptions.length} out of {rows.length}{" "}
-            rows
+            total records
           </span>
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             Previous
@@ -339,6 +343,15 @@ function Search() {
           </button>
         </div>
       </div>
+      <button
+        onClick={() => {
+          setGlobalFilter("");
+          setAllFilters([]);
+        }}
+      >
+        Clear Filters
+      </button>
+      <button onClick={() => navigate("/Report", { rows })}>Download</button>
     </>
   );
 }
