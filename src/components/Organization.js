@@ -1,79 +1,110 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import OrganizationCreateForm from "./OrganizationCreateForm"
-import OrganizationUpdateForm from "./OrganizationUpdateForm"
-const axios = require('axios')
-const path = "https://localhost:5001/api/community"
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTable } from "react-table";
+import OrganizationCreateForm from "./OrganizationCreateForm";
+import OrganizationUpdateForm from "./OrganizationUpdateForm";
+const axios = require("axios");
+const path = "https://localhost:5001/api/";
 
 function Organization() {
-  const [orgs, setOrgs] = useState([])
-  const [orgObj, setOrgObj] = useState({})
-  const [edit, setEdit] = useState(false)
-  const [create, setCreate] = useState(false)
+  const [data, setData] = useState([]);
 
-  let navigate = useNavigate();
-
+  async function getData() {
+    const response = await axios.get(path + "organization");
+    setData(response.data);
+  }
   useEffect(() => {
-    async function getAllOrgs() {
-      const response = await axios.get(path + "Organization")
-      setOrgs(response.data)
-    }
-    getAllOrgs()
-  }, [])
+    getData();
+  }, []);
 
-  function getBranchInfo(id) {
-    let path = "/organization/" + id
-    navigate(path)
-  }
+  const columns = useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "organizationID",
+        disableFilters: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Organization Name",
+        accessor: "organizationName",
+      },
+      {
+        Header: "Category",
+        accessor: "category",
+      },
+      {
+        Header: "Sub Category",
+        accessor: "subCategory",
+      },
+      {
+        Header: "Branch Info",
+        columns: [
+          {
+            Header: "# Active Branches",
+            accessor: "activeBranches",
+          },
+          {
+            Header: "# Inactive Branches",
+            accessor: "inactiveBranches",
+          },
+          {
+            Header: "# Total Branches",
+            accessor: "totalBranches",
+          },
+        ],
+      },
+      {
+        Header: "Actions",
+        accessor: "",
+        disableSortBy: true,
+        disableFilters: true,
+        Cell: (row) => {
+          return (
+            <div>
+              <button onClick={() => console.log(row.row.cells[0].value)}>
+                Get thing
+              </button>
+            </div>
+          );
+        },
+      },
+    ],
+    []
+  );
 
-  async function markInactive(id) {
-    const response = await axios.delete(path + "Organization/" + id)
-    console.log(response)
-
-    //update again
-  }
-
-  function pushToArray(newOrgObj) {
-    setOrgs([...orgs, newOrgObj])
-  }
-
-  return <div className="organization">
-    {create ? <OrganizationCreateForm pushToArray={pushToArray}></OrganizationCreateForm> : ""}
-    <button onClick={() => setCreate(!create)}>Create New Organization</button>
-    <table>
-      <thead><tr>
-        <th className="t-num">#</th>
-        <th className="t-name">Organization</th>
-        <th>Category</th>
-        <th>SubCategory</th>
-        <th>Number of Active Branches</th>
-        <th>Number of Employees</th>
-        <th>Website</th>
-        <th className="t-actions">Actions</th>
-      </tr></thead>
-
-      {orgs.map((org, index) => {
-        return <tbody key={(org.organizationID)}>
-
-          <tr onClick={() => { getBranchInfo(org.organizationID) }}>
-            <td>{index + 1}</td>
-            <td>{org.organizationName}</td>
-            <td>{org.category}</td>
-            <td>{org.subCategory}</td>
-            <td>{org.activeBranches}</td>
-            <td>{org.numberOfEmployees}</td>
-            <td onClick={(e) => e.stopPropagation()}>{org.website ? <a href={org.website}>Website</a> : ""}</td>
-            <td>
-              <button onClick={(e) => { e.stopPropagation(); setEdit(!edit); setOrgObj(org) }}>✏️</button>
-              <button onClick={(e) => { e.stopPropagation(); markInactive(org.organizationID) }}>{org.active ? "🟢" : "🔴"}</button>
-            </td>
-          </tr>
+  const table = useTable({ columns, data });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    table;
+  return (
+    <div className="organization">
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
-      })}
-    </table>
-
-    {edit ? <OrganizationUpdateForm orgObj={orgObj}></OrganizationUpdateForm> : ""}
-  </div >
+      </table>
+    </div>
+  );
 }
 
 export default Organization;
