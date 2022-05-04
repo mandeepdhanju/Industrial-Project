@@ -60,7 +60,12 @@ function Modal({ closeModal, row }) {
             onChange={(e) => setOrganizationName(e.target.value)}
           ></input>
           <label htmlFor="category">Category</label>
-          <input id="category" placeholder={cat} value={cat}></input>
+          <input
+            id="category"
+            placeholder={cat}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          ></input>
           <label htmlFor="subCategory">Sub Category</label>
           <input
             id="subCategory"
