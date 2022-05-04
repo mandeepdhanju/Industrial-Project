@@ -53,7 +53,6 @@ function Report() {
           exportData.push(obj);
         }
         setExportArray(exportData);
-        console.log(exportArray);
       }
     }
 
@@ -65,13 +64,11 @@ function Report() {
       if (exportArray.length !== 0) {
         let pageData = [];
         for (let i = 0; i < page; i++) {
-          // setPageArray((previous) => [...previous, exportArray[i]]);
           if (exportArray[i]) {
             pageData.push(exportArray[i]);
           }
         }
         setPageArray(pageData);
-        console.log(pageData);
       }
     }
     pageInsert();
@@ -110,40 +107,6 @@ function Report() {
             </div>
           ))}
       </div>
-      {/* <div className="reportPreview">
-        <CsvDownload data={exportArray}>Download</CsvDownload>
-        <h1>PREVIEW</h1>
-        <table>
-          <tr>{checkedArray && checkedArray.map((i) => <th>{i}</th>)}</tr>
-
-          {all &&
-            all.map((row) => (
-              <tr>
-                {checkedArray.map((column) => (
-                  <td>{row[column]}</td>
-                ))}
-              </tr>
-            ))}
-        </table>
-      </div> */}
-
-      {/* <div>
-        <table>
-          <tr>
-            {exportArray &&
-              Object.keys(exportArray[0]).map((item) => <th>{item}</th>)}
-          </tr>
-
-          {exportArray &&
-            exportArray.map((row) => (
-              <tr>
-                {Object.keys(exportArray[0]).map((item) => (
-                  <td>{row[item]}</td>
-                ))}
-              </tr>
-            ))}
-        </table>
-      </div> */}
 
       <div className="reportPreview">
         <CsvDownload data={exportArray}>Download</CsvDownload>
