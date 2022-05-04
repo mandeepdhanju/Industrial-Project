@@ -5,6 +5,7 @@
 .branches h1{
     margin-left: 10vw;
 }
+
 table {
     margin: 15px auto auto auto;
     border-radius: 5px;
@@ -25,6 +26,7 @@ th {
     position: sticky;
     top: 0;
 }
+.organization, .search{
 th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
     top: 0;
@@ -46,7 +48,7 @@ td:nth-child(2), th:nth-child(2){
     box-shadow: 10px 0px 37px 0px rgba(0,0,0,0.2);
     clip-path: inset(0px -50px 0px 0px);
 }
-
+}
 // td:last-child{
 //     min-width: 100px;
 //     right: 0px;

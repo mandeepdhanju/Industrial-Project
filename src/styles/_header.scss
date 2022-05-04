@@ -20,7 +20,7 @@ button:hover{
     top: 0;
     z-index: 99;
     img{
-        width: 150px;
+        height: 46px;
         padding: 5px 0;
         margin-left: 20px;
     }
@@ -28,13 +28,15 @@ button:hover{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        height: 50px;
     }
     .navLinks{
         display: flex;
         margin-right: 100px;
     }
     .navLink{
-        padding: 17px;
+        height: 50px;
+        padding-top: 18px;
         display: block;
         text-transform: uppercase;
         font-weight: 400;

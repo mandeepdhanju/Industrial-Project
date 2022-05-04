@@ -45,5 +45,14 @@
         button:hover{
             background-color: #00392d;
         }
+        th:nth-child(1),
+        td:nth-child(1){
+            position: -webkit-sticky;
+            position: sticky;
+            min-width: 50px;
+            left: 0px;
+            z-index: 99;
+        }
     }
+    
 }
