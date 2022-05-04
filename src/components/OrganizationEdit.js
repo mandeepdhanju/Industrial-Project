@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 
-function Modal({ closeModal, row }) {
+const API = "https://localhost:5001/api/";
+function Modal({ closeModal, row, getData }) {
   const {
     activeBranches,
     category: cat,
@@ -10,17 +12,84 @@ function Modal({ closeModal, row }) {
     organizationName: orgName,
     subCategory: subCat,
     totalBranches,
+    website: web,
+    numberOfEmployees: numEmp,
   } = row.row.values;
+  console.log(row.row.values);
 
   const [organizationName, setOrganizationName] = useState(orgName);
-  const [category, setCategory] = useState(cat);
-  const [subCategory, setSubCategory] = useState(subCat);
+  const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("_");
+  const [subCategory, setSubCategory] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("_");
+  const [website, setWebsite] = useState(web);
 
-  const submit = function () {
+  const [employeeCount, setEmployeeCount] = useState([]);
+  const [selectedEmployeeCount, setSelectedEmployeeCount] = useState("_");
+
+  const submit = async function (e) {
+    e.preventDefault();
     // insert update logic here
-    alert(`Submitting ${organizationName}`);
+    const response = await axios.put(API + "organization/" + organizationID, {
+      organizationName,
+      website,
+      employeeCountId: selectedEmployeeCount,
+      active: true,
+      categoryId: selectedCategory,
+      subCategoryId: selectedSubCategory,
+      // dont touch this active
+    });
+    getData();
     closeModal();
   };
+
+  const getCategory = async function () {
+    const response = await axios.get(API + "category");
+    setCategory(response.data);
+  };
+
+  const getSubCategory = async function (catID) {
+    if (catID === "_") return;
+    const response = await axios.get(API + "subcategory/" + catID);
+    setSubCategory(response.data);
+  };
+
+  const getEmployeeCount = async function () {
+    const response = await axios.get(API + "employeecount/");
+    setEmployeeCount(response.data);
+  };
+  // get the categories from the api
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  useEffect(() => {
+    getSubCategory(selectedCategory || cat);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    getEmployeeCount();
+  }, []);
+
+  //setting the drop down values with the data from the database
+  useEffect(() => {
+    category.forEach((ca) => {
+      if (ca.categoryName === cat) {
+        setSelectedCategory(ca.categoryID);
+      }
+    });
+
+    subCategory.forEach((sc) => {
+      if (sc.subCategoryName === subCat) {
+        setSelectedSubCategory(sc.subCategoryID);
+      }
+    });
+    employeeCount.forEach((ec) => {
+      if (ec.employeeCountRange === numEmp) {
+        setSelectedEmployeeCount(ec.employeeCountID);
+      }
+    });
+  }, [category, subCategory, employeeCount, cat, subCat, numEmp]);
 
   return (
     <div
@@ -60,19 +129,84 @@ function Modal({ closeModal, row }) {
             onChange={(e) => setOrganizationName(e.target.value)}
           ></input>
           <label htmlFor="category">Category</label>
-          <input
+          <select
+            name="category"
             id="category"
-            placeholder={cat}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          ></input>
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="_" disabled={true}>
+              Select a category
+            </option>
+            {category.map((cat) => {
+              if (cat.categoryName !== "") {
+                return (
+                  <option key={cat.categoryID} value={cat.categoryID}>
+                    {cat.categoryName}
+                  </option>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </select>
           <label htmlFor="subCategory">Sub Category</label>
-          <input
+          <select
+            name="subCategory"
             id="subCategory"
-            placeholder={subCat}
-            value={subCategory}
-            onChange={(e) => setSubCategory(e.target.value)}
+            value={selectedSubCategory}
+            onChange={(e) => setSelectedSubCategory(e.target.value)}
+          >
+            <option value="_" disabled={true}>
+              Select a sub category
+            </option>
+            {subCategory.map((subCat) => {
+              if (subCat.subCategoryName !== "") {
+                return (
+                  <option
+                    key={subCat.subCategoryID}
+                    value={subCat.subCategoryID}
+                  >
+                    {subCat.subCategoryName}
+                  </option>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </select>
+
+          <label htmlFor="website">Website</label>
+          <input
+            id="website"
+            placeholder={web}
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
           ></input>
+
+          <label htmlFor="employeeCount">Employee Count</label>
+          <select
+            name="employeeCount"
+            id="employeeCount"
+            value={selectedEmployeeCount}
+            onChange={(e) => setSelectedEmployeeCount(e.target.value)}
+          >
+            <option value="_" disabled={true}>
+              Select Employee count/range
+            </option>
+            {employeeCount.map((emp) => {
+              if (emp.employeeCountRange !== "") {
+                return (
+                  <option key={emp.employeeCountID} value={emp.employeeCountID}>
+                    {emp.employeeCountRange}
+                  </option>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </select>
+
           <button type="submit">Submit</button>
         </form>
         <button onClick={() => closeModal()}>Close Modal</button>
@@ -81,7 +215,7 @@ function Modal({ closeModal, row }) {
   );
 }
 
-function OrganizationEdit({ row }) {
+function OrganizationEdit({ row, getData }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const portalElement = document.getElementById("modal");
   return (
@@ -89,7 +223,11 @@ function OrganizationEdit({ row }) {
       <button onClick={() => setIsOpen(true)}>Edit</button>
       {isOpen &&
         ReactDOM.createPortal(
-          <Modal closeModal={() => setIsOpen(false)} row={row} />,
+          <Modal
+            closeModal={() => setIsOpen(false)}
+            row={row}
+            getData={getData}
+          />,
           portalElement
         )}
     </div>

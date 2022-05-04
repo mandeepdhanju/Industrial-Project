@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable, usePagination, useFilters } from "react-table";
-import OrganizationCreateForm from "./OrganizationCreateForm";
-import OrganizationUpdateForm from "./OrganizationUpdateForm";
 import OrganizationEdit from "./OrganizationEdit";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
@@ -48,6 +46,37 @@ function Organization() {
         Filter: ColumnFilter,
       },
       {
+        Header: "Employee Count",
+        accessor: "numberOfEmployees",
+        disableFilters: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Website",
+        accessor: "website",
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (row) => {
+          let websiteUrl = row.row.original.website;
+          let websiteDisplay;
+          if (
+            websiteUrl !== "" &&
+            websiteUrl !== null &&
+            !websiteUrl.startsWith("http")
+          ) {
+            websiteUrl = "https://" + websiteUrl;
+            websiteDisplay = new URL(websiteUrl).hostname;
+          }
+          if (row.row.original.website !== "") {
+            return (
+              <a href={websiteUrl} target="_blank" rel="noreferrer">
+                {websiteDisplay}
+              </a>
+            );
+          }
+        },
+      },
+      {
         Header: "Category",
         accessor: "category",
         disableFilters: true,
@@ -83,7 +112,7 @@ function Organization() {
         disableSortBy: true,
         disableFilters: true,
         Cell: (row) => {
-          return <OrganizationEdit row={row} />;
+          return <OrganizationEdit row={row} getData={getData} />;
         },
       },
     ],
