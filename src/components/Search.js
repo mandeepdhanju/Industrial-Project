@@ -327,7 +327,7 @@ function Search() {
         >
           Clear Filters
         </button>
-        <button className="download" onClick={() => navigate("/Report", { rows })}>Download</button>
+        <button className="download" onClick={() => navigate("/Report", { state: toReports })}>Download</button>
       </div>
       </div>
       </div>
@@ -378,23 +378,7 @@ function Search() {
         </div>
       </div>
 
-      <button
-        onClick={() => {
-          setGlobalFilter("");
-          setAllFilters([]);
-        }}
-      >
-        Clear Filters
-      </button>
-      <button
-        onClick={() => {
-          // console.log(rows[0].original);
-          navigate("/Report", { state: toReports });
-        }}
-      >
-        Download
-      </button>
-    </>
+    
 
       
     </main>
