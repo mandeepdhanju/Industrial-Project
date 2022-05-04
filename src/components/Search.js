@@ -5,6 +5,8 @@ import {
   usePagination,
   useFilters,
 } from "react-table";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -84,6 +86,7 @@ function Search() {
     const result = await axios(API_URL + "search/all");
     setData(result.data);
   }
+
   const test = useCallback(() => getData(), []);
   useEffect(() => {
     test();
@@ -289,6 +292,11 @@ function Search() {
   } = table;
 
   const { globalFilter, pageIndex } = state;
+  const toReports = [];
+  rows.forEach((item, index) => {
+    toReports.push(item.original);
+  });
+
   return (
     <>
       <GlobalFilter
@@ -351,7 +359,14 @@ function Search() {
       >
         Clear Filters
       </button>
-      <button onClick={() => navigate("/Report", { rows })}>Download</button>
+      <button
+        onClick={() => {
+          // console.log(rows[0].original);
+          navigate("/Report", { state: toReports });
+        }}
+      >
+        Download
+      </button>
     </>
   );
 }
