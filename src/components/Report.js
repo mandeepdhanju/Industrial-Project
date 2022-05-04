@@ -116,7 +116,7 @@ function Report() {
       </div>
 
       <div className="reportPreview">
-        <CsvDownload data={exportArray}>Download</CsvDownload>
+        <CsvDownload data={exportArray} className="download">Download</CsvDownload>
         <h1>PREVIEW</h1>
         <table>
           <tr>

@@ -2,6 +2,16 @@
 body{
     font-family: 'Roboto', sans-serif;
 }
+button{
+    cursor: pointer;
+    padding: 13px 25px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+button:hover{
+    opacity: .9;
+}
 .header{
     background-color: $brand-color;
     position: fixed;
