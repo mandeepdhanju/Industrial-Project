@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTable, usePagination, useFilters } from "react-table";
 import OrganizationCreateForm from "./OrganizationCreateForm";
 import OrganizationUpdateForm from "./OrganizationUpdateForm";
+import OrganizationEdit from "./OrganizationEdit";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
 
@@ -82,13 +83,7 @@ function Organization() {
         disableSortBy: true,
         disableFilters: true,
         Cell: (row) => {
-          return (
-            <div>
-              <button onClick={() => console.log(row.row.cells[0].value)}>
-                Get thing
-              </button>
-            </div>
-          );
+          return <OrganizationEdit row={row} />;
         },
       },
     ],
