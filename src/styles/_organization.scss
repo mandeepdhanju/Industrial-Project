@@ -21,9 +21,14 @@ th {
     border: 1px solid $brand-color;
     text-transform: uppercase;
     min-width: 70px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
+    top: 0;
+    z-index: 999;
 }
 th:nth-child(1), th:nth-child(2),
 td:nth-child(1), td:nth-child(2){

@@ -97,13 +97,20 @@ function Report() {
         {columnName &&
           columnName.map((item) => (
             <div>
-              <input
+              {/* <input
                 type="checkbox"
                 onChange={() => {
                   checkedColumn(item);
                 }}
               />
-              <label htmlFor="columnName">{item}</label>
+              <label htmlFor="columnName">{item}</label> */}
+              
+              <label><input
+                type="checkbox"
+                onChange={() => {
+                  checkedColumn(item);
+                }}
+              />{item}</label>
             </div>
           ))}
       </div>
