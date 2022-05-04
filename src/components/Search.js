@@ -94,10 +94,10 @@ function Search() {
   const columns = useMemo(
     () => [
       {
-        Header: "#",
+        Header: "ID",
         accessor: "",
         Cell: (row) => {
-          return <div>{row.row.id}</div>;
+          return <div>{row.row.cells[1].row.original.organizationID}</div>;
         },
         disableFilters: true,
         disableSortBy: true,
