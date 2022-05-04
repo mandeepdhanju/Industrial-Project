@@ -1,0 +1,29 @@
+@use './variables' as *;
+.report{
+    button{
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin: 5px 0;
+    }
+    button:hover{
+        background-color: $brand-color;
+    }
+    display: flex;
+    margin: 50px auto 0 auto;
+    .columnSelection{
+        padding: 10px;
+        border: 1px grey solid;
+        border-radius: 10px;
+        div{
+            width: 200px;
+        }
+    }
+    .reportPreview{
+        margin: 0 30px;
+        max-width: 100%;
+        table{
+            max-width: 100%;
+        }
+    }
+}
