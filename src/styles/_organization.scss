@@ -7,7 +7,6 @@
 }
 table {
     margin: 15px auto auto auto;
-    width: 80vw;
     border-radius: 5px;
     overflow-x: auto;
     display: block;
@@ -16,43 +15,57 @@ table {
 th {
     background-color: #005c48;
     color: white;
-    padding: 15px;
+    padding: 10px;
+    font-weight: 500;
+    font-size: .9em;
     border: 1px solid $brand-color;
     text-transform: uppercase;
+    min-width: 70px;
 }
-th:nth-child(1), th:nth-child(2), th:last-child{
+th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
 }
-th:nth-child(1), th:nth-child(2), th:last-child,
-td:nth-child(1), td:nth-child(2), td:last-child{
+th:nth-child(1), th:nth-child(2),
+td:nth-child(1), td:nth-child(2){
     position: -webkit-sticky;
     position: sticky;
     
 }
-td:nth-child(1){
-    min-width: 80px;
+td:nth-child(1), th:nth-child(1){
+    min-width: 50px;
     left: 0px;
 }
-td:nth-child(2){
+td:nth-child(2), th:nth-child(2){
     min-width: 300px;
-    left: 80px;
+    left: 50px;
+    box-shadow: 10px 0px 37px 0px rgba(0,0,0,0.2);
+    clip-path: inset(0px -50px 0px 0px);
 }
-td:last-child{
-    min-width: 100px;
-    right: 0px;
-    border-left: 1px solid #B3B3B3;
-}
+
+// td:last-child{
+//     min-width: 100px;
+//     right: 0px;
+//     border-left: 1px solid #B3B3B3;
+// }
 td {
     text-align: center;
     border-right: 1px solid #B3B3B3;
-    padding: 20px 10px;
+    padding: 5px 5px;
     background-color: white;
+    
 }
-
 tr:nth-child(odd) td {
     background-color: #EFEFEF;
 }
-
+.medium-col{
+    width: 180px;
+}
+.small-col{
+    width: 70px;
+}
+.large-col{
+    width: 250px;
+}
 
 .sticky-col {
     position: -webkit-sticky;

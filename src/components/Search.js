@@ -14,9 +14,8 @@ function GlobalFilter({ filter, setFilter, preGlobalFilteredRows }) {
   const count = preGlobalFilteredRows.length;
   return (
     <span>
-      Search:{" "}
-      <input
-        value={filter ? filter.value : ""}
+      Global Search{" "}
+      <input value={filter ? filter.value : ""}
         onChange={(e) => {
           setFilter(e.target.value || undefined);
         }}
@@ -32,7 +31,7 @@ function ColumnFilter({ column }) {
 
   return (
     <span>
-      Search:{" "}
+      {" "}
       <input
         value={filterValue || ""}
         onChange={(e) => setFilter(e.target.value || undefined)}
@@ -290,16 +289,44 @@ function Search() {
 
   const { globalFilter, pageIndex } = state;
   return (
-    <>
-      <GlobalFilter
-        filter={globalFilter}
-        setFilter={setGlobalFilter}
-        preGlobalFilteredRows={preGlobalFilteredRows}
-      />
+    <main>
+      <div className="sidebar">
+        <div className="filters">
+        <GlobalFilter
+          filter={globalFilter}
+          setFilter={setGlobalFilter}
+          preGlobalFilteredRows={preGlobalFilteredRows}
+        />
+
+        {headerGroups.map((headerGroup) =>
+          headerGroup.headers.map(
+            (column) =>
+              column.canFilter && (
+                <div>
+                  <p>{column.render("Header")}</p>
+                  {column.render("Filter")}
+                </div>
+              )
+          )
+        )}
+        
+        <div className="buttons">
+        <button className="clear"
+          onClick={() => {
+            setGlobalFilter("");
+            setAllFilters([]);
+          }}
+        >
+          Clear Filters
+        </button>
+        <button className="download" onClick={() => navigate("/Report", { rows })}>Download</button>
+      </div>
+      </div>
+      </div>
       <div className="search">
         <table
           {...getTableProps}
-          style={{ height: "90vh", overflowX: "scroll" }}
+          style={{  overflowX: "scroll" }}
         >
           <thead>
             {headerGroups.map((headerGroup) => (
@@ -307,9 +334,9 @@ function Search() {
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
                     {column.render("Header")}
-                    <div>
+                    {/* <div>
                       {column.canFilter ? column.render("Filter") : null}
-                    </div>
+                    </div> */}
                   </th>
                 ))}
               </tr>
@@ -330,29 +357,20 @@ function Search() {
             })}
           </tbody>
         </table>
-        <div>
-          <span>
-            Page {pageIndex + 1} of {pageOptions.length} out of {rows.length}{" "}
-            total records
-          </span>
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            Previous
+        <div className="pagination">
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>&#10094;
           </button>
+          <span>
+            Page {pageIndex + 1} of {pageOptions.length}
+          </span>
+          
           <button onClick={() => nextPage()} disabled={!canNextPage}>
-            Next
+             	&#10095;
           </button>
         </div>
       </div>
-      <button
-        onClick={() => {
-          setGlobalFilter("");
-          setAllFilters([]);
-        }}
-      >
-        Clear Filters
-      </button>
-      <button onClick={() => navigate("/Report", { rows })}>Download</button>
-    </>
+      
+    </main>
   );
 }
 
