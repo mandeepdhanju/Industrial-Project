@@ -124,6 +124,7 @@ function Organization() {
       columns,
       data,
       initialState: { pageSize: 15 },
+      autoResetPage: false,
     },
     useFilters,
     usePagination
