@@ -14,7 +14,7 @@ function GlobalFilter({ filter, setFilter, preGlobalFilteredRows }) {
   const count = preGlobalFilteredRows.length;
   return (
     <span>
-      Search:{" "}
+      Global Search:{" "}
       <input
         value={filter ? filter.value : ""}
         onChange={(e) => {
@@ -291,6 +291,17 @@ function Search() {
   const { globalFilter, pageIndex } = state;
   return (
     <>
+      {headerGroups.map((headerGroup) =>
+        headerGroup.headers.map(
+          (column) =>
+            column.canFilter && (
+              <div>
+                <p>{column.render("Header")}</p>
+                {column.render("Filter")}
+              </div>
+            )
+        )
+      )}
       <GlobalFilter
         filter={globalFilter}
         setFilter={setGlobalFilter}
@@ -307,9 +318,9 @@ function Search() {
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
                     {column.render("Header")}
-                    <div>
+                    {/* <div>
                       {column.canFilter ? column.render("Filter") : null}
-                    </div>
+                    </div> */}
                   </th>
                 ))}
               </tr>
