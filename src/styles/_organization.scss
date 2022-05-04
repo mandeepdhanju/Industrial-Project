@@ -22,11 +22,11 @@ th {
     text-transform: uppercase;
     min-width: 70px;
 }
-th:nth-child(1), th:nth-child(2), th:last-child{
+th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
 }
-th:nth-child(1), th:nth-child(2), th:last-child,
-td:nth-child(1), td:nth-child(2), td:last-child{
+th:nth-child(1), th:nth-child(2),
+td:nth-child(1), td:nth-child(2){
     position: -webkit-sticky;
     position: sticky;
     
@@ -42,11 +42,11 @@ td:nth-child(2), th:nth-child(2){
     clip-path: inset(0px -50px 0px 0px);
 }
 
-td:last-child{
-    min-width: 100px;
-    right: 0px;
-    border-left: 1px solid #B3B3B3;
-}
+// td:last-child{
+//     min-width: 100px;
+//     right: 0px;
+//     border-left: 1px solid #B3B3B3;
+// }
 td {
     text-align: center;
     border-right: 1px solid #B3B3B3;
