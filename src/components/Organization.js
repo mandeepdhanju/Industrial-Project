@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTable, usePagination, useFilters } from "react-table";
 import OrganizationEdit from "./OrganizationEdit";
 import OrganizationDelete from "./OrganizationDelete";
+import OrganizationCreate from "./OrganizationCreate";
 import GoToPage from "./GoToPage";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
@@ -155,6 +156,7 @@ function Organization() {
 
   return (
     <div className="organization">
+      <OrganizationCreate getData={getData} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
