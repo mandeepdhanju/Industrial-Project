@@ -156,7 +156,7 @@ function Organization() {
 
   return (
     <div className="organization">
-      <OrganizationCreate />
+      <OrganizationCreate getData={getData} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
