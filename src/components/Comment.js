@@ -34,7 +34,7 @@ function Comment() {
             {comments.map((comment) => {
                 return (
                     <div key={comment.commentId}>
-                        <p>{comment.created}</p>
+                        <p>{new Date(comment.created).toLocaleString()}</p>
                         <p>{comment.comment}</p>
                     </div>
                 )
