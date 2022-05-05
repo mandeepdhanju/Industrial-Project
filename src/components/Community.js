@@ -43,13 +43,10 @@ function Community() {
     <table>
       <thead><tr>
         <th>#</th>
-        {/* <th>Organization</th> */}
         <th>Community</th>
-        {/* <th>SubCategory</th> */}
-        {/* <th>Number of Active Branches</th>
-        <th>Number of Emphoyees</th>*/}
         <th>Actions</th> 
-      </tr></thead>
+      </tr>
+      </thead>
 
       {community.map((community, index) => {
         return <tbody key={(community.communityID)}>

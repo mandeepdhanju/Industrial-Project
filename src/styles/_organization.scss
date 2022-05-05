@@ -1,6 +1,7 @@
 @use './variables' as *;
 .organizations, .branches{
     overflow: hidden;
+   
 }
 .branches h1{
     margin-left: 10vw;
@@ -27,15 +28,19 @@ th:nth-child(1), th:nth-child(2), th:last-child,
 td:nth-child(1), td:nth-child(2), td:last-child{
     position: -webkit-sticky;
     position: sticky;
+  
+
     
 }
 td:nth-child(1){
     min-width: 80px;
     left: 0px;
+    
 }
 td:nth-child(2){
     min-width: 300px;
     left: 80px;
+    cursor: pointer;
 }
 td:last-child{
     min-width: 100px;
@@ -47,6 +52,9 @@ td {
     border-right: 1px solid #B3B3B3;
     padding: 20px 10px;
     background-color: white;
+    
+
+   
 }
 
 tr:nth-child(odd) td {
@@ -63,17 +71,65 @@ tr:nth-child(odd) td {
     left: 0px;
 }
 
-.t-name {
-    min-width: 300px;
-    left: 80px;
-}
-.t-address{
-    min-width: 500px;
+// .t-community {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-branch{
+//     min-width: 300px;
 
-}
-.t-community{
-    min-width: 300px;
-}
+// }
+// .t-busAdd{
+//     min-width: 300px;
+// }
+// .t-busSt {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-busCity {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-busProv{
+//     min-width: 300px;
+
+// }
+// .t-busPost{
+//     min-width: 300px;
+// }
+// .t-mailAdd {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-mailSt {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-mailCity{
+//     min-width: 300px;
+
+// }
+// .t-mailProv{
+//     min-width: 300px;
+// }
+// .t-busSt {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-busCity {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-busProv{
+//     min-width: 300px;
+
+// }
+// .t-mailPost{
+//     min-width: 300px;
+// }
 .t-actions{
     min-width: 100px;
     right: 0;

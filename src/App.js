@@ -25,8 +25,9 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/community/:communityID" element={<Branch />} />
 
-        <Route path="/employeeCount" element={<EmployeeCount />} />
-        <Route path="/employeeCount/:employeeCountID" element={<Branch />} />
+
+        {/* <Route path="/employeeCount" element={<EmployeeCount />} />
+        <Route path="/employeeCount/:employeeCountID" element={<Branch />} /> */}
 
         <Route path="/detail1" element={<Detail1 />} />
         <Route path="/detail2" element={<Detail2 />} />
