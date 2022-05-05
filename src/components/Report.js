@@ -1,8 +1,6 @@
 import CsvDownload from "react-json-to-csv";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-const axios = require("axios");
-const path = "https://localhost:5001/api/Search/all";
 
 function Report() {
   const location = useLocation();
@@ -12,27 +10,20 @@ function Report() {
   const [exportArray, setExportArray] = useState([]);
   const [pageArray, setPageArray] = useState();
   const [page, setPage] = useState(10);
+  const [tempArray, setTempArray] = useState([]);
   useEffect(() => {
     function getAll() {
-      // await axios.get(path).then((response) => {
-      //   setAll(response.data);
-      //   // setColumnName(Object.keys(response.data[0]));
-      //   let columns = Object.keys(response.data[0]);
-      //   columns.forEach((item, index) => {
-      //     if (item.includes("ID")) {
-      //       columns.splice(index, 1);
-      //     }
-      //   });
-      //   setColumnName(columns);
-      // });
-      setAll(location.state);
-      let columns = Object.keys(location.state[0]);
-      columns.forEach((item, index) => {
-        if (item.includes("ID")) {
-          columns.splice(index, 1);
-        }
+      let passedData = location.state;
+      passedData.forEach((item) => {
+        let columns = Object.keys(item);
+        columns.forEach((column) => {
+          if (column.includes("ID")) {
+            delete item[column];
+          }
+        });
       });
-      setColumnName(columns);
+      setColumnName(Object.keys(passedData[0]));
+      setAll(passedData);
     }
     getAll();
   }, []);
@@ -53,6 +44,8 @@ function Report() {
           exportData.push(obj);
         }
         setExportArray(exportData);
+      } else {
+        setExportArray(exportData);
       }
     }
 
@@ -61,43 +54,72 @@ function Report() {
 
   useEffect(() => {
     function pageInsert() {
+      let pageData = [];
       if (exportArray.length !== 0) {
-        let pageData = [];
         for (let i = 0; i < page; i++) {
           if (exportArray[i]) {
             pageData.push(exportArray[i]);
           }
         }
         setPageArray(pageData);
+      } else {
+        setPageArray("");
       }
     }
     pageInsert();
   }, [exportArray, page]);
 
+  useEffect(() => {
+    function reOrganize() {
+      if (tempArray) {
+        setCheckedArray("");
+        columnName.forEach((item) => {
+          tempArray.forEach((item2) => {
+            if (item === item2) {
+              setCheckedArray((checked) => [...checked, item2]);
+            }
+          });
+        });
+      }
+    }
+
+    reOrganize();
+  }, [tempArray]);
+
   function checkedColumn(checkedColumn) {
-    if (checkedArray.includes(checkedColumn)) {
-      const index = checkedArray.indexOf(checkedColumn);
-      setCheckedArray([
-        ...checkedArray.slice(0, index),
-        ...checkedArray.slice(index + 1),
+    if (tempArray.includes(checkedColumn)) {
+      const index = tempArray.indexOf(checkedColumn);
+
+      setTempArray([
+        ...tempArray.slice(0, index),
+        ...tempArray.slice(index + 1),
       ]);
     } else {
-      setCheckedArray((checked) => [...checked, checkedColumn]);
+      setTempArray((checked) => [...checked, checkedColumn]);
     }
   }
 
-  function nextPage() {
-    setPage(page + 10);
+  function selectAllFunc() {
+    let allArray = [];
+    columnName.forEach((column) => {
+      allArray.push(column);
+    });
+    setTempArray(allArray);
+  }
+  function deselect() {
+    setTempArray([]);
   }
 
   return (
     <div className="report">
-      {location.row}
       <div className="columnSelection">
+        <button onClick={selectAllFunc}>Select All</button>
+        <button onClick={deselect}>Deselect All</button>
         {columnName &&
           columnName.map((item) => (
             <div>
               <input
+                checked={checkedArray.includes(item) ? true : false}
                 type="checkbox"
                 onChange={() => {
                   checkedColumn(item);
@@ -126,7 +148,15 @@ function Report() {
               </tr>
             ))}
         </table>
-        {pageArray && <button onClick={nextPage}>Load More...</button>}
+        {pageArray && (
+          <button
+            onClick={() => {
+              setPage(page + 10);
+            }}
+          >
+            Load More...
+          </button>
+        )}
       </div>
     </div>
   );
