@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
-function ContactEditForm({ selectedContact, handleFormSubmit }) {
+function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
 
     const { branchID } = useParams()
     const [contact, setContact] = useState({
@@ -41,7 +41,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit }) {
                 streetName: contact.address.streetName,
                 city: contact.address.city,
                 province: contact.address.province,
-                postalCode: contact.address.postalCode
+                postalCode: contact.address.postalCode,
             })
             console.log(response.data)
             setContact({
@@ -80,8 +80,29 @@ function ContactEditForm({ selectedContact, handleFormSubmit }) {
     }, [contact])
 
     return (
-        <div>
-            <form onSubmit={(e) => { submitForm(e) }}>
+        <div style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            zIndex: 5000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+        }}
+            onClick={closeModal}
+        >
+            <form
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                    backgroundColor: "white",
+                    padding: "1rem",
+                    zIndex: 5001,
+                }}
+                onSubmit={(e) => { submitForm(e) }}
+                onClick={(e) => e.stopPropagation()}>
                 <label htmlFor='name'>Name</label>
                 <input
                     name="name"
@@ -117,6 +138,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit }) {
                     type='checkbox'
                     name="primaryContact"
                     defaultChecked={contact.primaryContact}
+                    onChange={(e) => setContact({ ...contact, primaryContact: e.target.checked })}
                 ></input>
 
                 <label htmlFor='active'>Active?</label>
@@ -124,6 +146,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit }) {
                     type='checkbox'
                     name="active"
                     defaultChecked={contact.active}
+                    onChange={(e) => setContact({ ...contact, active: e.target.checked })}
                 ></input>
 
                 <div className="addressForm">
