@@ -60,7 +60,7 @@ function OrganizationDelete({ row, getData }) {
   const [isOpened, setIsOpened] = useState(false);
   const portalElement = document.getElementById("modal");
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <button onClick={() => setIsOpened(true)}>Delete</button>
       {isOpened &&
         ReactDOM.createPortal(

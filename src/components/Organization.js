@@ -4,6 +4,7 @@ import OrganizationEdit from "./OrganizationEdit";
 import OrganizationDelete from "./OrganizationDelete";
 import OrganizationCreate from "./OrganizationCreate";
 import GoToPage from "./GoToPage";
+import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
 
@@ -25,6 +26,7 @@ function ColumnFilter({ column }) {
 
 function Organization() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   async function getData() {
     const response = await axios.get(path + "organization");
@@ -174,7 +176,12 @@ function Organization() {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                onClick={() =>
+                  navigate("/organization/" + row.values.organizationID)
+                }
+              >
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
