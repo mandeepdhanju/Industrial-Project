@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable, usePagination, useFilters } from "react-table";
 import OrganizationEdit from "./OrganizationEdit";
+import GoToPage from "./GoToPage";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
 
@@ -137,6 +138,7 @@ function Organization() {
     page,
     prepareRow,
 
+    gotoPage,
     state,
     // pagination
     canPreviousPage,
@@ -187,6 +189,7 @@ function Organization() {
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           Next Page
         </button>
+        <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
       </div>
     </div>
   );
