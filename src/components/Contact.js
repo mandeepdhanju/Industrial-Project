@@ -97,7 +97,7 @@ function Contact() {
                   <td>{contact.address.address1 ? (`${contact.address.address1}  ${contact.address.address2 ?? null} ${contact.address.streetName} ${contact.address.city} ${contact.address.province} ${contact.address.postalCode}`) : null}</td>
                   <td>
                     <button onClick={() => { prepareEditForm(contact) }}>✏️</button>
-                    <button onClick={() => { prepareDeactive(contact) }}>🗑️</button>
+                    {contact.active ? <button onClick={() => { prepareDeactive(contact) }}>🗑️</button> : null}
                   </td>
                 </tr>
               </tbody>
