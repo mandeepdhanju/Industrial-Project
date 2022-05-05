@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Comment from "./Comment";
+
 
 const axios = require("axios");
 const path = "https://localhost:5001/api/community";
@@ -123,6 +125,7 @@ function Branch() {
           );
         })}
       </table>
+      <Comment></Comment>
     </div>
   );
 }
