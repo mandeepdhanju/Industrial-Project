@@ -1,0 +1,78 @@
+main{
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    padding: 30px 0 30px 30px;
+}
+body{
+    overflow: hidden;
+}
+.sidebar{
+    width:23%;
+    position: relative;
+    
+}
+.filters{
+    background-color: #ededed;
+    padding: 20px;
+    width: calc(23% - 50px);
+    border-radius: 5px;
+    position: fixed;
+
+    select, input{
+        width: 100%;
+        padding: 5px;
+    }
+    p{
+        margin-bottom: 5px;
+        font-size: .9em;
+    }
+    span{
+        font-size: .9em;
+    }
+    span input{
+        margin-top: 5px;
+    }
+
+    .buttons{
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: calc(50% - 5px);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .clear{
+            background-color: white;
+
+        }
+        .download{
+            background-color: #006751;
+            color: white;
+        }
+    }
+}
+.search{
+    width: 78%;
+}
+.search table{
+    margin: 0;
+    height: calc(100vh - 100px);
+}
+.pagination{
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    background-color: #ededed;
+    padding: 15px 25px;
+    border-radius: 30px;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+    span{
+        margin: 0 20px;
+    }
+    button{
+        background-color: white;
+        padding: 5px 10px;
+    }
+}
