@@ -15,7 +15,6 @@ function Modal({ closeModal, row, getData }) {
     website: web,
     numberOfEmployees: numEmp,
   } = row.row.values;
-  console.log(row.row.values);
 
   const [organizationName, setOrganizationName] = useState(orgName);
   const [category, setCategory] = useState([]);
