@@ -62,15 +62,19 @@ function Branch() {
   }
 
   return (
-    <div className="branch" style={{ margin: '55px' }}>
-
-      {/* {toggleCreate ? ReactDOM.createPortal(
+    <main>
+      <div className="sidebar">
+        {/* {toggleCreate ? ReactDOM.createPortal(
         <ContactCreateForm
           handleFormSubmit={handleFormSubmit}
           closeModal={() => { setToggleCreate(false) }}>
         </ContactCreateForm>,
         portalElement) : null}
       <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Branch</button> */}
+      </div>
+    <div className="branch" style={{ margin: '55px' }}>
+
+      
 
       <table>
         <thead>
@@ -136,6 +140,7 @@ function Branch() {
         portalElement) : null} */}
 
     </div>
+    </main>
   );
 }
 

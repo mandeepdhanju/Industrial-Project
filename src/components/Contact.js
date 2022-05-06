@@ -63,8 +63,8 @@ function Contact() {
   }
 
   return (
-    <div className="contact" style={{ margin: '55px' }}>
-
+    <main>
+    <div className="sidebar">
       {toggleCreate ? ReactDOM.createPortal(
         <ContactCreateForm
           handleFormSubmit={handleFormSubmit}
@@ -72,6 +72,10 @@ function Contact() {
         </ContactCreateForm>,
         portalElement) : null}
       <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Contact</button>
+    </div>
+    <div className="contact" style={{ margin: '55px' }}>
+
+      
       <table>
         <thead>
           <tr>
@@ -125,6 +129,7 @@ function Contact() {
         </ContactDelete>,
         portalElement) : null}
     </div>
+    </main>
   );
 }
 
