@@ -1,120 +1,224 @@
-import { useEffect, useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
+import { useTable, usePagination, useFilters } from "react-table";
+import OrganizationEdit from "./OrganizationEdit";
+import OrganizationDelete from "./OrganizationDelete";
+import OrganizationCreate from "./OrganizationCreate";
+import GoToPage from "./GoToPage";
 import { useNavigate } from "react-router-dom";
-import OrganizationCreateForm from "./OrganizationCreateForm";
-import OrganizationUpdateForm from "./OrganizationUpdateForm";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
 
-function Organization() {
-  const [orgs, setOrgs] = useState([]);
-  const [orgObj, setOrgObj] = useState({});
-  const [edit, setEdit] = useState(false);
-  const [create, setCreate] = useState(false);
+function ColumnFilter({ column }) {
+  const { filterValue, setFilter, preFilteredRows } = column;
+  const count = preFilteredRows.length;
 
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    async function getAllOrgs() {
-      const response = await axios.get(path + "Organization");
-      setOrgs(response.data);
-    }
-    getAllOrgs();
-  }, []);
-
-  function getBranchInfo(id, orgName) {
-    let path = "/organization/" + id;
-    navigate(path, {
-      state: {
-        orgsName: orgName
-      },
-    });
-  }
-
-  async function markInactive(id) {
-    const response = await axios.delete(path + "Organization/" + id);
-    console.log(response);
-
-    //update again
-  }
-
-  function pushToArray(newOrgObj) {
-    setOrgs([...orgs, newOrgObj]);
-  }
 
   return (
-    <div className="organization">
-      {create ? (
-        <OrganizationCreateForm
-          pushToArray={pushToArray}
-        ></OrganizationCreateForm>
-      ) : (
-        ""
-      )}
-      <button onClick={() => setCreate(!create)}>
-        Create New Organization
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th className="t-num">#</th>
-            <th className="t-name">Organization</th>
-            <th>Category</th>
-            <th>SubCategory</th>
-            <th>Number of Active Branches</th>
-            <th>Number of Employees</th>
-            <th>Website</th>
-            <th className="t-actions">Actions</th>
-          </tr>
-        </thead>
+    <span>
+      Search:{" "}
+      <input
+        value={filterValue || ""}
+        onChange={(e) => setFilter(e.target.value || undefined)}
+        placeholder={`${count} records`}
+      ></input>
+    </span>
+  );
+}
 
-        {orgs.map((org, index) => {
+
+function Organization() {
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  async function getData() {
+    const response = await axios.get(path + "organization");
+    setData(response.data);
+
+  }
+  useEffect(() => {
+    getData();
+  }, []);
+
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "organizationID",
+        disableFilters: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Organization Name",
+        accessor: "organizationName",
+        Filter: ColumnFilter,
+      },
+      {
+        Header: "Employee Count",
+        accessor: "numberOfEmployees",
+        disableFilters: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Website",
+        accessor: "website",
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (row) => {
+          let websiteUrl = row.row.original.website;
+          let websiteDisplay;
+          if (
+            websiteUrl !== "" &&
+            websiteUrl !== null &&
+            !websiteUrl.startsWith("http")
+          ) {
+            websiteUrl = "https://" + websiteUrl;
+            websiteDisplay = new URL(websiteUrl).hostname;
+          }
+          if (row.row.original.website !== "") {
+            return (
+              <a href={websiteUrl} target="_blank" rel="noreferrer">
+                {websiteDisplay}
+              </a>
+            );
+          }
+        },
+      },
+      {
+        Header: "Category",
+        accessor: "category",
+        disableFilters: true,
+      },
+      {
+        Header: "Sub Category",
+        accessor: "subCategory",
+        disableFilters: true,
+      },
+      {
+        Header: "Branch Info",
+        columns: [
+          {
+            Header: "# Active Branches",
+            accessor: "activeBranches",
+            disableFilters: true,
+          },
+          {
+            Header: "# Inactive Branches",
+            accessor: "inactiveBranches",
+            disableFilters: true,
+          },
+          {
+            Header: "# Total Branches",
+            accessor: "totalBranches",
+            disableFilters: true,
+          },
+        ],
+      },
+      {
+        Header: "Actions",
+        accessor: "",
+        disableSortBy: true,
+        disableFilters: true,
+        Cell: (row) => {
           return (
-            <tbody key={org.organizationID}>
-              <tr
-                onClick={() => {
-                  getBranchInfo(org.organizationID, org.organizationName);
-                }}
-              >
-                <td>{index + 1}</td>
-                <td>{org.organizationName}</td>
-                <td>{org.category}</td>
-                <td>{org.subCategory}</td>
-                <td>{org.activeBranches}</td>
-                <td>{org.numberOfEmployees}</td>
-                <td onClick={(e) => e.stopPropagation()}>
-                  {org.website ? <a href={org.website}>Website</a> : ""}
-                </td>
-                <td>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEdit(!edit);
-                      setOrgObj(org);
-                    }}
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markInactive(org.organizationID);
-                    }}
-                  >
-                    {org.active ? "🟢" : "🔴"}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            <div>
+              <OrganizationEdit row={row} getData={getData} />
+              <OrganizationDelete row={row} getData={getData} />
+            </div>
           );
-        })}
-      </table>
+        },
+      },
+    ],
+    []
+  );
 
-      {edit ? (
-        <OrganizationUpdateForm orgObj={orgObj}></OrganizationUpdateForm>
-      ) : (
-        ""
-      )}
+
+  const table = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageSize: 15 },
+      autoResetPage: false,
+    },
+    useFilters,
+    usePagination
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    page,
+    prepareRow,
+    gotoPage,
+    state,
+    // pagination
+    canPreviousPage,
+    canNextPage,
+    nextPage,
+    previousPage,
+    pageOptions,
+  } = table;
+
+  return (
+    <main>
+      <div className="sidebar">
+        <OrganizationCreate getData={getData} />
+        <div className="pagination">
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              &#10094;
+            </button>
+            <span>
+            Page {state.pageIndex + 1} of {pageOptions.length}
+          </span>
+
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              &#10095;
+            </button>
+
+            <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+          </div>
     </div>
+      
+    <div className="organization">
+      
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                  <div>{column.canFilter ? column.render("Filter") : null}</div>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr
+                {...row.getRowProps()}
+                onClick={() =>
+                  navigate("/organization/" + row.values.organizationID)
+                }
+              >
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      
+    </div>
+    </main>
   );
 }
 
