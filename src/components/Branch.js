@@ -1,133 +1,144 @@
-import React from "react";
+
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Comment from "./Comment";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import ReactDOM from 'react-dom';
+import BranchUpdateForm from "./BranchUpdateForm";
 
-
-const axios = require("axios");
-const path = "https://localhost:5001/api/community";
 
 function Branch() {
-  const { organizationID } = useParams();
-  const [orgs, setOrgs] = useState([]);
-  const [orgObj, setOrgObj] = useState({});
-  const [edit, setEdit] = useState(false);
-  const [create, setCreate] = useState(false);
 
-  let navigate = useNavigate();
+  const portalElement = document.getElementById('modal')
+
+  const PATH = "https://localhost:5001/api/"
+  const navigate = useNavigate();
+  const { organizationID } = useParams()
+
+  const [branches, setBranches] = useState([])
+  const [selectedBranch, setSelectedBranch] = useState()
+
+  //Show Edit Form State
+  const [toggleEditForm, setToggleEditForm] = useState(false)
+  //Show Create Popup
+  const [toggleCreate, setToggleCreate] = useState(false)
+  //Show Delete Popup
+  const [toggleDelete, setToggleDelete] = useState(false)
 
   useEffect(() => {
-    async function getAllOrgs() {
-      const response = await axios.get(path + "Organization");
-      setOrgs(response.data);
+    //Onload, get contacts
+    getBranches()
+  }, [])
+
+  async function getBranches() {
+    if (branches.length > 0) {
+      return
     }
-    getAllOrgs();
-  }, []);
-
-  async function markInactive(id) {
-    const response = await axios.delete(path + "Organization/" + id);
-    console.log(response);
-
-    //update again
+    const response = await axios.get(PATH + "Branch/" + organizationID)
+    console.log(response.data)
+    setBranches(response.data)
   }
 
-  function getBranchInfo(id) {
-    let path = "/organization/" + id;
-    navigate(path);
+  // async function deactiveContact(contact) {
+  //   const response = await axios.delete(`${PATH}Contact/${branchID}/${contact.contactId}`)
+  //   setContacts(response.data)
+  //   setToggleDelete(false)
+  // }
+
+  function prepareEditForm(branch) {
+    setToggleEditForm(!toggleEditForm)
+    setSelectedBranch(branch)
   }
 
-  function pushToArray(newOrgObj) {
-    setOrgs([...orgs, newOrgObj]);
+  // function prepareDeactive(contact) {
+  //   setToggleDelete(!toggleDelete)
+  //   setSelectedContact(contact)
+  // }
+
+  function handleFormSubmit(newArray) {
+    console.log(newArray)
+    setBranches(newArray)
+    setToggleEditForm(false)
+    setToggleCreate(false)
   }
+
   return (
-    <div className="branches">
-      <h1>Org Name {organizationID}</h1>
+    <div className="branch" style={{ margin: '55px' }}>
+
+      {/* {toggleCreate ? ReactDOM.createPortal(
+        <ContactCreateForm
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleCreate(false) }}>
+        </ContactCreateForm>,
+        portalElement) : null}
+      <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Branch</button> */}
+
       <table>
         <thead>
           <tr>
-            <th className="t-num">#</th>
-            <th className="t-name">Branches</th>
-            <th className="t-address">Address</th>
-            <th className="t-community">Community</th>
-            <th className="t-address">Address</th>
-            <th className="t-community">Community</th>
-            <th className="t-address">Address</th>
-            <th className="t-community">Community</th>
-            <th className="t-actions">Actions</th>
+            <th>Branch Name</th>
+            <th>Community</th>
+            <th>Business Address</th>
+            <th>Mailing Address</th>
+            <th>Active</th>
+            <th>Actions</th>
           </tr>
         </thead>
-        <tr>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-          <td>10</td>
-        </tr>
-        {orgs.map((org, index) => {
-          return (
-            <tbody key={org.organizationID}>
-              <tr
-                onClick={() => {
-                  getBranchInfo(org.organizationID);
-                }}
-              >
-                <td>{index + 1}</td>
-                <td>{org.branchName}</td>
-                <td>{org.address}</td>
-                <td>{org.community}</td>
-                <td>
-                  <button
-                    onClick={(e) => {
+        {
+          branches.map((branch) => {
+            return (
+              <tbody key={branch.branchID}>
+                <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID) }}>
+                  <td>{branch.branchName}</td>
+                  <td>{branch.community}</td>
+                  <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
+                  <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
+                  <td>{branch.active ? "Active" : "Inactive"}</td>
+                  <td>
+                    <button onClick={(e) => {
                       e.stopPropagation();
-                      setEdit(!edit);
-                      setOrgObj(org);
-                    }}
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markInactive(org.organizationID);
-                    }}
-                  >
-                    {org.active ? "🟢" : "🔴"}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          );
-        })}
+                      prepareEditForm(branch)
+                    }}>Edit</button>
+
+                    <button>Deactivate</button>
+                  </td>
+                </tr>
+              </tbody>
+            )
+          })
+        }
       </table>
-      <Comment></Comment>
+
+
+      {toggleEditForm ?
+        (
+          <BranchUpdateForm
+            selectedBranch={selectedBranch}
+            handleFormSubmit={handleFormSubmit}
+            closeModal={() => { setToggleEditForm(false) }}>
+          </BranchUpdateForm>
+        )
+        : null}
+
+      {/* {toggleEditForm ? ReactDOM.createPortal(
+        <BranchUpdateForm
+          selectedBranch={selectedBranch}
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleEditForm(false) }}>
+        </BranchUpdateForm>,
+        portalElement) : null} */}
+
+      {/* {toggleDelete ? ReactDOM.createPortal(
+        <ContactDelete
+          selectedContact={selectedContact}
+          deactiveContact={deactiveContact}
+          closeModal={() => { setToggleDelete(false) }}>
+        </ContactDelete>,
+        portalElement) : null} */}
+
     </div>
   );
 }
 
+
 export default Branch;
+

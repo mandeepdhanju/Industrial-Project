@@ -145,7 +145,6 @@ function Organization() {
     rows,
     page,
     prepareRow,
-
     gotoPage,
     state,
     // pagination
@@ -161,58 +160,58 @@ function Organization() {
       <div className="sidebar">
         <OrganizationCreate getData={getData} />
         <div className="pagination">
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-              &#10094;
-            </button>
-            <span>
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            &#10094;
+          </button>
+          <span>
             Page {state.pageIndex + 1} of {pageOptions.length}
           </span>
 
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-              &#10095;
-            </button>
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            &#10095;
+          </button>
 
-            <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
-          </div>
-    </div>
-      
-    <div className="organization">
-      
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
-                  <div>{column.canFilter ? column.render("Filter") : null}</div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr
-                {...row.getRowProps()}
-                onClick={() =>
-                  navigate("/organization/" + row.values.organizationID)
-                }
-              >
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
+          <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+        </div>
+      </div>
+
+      <div className="organization">
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      
-    </div>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() =>
+                    navigate("/organization/" + row.values.organizationID)
+                  }
+                >
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }

@@ -23,7 +23,9 @@ function App() {
         <Route path="/organization/:organizationID/:branchID" element={<Contact />} />
 
         <Route path="/community" element={<Community />} />
+
         <Route path="/employeeCount" element={<EmployeeCount />} />
+
 
         <Route path="/search" element={<Search />} />
         <Route path="/report" element={<Report />} />
