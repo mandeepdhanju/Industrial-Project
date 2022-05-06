@@ -120,18 +120,26 @@ function Report() {
             <div>
               <input
                 checked={checkedArray.includes(item) ? true : false}
+
                 type="checkbox"
                 onChange={() => {
                   checkedColumn(item);
                 }}
               />
-              <label htmlFor="columnName">{item}</label>
+              <label htmlFor="columnName">{item}</label> */}
+              
+              <label><input
+                type="checkbox"
+                onChange={() => {
+                  checkedColumn(item);
+                }}
+              />{item}</label>
             </div>
           ))}
       </div>
 
       <div className="reportPreview">
-        <CsvDownload data={exportArray}>Download</CsvDownload>
+        <CsvDownload data={exportArray} className="download">Download</CsvDownload>
         <h1>PREVIEW</h1>
         <table>
           <tr>

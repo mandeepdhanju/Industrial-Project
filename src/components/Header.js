@@ -16,9 +16,6 @@ function Header() {
           <Link className="navLink" to="/search">
             SEARCH
           </Link>
-          <Link className="navLink" to="/Report">
-            REPORTS
-          </Link>
           <Link className="navLink" to="/upload">
             BULK UPLOAD
           </Link>

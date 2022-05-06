@@ -10,20 +10,49 @@
         background-color: $brand-color;
     }
     display: flex;
-    margin: 50px auto 0 auto;
+    width: 100%;
+    margin-top: 50px;
+    padding: 30px 0 30px 30px;
     .columnSelection{
         padding: 10px;
         border: 1px grey solid;
         border-radius: 10px;
+        height: 80vh;
+        width: 300px;
+        overflow-y: scroll;
         div{
-            width: 200px;
+            padding: 5px 0;
+        }
+        input{
+            margin-right: 6px;
         }
     }
     .reportPreview{
+        height: 90vh;
+        width: calc(100% - 300px);
+        overflow-y: scroll;
         margin: 0 30px;
-        max-width: 100%;
         table{
             max-width: 100%;
         }
+        button{
+            background-color: #006751;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+        button:hover{
+            background-color: #00392d;
+        }
+        th:nth-child(1),
+        td:nth-child(1){
+            position: -webkit-sticky;
+            position: sticky;
+            min-width: 50px;
+            left: 0px;
+            z-index: 99;
+        }
     }
+    
 }

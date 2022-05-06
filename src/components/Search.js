@@ -5,10 +5,10 @@ import {
   usePagination,
   useFilters,
 } from "react-table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import GoToPage from "./GoToPage";
 
 const API_URL = "https://localhost:5001/api/";
 
@@ -95,10 +95,10 @@ function Search() {
   const columns = useMemo(
     () => [
       {
-        Header: "#",
+        Header: "ID",
         accessor: "",
         Cell: (row) => {
-          return <div>{row.row.id}</div>;
+          return <div>{row.row.cells[1].row.original.organizationID}</div>;
         },
         disableFilters: true,
         disableSortBy: true,
@@ -284,6 +284,7 @@ function Search() {
     canPreviousPage,
     canNextPage,
     pageOptions,
+    gotoPage,
 
     // for clearing column filters
     setAllFilters,
@@ -331,7 +332,8 @@ function Search() {
             </button>
             <button
               className="download"
-              onClick={() => navigate("/Report", { rows })}
+
+              onClick={() => navigate("/Report", { state: toReports })}
             >
               Download
             </button>
@@ -346,9 +348,6 @@ function Search() {
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
                     {column.render("Header")}
-                    {/* <div>
-                      {column.canFilter ? column.render("Filter") : null}
-                    </div> */}
                   </th>
                 ))}
               </tr>
@@ -380,25 +379,12 @@ function Search() {
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             &#10095;
           </button>
+
+          <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
         </div>
+        
       </div>
 
-      <button
-        onClick={() => {
-          setGlobalFilter("");
-          setAllFilters([]);
-        }}
-      >
-        Clear Filters
-      </button>
-      <button
-        onClick={() => {
-          // console.log(rows[0].original);
-          navigate("/Report", { state: toReports });
-        }}
-      >
-        Download
-      </button>
     </main>
   );
 }

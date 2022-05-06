@@ -39,7 +39,7 @@ body{
         display: flex;
         justify-content: space-between;
         button{
-            width: calc(50% - 10px);
+            width: calc(50% - 5px);
             padding: 10px;
             border-radius: 10px;
         }
@@ -66,12 +66,13 @@ body{
     left: 30px;
     background-color: #ededed;
     padding: 15px 25px;
-    border-radius: 30px;
+    border-radius: 10px;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
     span{
         margin: 0 20px;
     }
     button{
         background-color: white;
+        padding: 5px 10px;
     }
 }
