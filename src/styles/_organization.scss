@@ -2,6 +2,23 @@
 .organizations, .branches{
     overflow: hidden;
 }
+#modal{
+    position: absolute;
+    z-index: 999;
+}
+#modal div div{
+    border-radius: 10px;
+}
+.organization{
+    width: 78%;
+    margin: 0;
+    table{
+        height: calc(100vh - 120px);
+    }
+    .pagination{
+        position: relative;
+    }
+}
 .branches h1{
     margin-left: 10vw;
 }
@@ -25,12 +42,13 @@ th {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+    z-index: 9;
 }
 .organization, .search{
 th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
     top: 0;
-    z-index: 999;
+    z-index: 99;
 }
 th:nth-child(1), th:nth-child(2),
 td:nth-child(1), td:nth-child(2){
@@ -60,6 +78,25 @@ td {
     padding: 5px 5px;
     background-color: white;
     
+}
+tr{
+    position: relative;
+}
+tr:hover:after{
+    opacity: .1;
+}
+tr:after{
+    content: "";
+    pointer-events: none;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    z-index: 999;
+    opacity: 0;
+
 }
 tr:nth-child(odd) td {
     background-color: #EFEFEF;
