@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 // Resets
 
 // Box Sizing Reset
@@ -25,4 +27,16 @@ table {
 // Remove Margins on the body
 body {
     margin: 0 auto;
+}
+
+.upload{
+    margin-top: 100px;
+    a{
+        padding: 10px;
+        border: solid 1px grey;
+        color: white;
+        background-color: $brand-color;
+        text-decoration: none;
+        border-radius: 5px;
+    }
 }
