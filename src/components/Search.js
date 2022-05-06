@@ -332,6 +332,7 @@ function Search() {
             </button>
             <button
               className="download"
+
               onClick={() => navigate("/Report", { state: toReports })}
             >
               Download
@@ -383,6 +384,7 @@ function Search() {
         </div>
         
       </div>
+
     </main>
   );
 }
