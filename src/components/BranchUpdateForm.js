@@ -1,106 +1,285 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-function BranchUpdateForm({ orgObj }) {
+function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
+    const { organizationID } = useParams();
 
+    const [branch, setBranch] = useState({})
+    const [businessAddress, setBusinessAddress] = useState({
+        address1: null,
+        address2: null,
+        streetName: null,
+        city: null,
+        province: null,
+        postalCode: null
+
+    })
+
+    const [mailingAddress, setmailingAddress] = useState({
+        address1: null,
+        address2: null,
+        streetName: null,
+        city: null,
+        province: null,
+        postalCode: null
+
+    })
+
+    const [communities, setCommunitites] = useState([])
     const PATH = "https://localhost:5001/api/"
-    const [org, setOrg] = useState({})
-    const [readyOrg, setReadyOrg] = useState(false)
 
-    const refEmp = useRef()
-    const refCat = useRef()
-    const refSubCat = useRef()
-
-    //Using this as a placeholder until I can access the EmployeeCount controller endPoint
-    const employeeCount = [{ EmployeeCountID: 1, EmployeeCountRange: "Less than 5" }, { EmployeeCountID: 2, EmployeeCountRange: "5-10" }, { EmployeeCountID: 3, EmployeeCountRange: "16-30" }]
-
-    //Placeholder until I can access category controller Get endpoint
-    const category = [{ CategoryID: 1, CategoryName: "Community Group/Organisation" }, { CategoryID: 2, CategoryName: "Business" }, { CategoryID: 3, CategoryName: "Local Institution" }]
-
-    //Placeholder until I can access subCategory controller Get endpoint
-    const subCategory = [{ SubCategoryID: 1, SubCategoryName: "Association" }, { SubCategoryID: 2, SubCategoryName: "Lodging" }, { SubCategoryID: 3, SubCategoryName: "Recycling Depot" }]
-
+    //Put selected object in state
     useEffect(() => {
-        function loadObj() {
-            setOrg(orgObj)
+        function loadBranch() {
+            setBranch(selectedBranch)
+            if (selectedBranch.businessAddressId) {
+                setBusinessAddress({
+                    address1: selectedBranch.businessAddress,
+                    address2: selectedBranch.businessAddress2,
+                    streetName: selectedBranch.businessStreetName,
+                    city: selectedBranch.businessCity,
+                    province: selectedBranch.businessProvince,
+                    postalCode: selectedBranch.businessPostalCode,
+                    addressID: selectedBranch.businessAddressId
+                })
+
+            }
+            if (selectedBranch.mailingAddressId) {
+                setmailingAddress({
+                    exists: true,
+                    address1: selectedBranch.mailingAddress,
+                    address2: selectedBranch.mailingAddress2,
+                    streetName: selectedBranch.mailingStreetName,
+                    city: selectedBranch.mailingCity,
+                    province: selectedBranch.mailingProvince,
+                    postalCode: selectedBranch.mailingPostalCode,
+                    addressID: selectedBranch.mailingAddressId
+                })
+            }
         }
-        loadObj()
+
+        async function loadCommunities() {
+            const response = await axios.get(PATH + "Community")
+            setCommunitites(response.data)
+        }
+        loadBranch()
+        loadCommunities()
     }, [])
 
-    async function prepareData(e) {
-        e.preventDefault();
-        //Handle dropdowns
-        setReadyOrg({
-            ...org,
-            EmployeeCountID: parseInt(refEmp.current[refEmp.current.selectedIndex].value),
-            CategoryID: parseInt(refCat.current[refCat.current.selectedIndex].value),
-            SubCategoryID: parseInt(refSubCat.current[refSubCat.current.selectedIndex].value)
+    const submitForm = async (form) => {
+        form.preventDefault()
+        //Check if user made any changes to the Address section. If so, do put request to address endpoint
+        if (businessAddress.addressChanged == true) {
+            const response = await axios.put(PATH + "Address", {
+                address1: businessAddress.address1,
+                address2: businessAddress.address2,
+                streetName: businessAddress.streetName,
+                city: businessAddress.city,
+                province: businessAddress.province,
+                postalCode: businessAddress.postalCode,
+            })
+            console.log(response.data)
+            setBranch({
+                ...branch,
+                businessAddressId: response.data.addressID,
+                addressCheckedWithDB: true,
+            })
+            return
+        }
+        setBranch({
+            ...branch,
+            addressCheckedWithDB: true,
+        })
+
+        if (mailingAddress.addressChanged == true) {
+            const response = await axios.put(PATH + "Address", {
+                address1: mailingAddress.address1,
+                address2: mailingAddress.address2,
+                streetName: mailingAddress.streetName,
+                city: mailingAddress.city,
+                province: mailingAddress.province,
+                postalCode: mailingAddress.postalCode,
+            })
+            console.log(response.data)
+            setBranch({
+                ...branch,
+                mailingAddressI: response.data.addressID,
+                addressCheckedWithDB: true,
+            })
+            return
+        }
+        setBranch({
+            ...branch,
+            addressCheckedWithDB: true,
         })
     }
 
+    //Run this after Address object has been checked
     useEffect(() => {
-        async function SubmitPutRequest() {
-            if (readyOrg === false) {
+        async function editBranch() {
+            if (branch.addressCheckedWithDB != true) {
                 return
             }
-            const response = await axios.put(PATH + "Organization/" + org.organizationID, {
-                Active: readyOrg.active,
-                EmployeeCountID: readyOrg.EmployeeCountID,
-                CategoryId: readyOrg.CategoryID,
-                SubCategoryId: readyOrg.SubCategoryID,
-                OrganizationId: readyOrg.organizationID,
-                OrganizationName: readyOrg.organizationName,
-                Website: readyOrg.website
+            console.log(branch)
+            const response2 = await axios.put(PATH + "Branch/" + branch.branchID, {
+                organizationID: organizationID,
+                branchName: branch.branchName,
+                communityID: branch.communityID,
+                mailingAddressID: branch.businessAddressId,
+                businessAddressID: branch.mailingAddressId,
+                active: branch.active
             })
-            console.log(response)
+            handleFormSubmit(response2.data.value)
+            setBranch({ ...branch, addressCheckedWithDB: false })
         }
-        SubmitPutRequest()
-    }, [readyOrg])
-
-    // async function getNumberOfEmployees() {
-    //     var response = await axios.get(PATH)
-    // }
+        editBranch()
+    }, [branch])
 
     return (
-        <form onSubmit={prepareData}>
-            <label htmlFor="organizationName">Organization Name:</label>
-            <input type="text" id="organizationName" placeholder={orgObj.organizationName} onChange={(e) => setOrg({ ...org, organizationName: e.target.value })}></input>
-            <br />
-            <label htmlFor="website">Website:</label>
-            <input type="text" id="website" placeholder={orgObj.website} onChange={(e) => setOrg({ ...org, website: e.target.value })}></input>
-            <br />
-            <label htmlFor="website">Number of Employees:</label>
+        <div style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            zIndex: 5000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+        }}
+            onClick={closeModal}
+        >
+            <form
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                    backgroundColor: "white",
+                    padding: "1rem",
+                    zIndex: 5001,
+                }}
+                onSubmit={(e) => { submitForm(e) }}
+                onClick={(e) => e.stopPropagation()}>
+                <label htmlFor='branchName'>Branch Name</label>
+                <input
+                    name="branchName"
+                    placeholder={branch.branchName}
+                    onChange={(e) => setBranch({ ...branch, branchName: e.target.value })}></input>
 
-            <select ref={refEmp}>
-                {employeeCount.map((ec, index) => {
-                    return <option key={index} value={ec.EmployeeCountID}>{ec.EmployeeCountRange}</option>
-                })}
-            </select>
+                <label htmlFor='communityID'>Community</label>
+                <select
+                    name="communityID"
+                    onChange={(e) => setBranch({ ...branch, communityID: e.target.value })}>
+                    <option selected>Please select a community</option>
 
-            <br />
-            <label htmlFor="website">Category:</label>
-            <select ref={refCat}>
+                    {communities.map((community) => {
+                        if (community.communityName == branch.community) {
+                            return <option selected value={community.communityID}>{community.communityName}</option>
+                        }
+                        return <option key={community.communityID} value={community.communityID}>{community.communityName}</option>
+                    })}
+                </select>
 
-                {category.map((ec, index) => {
-                    return <option key={index} value={ec.CategoryID}>{ec.CategoryName}</option>
-                })}
-            </select>
+                <label htmlFor='active'>Active?</label>
+                <input
+                    type='checkbox'
+                    name="active"
+                    defaultChecked={branch.active}
+                    onChange={(e) => setBranch({ ...branch, active: e.target.checked })}
+                ></input>
 
-            <br />
-            <label htmlFor="website">SubCategory:</label>
-            <select ref={refSubCat}>
-                {subCategory.map((ec, index) => {
-                    return <option key={index} value={ec.SubCategoryID}>{ec.SubCategoryName}</option>
-                })}
-            </select>
+                <label htmlFor='active'>Mailing Address?</label>
+                <input
+                    type='checkbox'
+                    defaultChecked={branch.mailingAddress}
+                    onClick={(e) => setmailingAddress({ exists: e.target.checked })}
+                ></input>
 
-            <br />
-            <label htmlFor="active">Active:</label>
-            <input type="checkbox" checked={org.active ? true : false} onChange={(e) => { setOrg({ ...org, active: e.target.checked }) }}></input>
-            <br />
-            <button type="submit">Save</button>
-        </form >
+                <div className="businessAddressForm">
+                    <h1>Business Address</h1>
 
+                    <label htmlFor='address1'>Address 1</label>
+                    <input
+                        name="address1"
+                        placeholder={branch.businessAddress}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, address1: e.target.value, addressChanged: true })}></input>
+
+                    <label htmlFor='address2'>Address 2</label>
+                    <input
+                        name="address2"
+                        placeholder={branch.businessAddress2}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, address2: e.target.value, addressChanged: true })}></input>
+
+                    <label htmlFor='streetName'>Street</label>
+                    <input
+                        name="streetName"
+                        placeholder={branch.businessStreet}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, streetName: e.target.value, addressChanged: true })}></input>
+
+                    <label htmlFor='city'>City</label>
+                    <input
+                        name="city"
+                        placeholder={branch.businessCity}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, city: e.target.value, addressChanged: true })}></input>
+
+                    <label htmlFor='province'>Province</label>
+                    <input
+                        name="province"
+                        placeholder={branch.businessProvince}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, province: e.target.value, addressChanged: true })}></input>
+
+                    <label htmlFor='postalCode'>Postal Code</label>
+                    <input
+                        name="postalCode"
+                        placeholder={branch.businessPostalCode}
+                        onChange={(e) => setBusinessAddress({ ...businessAddress, postalCode: e.target.value, addressChanged: true })}></input>
+
+                </div>
+
+                {mailingAddress.exists ?
+                    <div className="mailingAddressForm">
+                        <h1>Mailing Address</h1>
+
+                        <label htmlFor='address1'>Address 1</label>
+                        <input
+                            name="address1"
+                            placeholder={branch.mailingAddress}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, address1: e.target.value, addressChanged: true })}></input>
+
+                        <label htmlFor='address2'>Address 2</label>
+                        <input
+                            name="address2"
+                            placeholder={branch.mailingAddress2}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, address2: e.target.value, addressChanged: true })}></input>
+
+                        <label htmlFor='streetName'>Street</label>
+                        <input
+                            name="streetName"
+                            placeholder={branch.mailingStreet}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, streetName: e.target.value, addressChanged: true })}></input>
+
+                        <label htmlFor='city'>City</label>
+                        <input
+                            name="city"
+                            placeholder={branch.mailingCity}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, city: e.target.value, addressChanged: true })}></input>
+
+                        <label htmlFor='province'>Province</label>
+                        <input
+                            name="province"
+                            placeholder={branch.mailingProvince}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, province: e.target.value, addressChanged: true })}></input>
+
+                        <label htmlFor='postalCode'>Postal Code</label>
+                        <input
+                            name="postalCode"
+                            placeholder={branch.mailingPostalCode}
+                            onChange={(e) => setBusinessAddress({ ...businessAddress, postalCode: e.target.value, addressChanged: true })}></input>
+                    </div>
+                    : null}
+                <button type='submit'>Save Changes</button>
+            </form>
+        </div >
     )
 }
 
