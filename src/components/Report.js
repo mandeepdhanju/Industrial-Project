@@ -126,14 +126,9 @@ function Report() {
                   checkedColumn(item);
                 }}
               />
-              <label htmlFor="columnName">{item}</label> */}
+              <label htmlFor="columnName">{item}</label>
               
-              <label><input
-                type="checkbox"
-                onChange={() => {
-                  checkedColumn(item);
-                }}
-              />{item}</label>
+              
             </div>
           ))}
       </div>
