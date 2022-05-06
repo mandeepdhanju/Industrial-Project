@@ -33,6 +33,10 @@ function Contact() {
       return
     }
     const response = await axios.get(PATH + "Contact/" + branchID)
+    if (response.data.message) {
+      setContacts([])
+      return
+    }
     setContacts(response.data)
   }
 
