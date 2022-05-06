@@ -378,8 +378,10 @@ function Search() {
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             &#10095;
           </button>
+
+          <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
         </div>
-        <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+        
       </div>
     </main>
   );

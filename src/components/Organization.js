@@ -157,8 +157,27 @@ function Organization() {
   } = table;
 
   return (
+    <main>
+      <div className="sidebar">
+        <OrganizationCreate getData={getData} />
+        <div className="pagination">
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              &#10094;
+            </button>
+            <span>
+            Page {state.pageIndex + 1} of {pageOptions.length}
+          </span>
+
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              &#10095;
+            </button>
+
+            <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+          </div>
+    </div>
+      
     <div className="organization">
-      <OrganizationCreate getData={getData} />
+      
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -192,20 +211,9 @@ function Organization() {
           })}
         </tbody>
       </table>
-      <div>
-        <span>
-          Page {state.pageIndex + 1} of {pageOptions.length} out of{" "}
-          {rows.length} total records
-        </span>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          Previous page
-        </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          Next Page
-        </button>
-        <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
-      </div>
+      
     </div>
+    </main>
   );
 }
 
