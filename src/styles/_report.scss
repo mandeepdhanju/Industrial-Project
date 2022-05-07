@@ -1,10 +1,14 @@
 @use './variables' as *;
 .report{
+    #allSB{
+        margin-right: 5px;
+    }
     button{
         padding: 10px;
         border: none;
         border-radius: 5px;
         margin: 5px 0;
+        
     }
     button:hover{
         background-color: $brand-color;
