@@ -29,7 +29,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
     const [communities, setCommunitites] = useState([])
     const PATH = "https://localhost:5001/api/"
 
-    //Put selected object in state
+    //Onload / mount, put the selected object Address in state and grab communities
     useEffect(() => {
         function loadBranch() {
             setBranch(selectedBranch)
@@ -170,11 +170,11 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                 <select
                     name="communityID"
                     onChange={(e) => setBranch({ ...branch, communityID: e.target.value })}>
-                    <option selected>Please select a community</option>
+                    <option disabled>Please select a community</option>
 
                     {communities.map((community) => {
                         if (community.communityName == branch.community) {
-                            return <option selected value={community.communityID}>{community.communityName}</option>
+                            return <option selected key={community.communityID} value={community.communityID}>{community.communityName}</option>
                         }
                         return <option key={community.communityID} value={community.communityID}>{community.communityName}</option>
                     })}
@@ -244,37 +244,37 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                         <input
                             name="address1"
                             placeholder={branch.mailingAddress}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, address1: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, address1: e.target.value, addressChanged: true })}></input>
 
                         <label htmlFor='address2'>Address 2</label>
                         <input
                             name="address2"
                             placeholder={branch.mailingAddress2}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, address2: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, address2: e.target.value, addressChanged: true })}></input>
 
                         <label htmlFor='streetName'>Street</label>
                         <input
                             name="streetName"
                             placeholder={branch.mailingStreet}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, streetName: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, streetName: e.target.value, addressChanged: true })}></input>
 
                         <label htmlFor='city'>City</label>
                         <input
                             name="city"
                             placeholder={branch.mailingCity}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, city: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, city: e.target.value, addressChanged: true })}></input>
 
                         <label htmlFor='province'>Province</label>
                         <input
                             name="province"
                             placeholder={branch.mailingProvince}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, province: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, province: e.target.value, addressChanged: true })}></input>
 
                         <label htmlFor='postalCode'>Postal Code</label>
                         <input
                             name="postalCode"
                             placeholder={branch.mailingPostalCode}
-                            onChange={(e) => setBusinessAddress({ ...businessAddress, postalCode: e.target.value, addressChanged: true })}></input>
+                            onChange={(e) => setmailingAddress({ ...mailingAddress, postalCode: e.target.value, addressChanged: true })}></input>
                     </div>
                     : null}
                 <button type='submit'>Save Changes</button>

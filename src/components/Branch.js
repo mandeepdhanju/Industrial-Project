@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import BranchUpdateForm from "./BranchUpdateForm";
 
@@ -12,6 +12,7 @@ function Branch() {
 
   const PATH = "https://localhost:5001/api/"
   const navigate = useNavigate();
+  const location = useLocation();
   const { organizationID } = useParams()
 
   const [branches, setBranches] = useState([])
@@ -72,66 +73,58 @@ function Branch() {
         portalElement) : null}
       <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Branch</button> */}
       </div>
-    <div className="branch" style={{ margin: '55px' }}>
+      <div className="branch" style={{ margin: '55px' }}>
 
-      
+        {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
+        {branches.length > 0 ?
+          <table>
+            <thead>
+              <tr>
+                <th>Branch Name</th>
+                <th>Community</th>
+                <th>Business Address</th>
+                <th>Mailing Address</th>
+                <th>Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            {
+              branches.map((branch) => {
+                return (
+                  <tbody key={branch.branchID}>
+                    <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID) }}>
+                      <td>{branch.branchName}</td>
+                      <td>{branch.community}</td>
+                      <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
+                      <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
+                      <td>{branch.active ? "Active" : "Inactive"}</td>
+                      <td>
+                        <button onClick={(e) => {
+                          e.stopPropagation();
+                          prepareEditForm(branch)
+                        }}>Edit</button>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Branch Name</th>
-            <th>Community</th>
-            <th>Business Address</th>
-            <th>Mailing Address</th>
-            <th>Active</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        {
-          branches.map((branch) => {
-            return (
-              <tbody key={branch.branchID}>
-                <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID) }}>
-                  <td>{branch.branchName}</td>
-                  <td>{branch.community}</td>
-                  <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
-                  <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
-                  <td>{branch.active ? "Active" : "Inactive"}</td>
-                  <td>
-                    <button onClick={(e) => {
-                      e.stopPropagation();
-                      prepareEditForm(branch)
-                    }}>Edit</button>
-
-                    <button>Deactivate</button>
-                  </td>
-                </tr>
-              </tbody>
-            )
-          })
-        }
-      </table>
+                        {branch.active ? <button>Deactivate</button> : null}
+                      </td>
+                    </tr>
+                  </tbody>
+                )
+              })
+            }
+          </table>
+          : <p>There are no branches under this organization</p>}
 
 
-      {toggleEditForm ?
-        (
+
+        {toggleEditForm ? ReactDOM.createPortal(
           <BranchUpdateForm
             selectedBranch={selectedBranch}
             handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleEditForm(false) }}>
-          </BranchUpdateForm>
-        )
-        : null}
+          </BranchUpdateForm>,
+          portalElement) : null}
 
-      {/* {toggleEditForm ? ReactDOM.createPortal(
-        <BranchUpdateForm
-          selectedBranch={selectedBranch}
-          handleFormSubmit={handleFormSubmit}
-          closeModal={() => { setToggleEditForm(false) }}>
-        </BranchUpdateForm>,
-        portalElement) : null} */}
-
-      {/* {toggleDelete ? ReactDOM.createPortal(
+        {/* {toggleDelete ? ReactDOM.createPortal(
         <ContactDelete
           selectedContact={selectedContact}
           deactiveContact={deactiveContact}
@@ -139,7 +132,7 @@ function Branch() {
         </ContactDelete>,
         portalElement) : null} */}
 
-    </div>
+      </div>
     </main>
   );
 }
