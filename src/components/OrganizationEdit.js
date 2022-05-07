@@ -218,7 +218,7 @@ function OrganizationEdit({ row, getData }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const portalElement = document.getElementById("modal");
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <button onClick={() => setIsOpen(true)}>Edit</button>
       {isOpen &&
         ReactDOM.createPortal(

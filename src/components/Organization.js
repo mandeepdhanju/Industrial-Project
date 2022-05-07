@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useTable, usePagination, useFilters } from "react-table";
 import OrganizationEdit from "./OrganizationEdit";
 import OrganizationDelete from "./OrganizationDelete";
+import OrganizationCreate from "./OrganizationCreate";
 import GoToPage from "./GoToPage";
+import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 const path = "https://localhost:5001/api/";
 
@@ -24,6 +26,7 @@ function ColumnFilter({ column }) {
 
 function Organization() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   async function getData() {
     const response = await axios.get(path + "organization");
@@ -142,7 +145,6 @@ function Organization() {
     rows,
     page,
     prepareRow,
-
     gotoPage,
     state,
     // pagination
@@ -154,49 +156,63 @@ function Organization() {
   } = table;
 
   return (
-    <div className="organization">
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
-                  <div>{column.canFilter ? column.render("Filter") : null}</div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div>
-        <span>
-          Page {state.pageIndex + 1} of {pageOptions.length} out of{" "}
-          {rows.length} total records
-        </span>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          Previous page
-        </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          Next Page
-        </button>
-        <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+    <main>
+      <div className="sidebar">
+        <OrganizationCreate getData={getData} />
+        <div className="pagination">
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            &#10094;
+          </button>
+          <span>
+            Page {state.pageIndex + 1} of {pageOptions.length}
+          </span>
+
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            &#10095;
+          </button>
+
+          <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
+        </div>
       </div>
-    </div>
+
+      <div className="organization">
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() =>
+                    navigate("/organization/" + row.values.organizationID, { state: row.values })
+                  }
+                >
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </main>
   );
 }
 

@@ -1,6 +1,24 @@
 @use './variables' as *;
 .organizations, .branches{
     overflow: hidden;
+   
+}
+#modal{
+    position: absolute;
+    z-index: 999;
+}
+#modal div div{
+    border-radius: 10px;
+}
+.organization{
+    width: 78%;
+    margin: 0;
+    table{
+        height: calc(100vh - 120px);
+    }
+    .pagination{
+        position: relative;
+    }
 }
 .branches h1{
     margin-left: 10vw;
@@ -25,28 +43,34 @@ th {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+    z-index: 9;
 }
 .organization, .search{
 th:nth-child(1), th:nth-child(2){
     background-color: $brand-color;
     top: 0;
-    z-index: 999;
+    z-index: 99;
 }
 th:nth-child(1), th:nth-child(2),
 td:nth-child(1), td:nth-child(2){
     position: -webkit-sticky;
     position: sticky;
+  
+
     
 }
 td:nth-child(1), th:nth-child(1){
     min-width: 50px;
     left: 0px;
+    
 }
 td:nth-child(2), th:nth-child(2){
     min-width: 300px;
+
     left: 50px;
     box-shadow: 10px 0px 37px 0px rgba(0,0,0,0.2);
     clip-path: inset(0px -50px 0px 0px);
+
 }
 }
 // td:last-child{
@@ -60,6 +84,26 @@ td {
     padding: 5px 5px;
     background-color: white;
     
+
+}
+tr{
+    position: relative;
+}
+tr:hover:after{
+    opacity: .1;
+}
+tr:after{
+    content: "";
+    pointer-events: none;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    z-index: 999;
+    opacity: 0;
+
 }
 tr:nth-child(odd) td {
     background-color: #EFEFEF;
@@ -83,17 +127,65 @@ tr:nth-child(odd) td {
     left: 0px;
 }
 
-.t-name {
-    min-width: 300px;
-    left: 80px;
-}
-.t-address{
-    min-width: 500px;
+// .t-community {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-branch{
+//     min-width: 300px;
 
-}
-.t-community{
-    min-width: 300px;
-}
+// }
+// .t-busAdd{
+//     min-width: 300px;
+// }
+// .t-busSt {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-busCity {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-busProv{
+//     min-width: 300px;
+
+// }
+// .t-busPost{
+//     min-width: 300px;
+// }
+// .t-mailAdd {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-mailSt {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-mailCity{
+//     min-width: 300px;
+
+// }
+// .t-mailProv{
+//     min-width: 300px;
+// }
+// .t-busSt {
+//     min-width: 300px;
+//     left: 0px;
+// }
+
+// .t-busCity {
+//     min-width: 300px;
+//     left: 80px;
+// }
+// .t-busProv{
+//     min-width: 300px;
+
+// }
+// .t-mailPost{
+//     min-width: 300px;
+// }
 .t-actions{
     min-width: 100px;
     right: 0;
