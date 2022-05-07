@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import GoToPage from "./GoToPage";
 
-const API_URL = "https://localhost:5001/api/";
+const API_URL = process.env.REACT_APP_API_URL;
 
 function GlobalFilter({ filter, setFilter, preGlobalFilteredRows }) {
   const count = preGlobalFilteredRows.length;
@@ -332,7 +332,6 @@ function Search() {
             </button>
             <button
               className="download"
-
               onClick={() => navigate("/Report", { state: toReports })}
             >
               Download
@@ -382,9 +381,7 @@ function Search() {
 
           <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
         </div>
-        
       </div>
-
     </main>
   );
 }

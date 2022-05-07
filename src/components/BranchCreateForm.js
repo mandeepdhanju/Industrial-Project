@@ -8,7 +8,7 @@ function BranchCreateForm({ pushToArray }) {
   const [branch, setBranch] = useState();
   const [newBranch, setNewBranch] = useState();
 
-  const PATH = "https://localhost:5001/api/";
+  const PATH = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     async function getCommunity() {

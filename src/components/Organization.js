@@ -6,7 +6,7 @@ import OrganizationCreate from "./OrganizationCreate";
 import GoToPage from "./GoToPage";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios");
-const path = "https://localhost:5001/api/";
+const path = process.env.REACT_APP_API_URL;
 
 function ColumnFilter({ column }) {
   const { filterValue, setFilter, preFilteredRows } = column;
@@ -198,7 +198,9 @@ function Organization() {
                 <tr
                   {...row.getRowProps()}
                   onClick={() =>
-                    navigate("/organization/" + row.values.organizationID, { state: row.values })
+                    navigate("/organization/" + row.values.organizationID, {
+                      state: row.values,
+                    })
                   }
                 >
                   {row.cells.map((cell) => {

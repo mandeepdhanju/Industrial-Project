@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -7,25 +6,23 @@ import BranchUpdateForm from "./BranchUpdateForm";
 import BranchDelete from "./BranchDelete";
 import Comment from "./Comment";
 
-
 function Branch() {
+  const portalElement = document.getElementById("modal");
 
-  const portalElement = document.getElementById('modal')
-
-  const PATH = "https://localhost:5001/api/"
+  const PATH = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
   const { organizationID } = useParams()
 
-  const [branches, setBranches] = useState([])
-  const [selectedBranch, setSelectedBranch] = useState()
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState();
 
   //Show Edit Form State
-  const [toggleEditForm, setToggleEditForm] = useState(false)
+  const [toggleEditForm, setToggleEditForm] = useState(false);
   //Show Create Popup
-  const [toggleCreate, setToggleCreate] = useState(false)
+  const [toggleCreate, setToggleCreate] = useState(false);
   //Show Delete Popup
-  const [toggleDelete, setToggleDelete] = useState(false)
+  const [toggleDelete, setToggleDelete] = useState(false);
 
   useEffect(() => {
     //Onload, get branches
@@ -34,11 +31,11 @@ function Branch() {
 
   async function getBranches() {
     if (branches.length > 0) {
-      return
+      return;
     }
-    const response = await axios.get(PATH + "Branch/" + organizationID)
-    console.log(response.data)
-    setBranches(response.data)
+    const response = await axios.get(PATH + "Branch/" + organizationID);
+    console.log(response.data);
+    setBranches(response.data);
   }
 
   async function deactiveBranch(branch) {
@@ -48,8 +45,8 @@ function Branch() {
   }
 
   function prepareEditForm(branch) {
-    setToggleEditForm(!toggleEditForm)
-    setSelectedBranch(branch)
+    setToggleEditForm(!toggleEditForm);
+    setSelectedBranch(branch);
   }
 
   function prepareDeactive(branch) {
@@ -58,10 +55,10 @@ function Branch() {
   }
 
   function handleFormSubmit(newArray) {
-    console.log(newArray)
-    setBranches(newArray)
-    setToggleEditForm(false)
-    setToggleCreate(false)
+    console.log(newArray);
+    setBranches(newArray);
+    setToggleEditForm(false);
+    setToggleCreate(false);
   }
 
   return (
@@ -145,6 +142,4 @@ function Branch() {
   );
 }
 
-
 export default Branch;
-

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 
-const API = "https://localhost:5001/api/";
+const API = process.env.REACT_APP_API_URL;
 function Modal({ closeModal, row, getData }) {
   const {
     activeBranches,

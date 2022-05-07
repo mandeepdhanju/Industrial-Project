@@ -27,7 +27,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
     })
 
     const [communities, setCommunitites] = useState([])
-    const PATH = "https://localhost:5001/api/"
+    const PATH = process.env.REACT_APP_API_URL;
 
     //Onload / mount, put the selected object Address in state and grab communities
     useEffect(() => {
