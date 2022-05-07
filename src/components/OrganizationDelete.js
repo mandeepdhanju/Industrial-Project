@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
-const API = "https://localhost:5001/api/";
+const API = process.env.REACT_APP_API_URL;
 function Modal({ row, getData, closeModal }) {
   const {
     active,

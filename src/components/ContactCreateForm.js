@@ -1,15 +1,15 @@
-import axios from 'axios'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom';
+import axios from "axios";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 function ContactCreateForm({ handleFormSubmit, closeModal }) {
   const [contact, setContact] = useState();
 
-  const PATH = "https://localhost:5001/api/"
-  const { branchID } = useParams()
+  const PATH = process.env.REACT_APP_API_URL;
+  const { branchID } = useParams();
 
   const submitForm = async (form) => {
-    form.preventDefault()
+    form.preventDefault();
     const response = await axios.post(PATH + "Contact/" + branchID, {
       contactId: contact.contactId,
       name: contact.name,
@@ -20,21 +20,22 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
       primaryContact: contact.primaryContact,
       active: contact.active,
       //Backend keeps getting null
-      address: contact.address
-    })
-    handleFormSubmit(response.data)
-  }
+      address: contact.address,
+    });
+    handleFormSubmit(response.data);
+  };
 
   return (
-    <div style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100vh",
-      zIndex: 5000,
-      backgroundColor: "rgba(0, 0, 0, 0.75)",
-    }}
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100vh",
+        zIndex: 5000,
+        backgroundColor: "rgba(0, 0, 0, 0.75)",
+      }}
       onClick={closeModal}
     >
       <form
@@ -47,83 +48,134 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
           padding: "1rem",
           zIndex: 5001,
         }}
-        onSubmit={(e) => { submitForm(e) }}
-        onClick={(e) => e.stopPropagation()}>
-        <label htmlFor='name'>Name</label>
+        onSubmit={(e) => {
+          submitForm(e);
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <label htmlFor="name">Name</label>
         <input
           name="name"
           onChange={(e) => setContact({ ...contact, name: e.target.value })}
-          required='true'></input>
+          required="true"
+        ></input>
 
-        <label htmlFor='email'>Email</label>
+        <label htmlFor="email">Email</label>
         <input
           name="email"
           onChange={(e) => setContact({ ...contact, email: e.target.value })}
-          required='true'></input>
-
-        <label htmlFor='phoneNumber'>Phone Number</label>
-        <input
-          name="phoneNumber"
-          onChange={(e) => setContact({ ...contact, phoneNumber: e.target.value })}
-          required='true'></input>
-
-        <label htmlFor='fax'>Fax</label>
-        <input
-          name="fax"
-          onChange={(e) => setContact({ ...contact, fax: e.target.value })}></input>
-
-        <label htmlFor='jobTitle'>Job Title</label>
-        <input
-          name="jobTitle"
-          onChange={(e) => setContact({ ...contact, jobTitle: e.target.value })}></input>
-
-        <label htmlFor='primaryContact'>Primary Contact?</label>
-        <input
-          type='checkbox'
-          name="primaryContact"
-          onChange={(e) => setContact({ ...contact, primaryContact: e.target.checked })}
+          required="true"
         ></input>
 
+        <label htmlFor="phoneNumber">Phone Number</label>
+        <input
+          name="phoneNumber"
+          onChange={(e) =>
+            setContact({ ...contact, phoneNumber: e.target.value })
+          }
+          required="true"
+        ></input>
 
+        <label htmlFor="fax">Fax</label>
+        <input
+          name="fax"
+          onChange={(e) => setContact({ ...contact, fax: e.target.value })}
+        ></input>
+
+        <label htmlFor="jobTitle">Job Title</label>
+        <input
+          name="jobTitle"
+          onChange={(e) => setContact({ ...contact, jobTitle: e.target.value })}
+        ></input>
+
+        <label htmlFor="primaryContact">Primary Contact?</label>
+        <input
+          type="checkbox"
+          name="primaryContact"
+          onChange={(e) =>
+            setContact({ ...contact, primaryContact: e.target.checked })
+          }
+        ></input>
 
         <div className="addressForm">
           <h1>Contact Address</h1>
 
-          <label htmlFor='address1'>Address 1</label>
+          <label htmlFor="address1">Address 1</label>
           <input
             name="address1"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, address1: e.target.value }, addressChanged: true })}></input>
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, address1: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
 
-          <label htmlFor='address2'>Address 2</label>
+          <label htmlFor="address2">Address 2</label>
           <input
             name="address2"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, address2: e.target.value }, addressChanged: true })}></input>
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, address2: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
 
-          <label htmlFor='streetName'>Street</label>
+          <label htmlFor="streetName">Street</label>
           <input
             name="streetName"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, streetName: e.target.value }, addressChanged: true })}></input>
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, streetName: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
 
-          <label htmlFor='city'>City</label>
+          <label htmlFor="city">City</label>
           <input
             name="city"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, city: e.target.value }, addressChanged: true })}></input>
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, city: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
 
-          <label htmlFor='province'>Province</label>
+          <label htmlFor="province">Province</label>
           <input
             name="province"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, province: e.target.value }, addressChanged: true })}></input>
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, province: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
 
-          <label htmlFor='postalCode'>Postal Code</label>
+          <label htmlFor="postalCode">Postal Code</label>
           <input
             name="postalCode"
-            onChange={(e) => setContact({ ...contact, address: { ...contact.address, postalCode: e.target.value }, addressChanged: true })}></input>
-
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                address: { ...contact.address, postalCode: e.target.value },
+                addressChanged: true,
+              })
+            }
+          ></input>
         </div>
-        <button type='submit'>Create New Contact</button>
+        <button type="submit">Create New Contact</button>
       </form>
     </div>
-  )
+  );
 }
 
-export default ContactCreateForm
+export default ContactCreateForm;
