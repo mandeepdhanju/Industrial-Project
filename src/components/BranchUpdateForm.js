@@ -126,8 +126,8 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                 organizationID: organizationID,
                 branchName: branch.branchName,
                 communityID: branch.communityID,
-                mailingAddressID: branch.businessAddressId,
-                businessAddressID: branch.mailingAddressId,
+                businessAddressID: branch.businessAddressId,
+                mailingAddressId: mailingAddress.exists ? branch.mailingAddressId : null,
                 active: branch.active
             })
             handleFormSubmit(response2.data.value)
@@ -163,6 +163,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                 <label htmlFor='branchName'>Branch Name</label>
                 <input
                     name="branchName"
+                    required
                     placeholder={branch.branchName}
                     onChange={(e) => setBranch({ ...branch, branchName: e.target.value })}></input>
 
@@ -185,7 +186,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                     type='checkbox'
                     name="active"
                     defaultChecked={branch.active}
-                    onChange={(e) => setBranch({ ...branch, active: e.target.checked })}
+                    onClick={(e) => setBranch({ ...branch, active: e.target.checked })}
                 ></input>
 
                 <label htmlFor='active'>Mailing Address?</label>
@@ -232,6 +233,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                     <input
                         name="postalCode"
                         placeholder={branch.businessPostalCode}
+                        pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]"
                         onChange={(e) => setBusinessAddress({ ...businessAddress, postalCode: e.target.value, addressChanged: true })}></input>
 
                 </div>
@@ -274,6 +276,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                         <input
                             name="postalCode"
                             placeholder={branch.mailingPostalCode}
+                            pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]"
                             onChange={(e) => setmailingAddress({ ...mailingAddress, postalCode: e.target.value, addressChanged: true })}></input>
                     </div>
                     : null}

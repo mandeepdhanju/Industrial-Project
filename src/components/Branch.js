@@ -4,6 +4,8 @@ import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import BranchUpdateForm from "./BranchUpdateForm";
+import BranchDelete from "./BranchDelete";
+import Comment from "./Comment";
 
 
 function Branch() {
@@ -26,7 +28,7 @@ function Branch() {
   const [toggleDelete, setToggleDelete] = useState(false)
 
   useEffect(() => {
-    //Onload, get contacts
+    //Onload, get branches
     getBranches()
   }, [])
 
@@ -39,21 +41,21 @@ function Branch() {
     setBranches(response.data)
   }
 
-  // async function deactiveContact(contact) {
-  //   const response = await axios.delete(`${PATH}Contact/${branchID}/${contact.contactId}`)
-  //   setContacts(response.data)
-  //   setToggleDelete(false)
-  // }
+  async function deactiveBranch(branch) {
+    const response = await axios.delete(`${PATH}Branch/${branch.branchID}`)
+    setBranches(response.data)
+    setToggleDelete(false)
+  }
 
   function prepareEditForm(branch) {
     setToggleEditForm(!toggleEditForm)
     setSelectedBranch(branch)
   }
 
-  // function prepareDeactive(contact) {
-  //   setToggleDelete(!toggleDelete)
-  //   setSelectedContact(contact)
-  // }
+  function prepareDeactive(branch) {
+    setToggleDelete(!toggleDelete)
+    setSelectedBranch(branch)
+  }
 
   function handleFormSubmit(newArray) {
     console.log(newArray)
@@ -64,15 +66,16 @@ function Branch() {
 
   return (
     <main>
-      <div className="sidebar">
-        {/* {toggleCreate ? ReactDOM.createPortal(
+
+      {/* {toggleCreate ? ReactDOM.createPortal(
         <ContactCreateForm
           handleFormSubmit={handleFormSubmit}
           closeModal={() => { setToggleCreate(false) }}>
         </ContactCreateForm>,
         portalElement) : null}
+
       <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Branch</button> */}
-      </div>
+
       <div className="branch" style={{ margin: '55px' }}>
 
         {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
@@ -104,7 +107,12 @@ function Branch() {
                           prepareEditForm(branch)
                         }}>Edit</button>
 
-                        {branch.active ? <button>Deactivate</button> : null}
+                        {branch.active ?
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            prepareDeactive(branch)
+                          }}>Deactivate</button>
+                          : null}
                       </td>
                     </tr>
                   </tbody>
@@ -114,7 +122,7 @@ function Branch() {
           </table>
           : <p>There are no branches under this organization</p>}
 
-
+        <Comment></Comment>
 
         {toggleEditForm ? ReactDOM.createPortal(
           <BranchUpdateForm
@@ -124,13 +132,13 @@ function Branch() {
           </BranchUpdateForm>,
           portalElement) : null}
 
-        {/* {toggleDelete ? ReactDOM.createPortal(
-        <ContactDelete
-          selectedContact={selectedContact}
-          deactiveContact={deactiveContact}
-          closeModal={() => { setToggleDelete(false) }}>
-        </ContactDelete>,
-        portalElement) : null} */}
+        {toggleDelete ? ReactDOM.createPortal(
+          <BranchDelete
+            selectedBranch={selectedBranch}
+            deactiveBranch={deactiveBranch}
+            closeModal={() => { setToggleDelete(false) }}>
+          </BranchDelete>,
+          portalElement) : null}
 
       </div>
     </main>

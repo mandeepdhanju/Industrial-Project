@@ -3,14 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function BranchCreateForm({ pushToArray }) {
-  const {organizationID} = useParams()
-  const [org, setOrg] = useState();
-  const [newOrg, setNewOrg] = useState();
-  const [communities, setCommunities] = useState([
-    { communityID: 0, communityName: "Loading" },
-  ]);
-  const [businessAdd, setBusinessAdd] = useState();
-  const [mailingAdd, setMailingAdd] = useState();
+  const { organizationID } = useParams()
+  const [communities, setCommunities] = useState([]);
   const [branch, setBranch] = useState();
   const [newBranch, setNewBranch] = useState();
 
@@ -29,8 +23,8 @@ function BranchCreateForm({ pushToArray }) {
 
     // console.log(form.target.elements.numberOfEmployees.selectedOptions[0].innerText)
     let formData = form.target.elements;
-    console.log("heloo",formData.communityID.value)
-    
+    console.log("heloo", formData.communityID.value)
+
     const obj = {
       branchName: formData.branchName.value,
       address1: `${formData.businessAddress1.value} ${formData.businessAddress2.value}`,
@@ -55,12 +49,12 @@ function BranchCreateForm({ pushToArray }) {
   useEffect(() => {
     if (!branch) {
       return;
-    }    
+    }
 
     //https://localhost:5001/api/Branch
     async function createBranch() {
-        console.log(organizationID)
-        const response = await axios.post(PATH + "Branch", {
+      console.log(organizationID)
+      const response = await axios.post(PATH + "Branch", {
         organizationID: organizationID,
         branchName: branch.branchName,
         communityID: branch.communityID,
@@ -79,8 +73,8 @@ function BranchCreateForm({ pushToArray }) {
         comment: branch.comment,
       });
       console.log(response.data);
-    //   setBranch(response.data.value)
-    
+      //   setBranch(response.data.value)
+
       setNewBranch({
         ...branch,
         branchID: response.data,
