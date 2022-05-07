@@ -198,7 +198,7 @@ function Organization() {
                 <tr
                   {...row.getRowProps()}
                   onClick={() =>
-                    navigate("/organization/" + row.values.organizationID)
+                    navigate("/organization/" + row.values.organizationID, { state: row.values })
                   }
                 >
                   {row.cells.map((cell) => {
