@@ -4,6 +4,7 @@ import template from "../template/UploadTemplate.xlsx";
 const axios = require("axios");
 const path = "https://localhost:5001/api/Upload";
 const uploadPath = "https://localhost:5001/api/Upload/todb";
+const uploadPath2 = "https://localhost:5001/api/Upload/todb2";
 function Upload() {
   const [data, setData] = useState();
   const [file, setFile] = useState();
@@ -57,9 +58,110 @@ function Upload() {
       console.log(error);
     }
   };
+
+  const upload2 = async (event) => {
+    event.preventDefault();
+    console.log(data);
+    let jsonData = [
+      {
+        organizationName: "1",
+        organizationWebsite: "2",
+        organizationActive: true,
+        comment: "4",
+        numberOfEmployee: "5",
+        category: "6",
+        subCategory: "Unit 7",
+        branchName: "8",
+        branchActive: false,
+        community: "0",
+        businessAddress1: "11",
+        businessAddress2: "12",
+        businessStreetName: "13",
+        businessCity: "14",
+        businessPostalCode: "15",
+        mailingAddress1: "16",
+        mailingAddress2: "17",
+        mailingStreetName: "18",
+        mailingCity: "19",
+        mailingPostalCode: "20",
+        contactName: "21",
+        email: "22",
+        phoneNumber: "23",
+        fax: "24",
+        jobTitle: "25",
+        primaryContact: true,
+        contactActive: true,
+        contactAddress1: "28",
+        contactAddress2: "",
+        contactStreetName: "",
+        contactCity: "",
+        contactProvince: "",
+        contactPostalCode: "",
+      },
+      {
+        organizationName: "abc",
+        organizationWebsite: "ddd",
+        organizationActive: true,
+        comment: "merong",
+        numberOfEmployee: "5-10",
+        category: "aaa",
+        subCategory: "Unit bbb",
+        branchName: "ccc",
+        branchActive: false,
+        community: "ddd",
+        businessAddress1: "eee",
+        businessAddress2: "www",
+        businessStreetName: "qqq",
+        businessCity: "aaa",
+        businessPostalCode: "ggg",
+        mailingAddress1: "bbb",
+        mailingAddress2: "eee",
+        mailingStreetName: "hhh",
+        mailingCity: "ttt",
+        mailingPostalCode: "rrr",
+        contactName: "yyy",
+        email: "yyy",
+        phoneNumber: "bbb",
+        fax: "vvv",
+        jobTitle: "bbb",
+        primaryContact: false,
+        contactActive: true,
+        contactAddress1: "eee",
+        contactAddress2: "fff",
+        contactStreetName: "aaa",
+        contactCity: "bbb",
+        contactProvince: "nnn",
+        contactPostalCode: "vvv",
+      },
+    ];
+
+    const response = await axios({
+      method: "post",
+      url: uploadPath2,
+      data: data,
+      headers: { "content-type": "application/json" },
+    });
+
+    // try {
+    //   const response = await axios.post(
+    //     uploadPath,
+    //     { abc: "hihi" },
+    //     {
+    //       headers: {
+    //         "content-type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
   return (
     <div className="upload">
       <div className="message">
+        <button onClick={upload2}>upload two</button>
         {message && (
           <div>
             <p>{message}</p>
