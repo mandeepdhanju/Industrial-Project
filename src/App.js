@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Branch from "./components/Branch";
 import Community from "./components/Community";
 import EmployeeCount from "./components/EmployeeCount";
+import Dropdown from "./components/Dropdown";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/organization/:organizationID" element={<Branch />} />
         <Route path="/organization/:organizationID/:branchID" element={<Contact />} />
 
+        <Route path="/dropdown" element={<Dropdown />} />
         <Route path="/community" element={<Community />} />
 
         <Route path="/employeeCount" element={<EmployeeCount />} />
