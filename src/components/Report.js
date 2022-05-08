@@ -1,6 +1,7 @@
 import CsvDownload from "react-json-to-csv";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+let xlsx = require("json-as-xlsx");
 
 function Report() {
   const location = useLocation();
@@ -11,6 +12,7 @@ function Report() {
   const [pageArray, setPageArray] = useState();
   const [page, setPage] = useState(10);
   const [tempArray, setTempArray] = useState([]);
+
   useEffect(() => {
     function getAll() {
       let passedData = location.state;
@@ -110,55 +112,105 @@ function Report() {
     setTempArray([]);
   }
 
+  function downloadXlsx() {
+    let exportData = [{ sheet: "exported data", columns: [], content: [] }];
+    let newColumnArray = [];
+    let newContentArray = [];
+    checkedArray.forEach((i) => {
+      newColumnArray.push({ label: i, value: i });
+    });
+    exportArray.forEach((all) => {
+      let obj = {};
+      checkedArray.forEach((col) => {
+        let newObj = {};
+        let item = all[col];
+        newObj[col] = item;
+        Object.assign(obj, newObj);
+      });
+      newContentArray.push(obj);
+    });
+    exportData[0].columns = newColumnArray;
+    exportData[0].content = newContentArray;
+
+    let settings = {
+      fileName: "MySpreadsheet", // Name of the resulting spreadsheet
+      extraLength: 2, // A bigger number means that columns will be wider
+    };
+    xlsx(exportData, settings);
+  }
+
   return (
     <div className="report">
       <div className="columnSelection">
-        <button onClick={selectAllFunc}>Select All</button>
-        <button onClick={deselect}>Deselect All</button>
+        <button id="allSB" onClick={selectAllFunc}>
+          Select All
+        </button>
+        <button id="allDSB" onClick={deselect}>
+          Deselect All
+        </button>
         {columnName &&
-          columnName.map((item) => (
-            <div>
+          columnName.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                checkedColumn(item);
+              }}
+            >
               <input
+                readOnly
                 checked={checkedArray.includes(item) ? true : false}
-
                 type="checkbox"
-                onChange={() => {
-                  checkedColumn(item);
-                }}
               />
               <label htmlFor="columnName">{item}</label>
-              
-              
             </div>
           ))}
       </div>
 
       <div className="reportPreview">
-        <CsvDownload data={exportArray} className="download">Download</CsvDownload>
+        <CsvDownload data={exportArray} className="download">
+          CSV Download
+        </CsvDownload>
+        <button onClick={downloadXlsx}>xlsx Download</button>
         <h1>PREVIEW</h1>
         <table>
-          <tr>
-            {pageArray &&
-              Object.keys(pageArray[0]).map((item) => <th>{item}</th>)}
-          </tr>
-
-          {pageArray &&
-            pageArray.map((row) => (
-              <tr>
-                {Object.keys(pageArray[0]).map((item) => (
-                  <td>{row[item]}</td>
-                ))}
-              </tr>
-            ))}
+          <tbody>
+            <tr>
+              {pageArray
+                ? Object.keys(pageArray[0]).map((item, index) => (
+                    <th key={index}>{item}</th>
+                  ))
+                : null}
+            </tr>
+            {pageArray
+              ? pageArray.map((row, index) => (
+                  <tr key={index}>
+                    {Object.keys(pageArray[0]).map((item, index) => (
+                      <td key={index}>{row[item]}</td>
+                    ))}
+                  </tr>
+                ))
+              : null}
+          </tbody>
         </table>
         {pageArray && (
-          <button
-            onClick={() => {
-              setPage(page + 10);
-            }}
-          >
-            Load More...
-          </button>
+          <>
+            <button
+              onClick={() => {
+                setPage(page + 10);
+              }}
+            >
+              Load More...
+            </button>
+            <button
+              onClick={() => {
+                if (page > 10) {
+                  setPage(page - 10);
+                }
+              }}
+            >
+              Load Less...
+            </button>
+          </>
         )}
       </div>
     </div>
