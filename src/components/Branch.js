@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import BranchUpdateForm from "./BranchUpdateForm";
 import BranchDelete from "./BranchDelete";
 import Comment from "./Comment";
+import BranchCreateForm from "./BranchCreateForm";
 
 function Branch() {
   const portalElement = document.getElementById("modal");
@@ -38,12 +39,6 @@ function Branch() {
     setBranches(response.data);
   }
 
-  async function deactiveBranch(branch) {
-    const response = await axios.delete(`${PATH}Branch/${branch.branchID}`)
-    setBranches(response.data)
-    setToggleDelete(false)
-  }
-
   function prepareEditForm(branch) {
     setToggleEditForm(!toggleEditForm);
     setSelectedBranch(branch);
@@ -55,23 +50,23 @@ function Branch() {
   }
 
   function handleFormSubmit(newArray) {
-    console.log(newArray);
     setBranches(newArray);
     setToggleEditForm(false);
     setToggleCreate(false);
+    setToggleDelete(false)
   }
 
   return (
     <main>
 
-      {/* {toggleCreate ? ReactDOM.createPortal(
-        <ContactCreateForm
+      {toggleCreate ? ReactDOM.createPortal(
+        <BranchCreateForm
           handleFormSubmit={handleFormSubmit}
           closeModal={() => { setToggleCreate(false) }}>
-        </ContactCreateForm>,
+        </BranchCreateForm>,
         portalElement) : null}
 
-      <button onClick={() => { setToggleCreate(!toggleCreate) }}>Create New Branch</button> */}
+      <button onClick={() => { setToggleCreate(true) }}>Create New Branch</button>
 
       <div className="branch" style={{ margin: '55px' }}>
 
@@ -132,7 +127,7 @@ function Branch() {
         {toggleDelete ? ReactDOM.createPortal(
           <BranchDelete
             selectedBranch={selectedBranch}
-            deactiveBranch={deactiveBranch}
+            handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleDelete(false) }}>
           </BranchDelete>,
           portalElement) : null}

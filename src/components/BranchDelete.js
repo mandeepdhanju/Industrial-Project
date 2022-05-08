@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-function BranchDelete({ selectedBranch, deactiveBranch, closeModal }) {
+function BranchDelete({ selectedBranch, closeModal, handleFormSubmit }) {
 
-    const handleSubmit = () => {
-        deactiveBranch(selectedBranch)
+    const PATH = process.env.REACT_APP_API_URL;
+    const { organizationID } = useParams()
+    const [errorMsg, setErrorMsg] = useState()
+
+    async function deactiveBranch(branch) {
+        const response = await axios.delete(`${PATH}Branch/${branch.branchID}`)
+        if (response.data.error) {
+            setErrorMsg(response.data.error)
+            return
+        }
+        const branchArray = await axios.get(PATH + "Branch/" + organizationID)
+        handleFormSubmit(branchArray.data)
     }
 
     return (
@@ -29,8 +41,11 @@ function BranchDelete({ selectedBranch, deactiveBranch, closeModal }) {
             }}
                 onClick={(e) => { e.stopPropagation() }}
             >
+                {errorMsg ? <div className='errorBox'>
+                    <p>{errorMsg}</p></div>
+                    : null}
                 <h1>You are about to mark {selectedBranch.branchName ?? "Branch ID " + selectedBranch.branchID} as INACTIVE. Please confirm</h1>
-                <button onClick={handleSubmit}>Yes</button>
+                <button onClick={() => { deactiveBranch(selectedBranch) }}>Yes</button>
                 <button onClick={closeModal}>Cancel</button>
             </div>
         </div>

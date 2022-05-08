@@ -163,7 +163,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                 <label htmlFor='branchName'>Branch Name</label>
                 <input
                     name="branchName"
-                    required
+                    required={branch.branchName ? false : true}
                     placeholder={branch.branchName}
                     onChange={(e) => setBranch({ ...branch, branchName: e.target.value })}></input>
 
