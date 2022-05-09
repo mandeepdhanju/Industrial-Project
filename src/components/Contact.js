@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ContactEditForm from "./ContactEditForm";
 import ReactDOM from "react-dom";
 import ContactDelete from "./ContactDelete";
@@ -11,9 +11,11 @@ function Contact() {
 
   const PATH = process.env.REACT_APP_API_URL;
   const { branchID } = useParams();
+  const location = useLocation();
 
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState();
+  const [errorMsg, setErrorMsg] = useState()
 
   //Show Edit Form State
   const [toggleEditForm, setToggleEditForm] = useState(false);
@@ -32,8 +34,8 @@ function Contact() {
       return;
     }
     const response = await axios.get(PATH + "Contact/" + branchID);
-    if (response.data.message) {
-      setContacts([]);
+    if (response.data.error) {
+      setErrorMsg(response.data.error);
       return;
     }
     setContacts(response.data);
@@ -68,14 +70,14 @@ function Contact() {
       <div className="sidebar">
         {toggleCreate
           ? ReactDOM.createPortal(
-              <ContactCreateForm
-                handleFormSubmit={handleFormSubmit}
-                closeModal={() => {
-                  setToggleCreate(false);
-                }}
-              ></ContactCreateForm>,
-              portalElement
-            )
+            <ContactCreateForm
+              handleFormSubmit={handleFormSubmit}
+              closeModal={() => {
+                setToggleCreate(false);
+              }}
+            ></ContactCreateForm>,
+            portalElement
+          )
           : null}
         <button
           onClick={() => {
@@ -86,6 +88,34 @@ function Contact() {
         </button>
       </div>
       <div className="contact" style={{ margin: "55px" }}>
+        <div className="errorBox"><p>{errorMsg}</p></div>
+
+        {location.state ?
+          <div className="branchDetails">
+
+            <label>Branch</label><p>{location.state.branch.branchName}</p>
+
+            <label>Community</label> <p>{location.state.branch.community}</p>
+
+            <label>Business Address</label>
+            <p>{`${location.state.branch.businessAddress2 ?? ""} ${location.state.branch.businessAddress ?? ""} ${location.state.branch.businessStreet ?? ""} ${location.state.branch.businessCity ?? ""} ${location.state.branch.businessProvince ?? ""} ${location.state.branch.businessPostalCode ?? ""}`}</p>
+
+            {
+              location.state.branch.mailingAddressId ?
+                <div className="mailingAddresss">
+                  <label>Mailing Address</label>
+                  <p>{`${location.state.branch.mailingAddress2 ?? ""} ${location.state.branch.mailingAddress ?? ""} ${location.state.branch.mailingStreet ?? ""} ${location.state.branch.mailingCity ?? ""} ${location.state.branch.mailingProvince ?? ""} ${location.state.branch.mailingPostalCode ?? ""}`}</p>
+                </div>
+                : null
+            }
+
+            {
+              location.state.branch.active ? <div className="active">Active</div> : <div className="inactive">InActive</div>
+            }
+          </div>
+          : null
+        }
+
         <table>
           <thead>
             <tr>
@@ -113,13 +143,10 @@ function Contact() {
                   <td>{contact.active ? "Active" : "Inactive"}</td>
                   <td>
                     {contact.address.address1
-                      ? `${contact.address.address1}  ${
-                          contact.address.address2 ?? null
-                        } ${contact.address.streetName} ${
-                          contact.address.city
-                        } ${contact.address.province} ${
-                          contact.address.postalCode
-                        }`
+                      ? `${contact.address.address1}  ${contact.address.address2 ?? null
+                      } ${contact.address.streetName} ${contact.address.city
+                      } ${contact.address.province} ${contact.address.postalCode
+                      }`
                       : null}
                   </td>
                   <td>
@@ -145,8 +172,9 @@ function Contact() {
             );
           })}
         </table>
-        {toggleEditForm
-          ? ReactDOM.createPortal(
+        {
+          toggleEditForm
+            ? ReactDOM.createPortal(
               <ContactEditForm
                 selectedContact={selectedContact}
                 handleFormSubmit={handleFormSubmit}
@@ -156,10 +184,12 @@ function Contact() {
               ></ContactEditForm>,
               portalElement
             )
-          : null}
+            : null
+        }
 
-        {toggleDelete
-          ? ReactDOM.createPortal(
+        {
+          toggleDelete
+            ? ReactDOM.createPortal(
               <ContactDelete
                 selectedContact={selectedContact}
                 deactiveContact={deactiveContact}
@@ -169,9 +199,10 @@ function Contact() {
               ></ContactDelete>,
               portalElement
             )
-          : null}
-      </div>
-    </main>
+            : null
+        }
+      </div >
+    </main >
   );
 }
 
