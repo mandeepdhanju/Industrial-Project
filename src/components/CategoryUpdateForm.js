@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
+function CategoryEditForm({ handleFormSubmit, closeModal, selectedCategory }) {
 
     const PATH = process.env.REACT_APP_API_URL;
     const [communityName, setcommunityName] = useState({})
@@ -9,8 +9,9 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
 
     async function addCommunity(e) {
         e.preventDefault();
-        const response = await axios.post(PATH + "Community", {
-            communityName: communityName
+        const response = await axios.put(PATH + "Category", {
+            categoryID: selectedCategory.categoryID,
+            categoryName: communityName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -44,18 +45,19 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
             >
                 <form onSubmit={addCommunity}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Community Name:</label>
+                    <label htmlFor="communityName">Category Name:</label>
                     <input
                         type="text"
-                        id="communityName"
+                        id="categoryName"
                         required
+                        placeholder={selectedCategory.categoryName}
                         onChange={(e) => setcommunityName(e.target.value.trim())}></input>
                     <br />
-                    <button type="submit">Add</button>
+                    <button type="submit">Update</button>
                 </form >
             </div>
         </div>
     )
 }
 
-export default CommunityUpdateForm
+export default CategoryEditForm

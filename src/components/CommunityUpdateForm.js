@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function CommunityUpdateForm({ handleFormSubmit, closeModal, selectedCommunity }) {
 
@@ -51,7 +51,7 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal, selectedCommunity }
             id="communityName"
             required
             placeholder={selectedCommunity.communityName}
-            onChange={(e) => setcommunityName(e.target.value)}></input>
+            onChange={(e) => setcommunityName(e.target.value.trim())}></input>
           <br />
           <button type="submit">Update</button>
         </form >

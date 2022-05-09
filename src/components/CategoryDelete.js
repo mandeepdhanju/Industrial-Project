@@ -1,17 +1,13 @@
+import React from 'react'
 import axios from "axios";
 import { useState } from "react";
 
-function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
-
+function ContactDelete({ selectedCategory, handleFormSubmit, closeModal }) {
     const PATH = process.env.REACT_APP_API_URL;
-    const [communityName, setcommunityName] = useState({})
     const [errorMsg, setErrorMsg] = useState()
 
-    async function addCommunity(e) {
-        e.preventDefault();
-        const response = await axios.post(PATH + "Community", {
-            communityName: communityName
-        })
+    async function handleSubmit() {
+        const response = await axios.delete(PATH + "Category/" + selectedCategory.categoryID)
         if (response.data.error) {
             setErrorMsg(response.data.error)
             return
@@ -42,20 +38,13 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
             }}
                 onClick={(e) => { e.stopPropagation() }}
             >
-                <form onSubmit={addCommunity}>
-                    {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Community Name:</label>
-                    <input
-                        type="text"
-                        id="communityName"
-                        required
-                        onChange={(e) => setcommunityName(e.target.value.trim())}></input>
-                    <br />
-                    <button type="submit">Add</button>
-                </form >
+                {errorMsg ? <div className='errorBox'><p>{errorMsg}</p></div> : null}
+                <h1>You are about to DELETE {selectedCategory.categoryName}. Please confirm</h1>
+                <button onClick={() => { handleSubmit() }}>Yes</button>
+                <button onClick={closeModal}>Cancel</button>
             </div>
         </div>
     )
 }
 
-export default CommunityUpdateForm
+export default ContactDelete

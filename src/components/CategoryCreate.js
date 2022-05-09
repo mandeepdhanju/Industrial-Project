@@ -4,13 +4,13 @@ import { useState } from "react";
 function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
 
     const PATH = process.env.REACT_APP_API_URL;
-    const [communityName, setcommunityName] = useState({})
+    const [categoryName, cetCategoryName] = useState({})
     const [errorMsg, setErrorMsg] = useState()
 
     async function addCommunity(e) {
         e.preventDefault();
-        const response = await axios.post(PATH + "Community", {
-            communityName: communityName
+        const response = await axios.post(PATH + "Category", {
+            categoryName: categoryName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -44,12 +44,12 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
             >
                 <form onSubmit={addCommunity}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Community Name:</label>
+                    <label htmlFor="categoryName">Category Name:</label>
                     <input
                         type="text"
-                        id="communityName"
+                        id="categoryName"
                         required
-                        onChange={(e) => setcommunityName(e.target.value.trim())}></input>
+                        onChange={(e) => cetCategoryName(e.target.value.trim())}></input>
                     <br />
                     <button type="submit">Add</button>
                 </form >
