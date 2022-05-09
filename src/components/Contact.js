@@ -155,17 +155,17 @@ function Contact() {
                         prepareEditForm(contact);
                       }}
                     >
-                      ✏️
+                      Edit
                     </button>
-                    {contact.active ? (
-                      <button
-                        onClick={() => {
-                          prepareDeactive(contact);
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    ) : null}
+
+                    <button
+                      disabled={contact.active ? false : true}
+                      onClick={() => {
+                        prepareDeactive(contact);
+                      }}
+                    >Deactivate
+                    </button>
+
                   </td>
                 </tr>
               </tbody>
