@@ -87,7 +87,7 @@ function Branch() {
               branches.map((branch) => {
                 return (
                   <tbody key={branch.branchID}>
-                    <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID) }}>
+                    <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID, { state: { branch, organizationName: location.state.organizationName } }) }}>
                       <td>{branch.branchName}</td>
                       <td>{branch.community}</td>
                       <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
