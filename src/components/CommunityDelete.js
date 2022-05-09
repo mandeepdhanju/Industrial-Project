@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios";
 import { useState } from "react";
 
-function ContactDelete({ selectedCommunity, handleFormSubmit, closeModal }) {
+function CommunityDelete({ selectedCommunity, handleFormSubmit, closeModal }) {
     const PATH = process.env.REACT_APP_API_URL;
     const [errorMsg, setErrorMsg] = useState()
 
@@ -47,4 +47,4 @@ function ContactDelete({ selectedCommunity, handleFormSubmit, closeModal }) {
     )
 }
 
-export default ContactDelete
+export default CommunityDelete

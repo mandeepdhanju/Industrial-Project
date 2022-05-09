@@ -5,7 +5,7 @@ import CategoryCreate from './CategoryCreate'
 import CategoryDelete from './CategoryDelete'
 import ReactDOM from 'react-dom';
 
-function Community() {
+function Category() {
     const axios = require("axios");
     const PATH = process.env.REACT_APP_API_URL;
     const portalElement = document.getElementById("modal");
@@ -105,4 +105,4 @@ function Community() {
     );
 }
 
-export default Community;
+export default Category;
