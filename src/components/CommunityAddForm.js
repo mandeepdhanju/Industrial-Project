@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
+function CommunityAddForm({ handleFormSubmit, closeModal }) {
 
     const PATH = process.env.REACT_APP_API_URL;
     const [communityName, setcommunityName] = useState({})
@@ -58,4 +58,4 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
     )
 }
 
-export default CommunityUpdateForm
+export default CommunityAddForm
