@@ -99,12 +99,14 @@ function Branch() {
                           prepareEditForm(branch)
                         }}>Edit</button>
 
-                        {branch.active ?
-                          <button onClick={(e) => {
+
+                        <button
+                          disabled={branch.active ? false : true}
+                          onClick={(e) => {
                             e.stopPropagation();
                             prepareDeactive(branch)
                           }}>Deactivate</button>
-                          : null}
+
                       </td>
                     </tr>
                   </tbody>
