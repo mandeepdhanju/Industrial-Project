@@ -58,6 +58,7 @@ function Branch() {
 
   return (
     <main>
+      <div className="branch" style={{ margin: '55px' }}>
 
       {toggleCreate ? ReactDOM.createPortal(
         <BranchCreateForm
@@ -68,7 +69,6 @@ function Branch() {
 
       <button onClick={() => { setToggleCreate(true) }}>Create New Branch</button>
 
-      <div className="branch" style={{ margin: '55px' }}>
 
         {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
         {branches.length > 0 ?
