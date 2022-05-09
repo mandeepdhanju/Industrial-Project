@@ -104,7 +104,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
             console.log(response.data)
             setBranch({
                 ...branch,
-                mailingAddressI: response.data.addressID,
+                mailingAddressId: response.data.addressID,
                 addressCheckedWithDB: true,
             })
             return

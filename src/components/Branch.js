@@ -60,14 +60,14 @@ function Branch() {
     <main>
       <div className="branch" style={{ margin: '55px' }}>
 
-      {toggleCreate ? ReactDOM.createPortal(
-        <BranchCreateForm
-          handleFormSubmit={handleFormSubmit}
-          closeModal={() => { setToggleCreate(false) }}>
-        </BranchCreateForm>,
-        portalElement) : null}
+        {toggleCreate ? ReactDOM.createPortal(
+          <BranchCreateForm
+            handleFormSubmit={handleFormSubmit}
+            closeModal={() => { setToggleCreate(false) }}>
+          </BranchCreateForm>,
+          portalElement) : null}
 
-      <button onClick={() => { setToggleCreate(true) }}>Create New Branch</button>
+        <button onClick={() => { setToggleCreate(true) }}>Create New Branch</button>
 
 
         {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
