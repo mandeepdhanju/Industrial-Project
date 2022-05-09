@@ -78,15 +78,14 @@ function SubCategory() {
                         setSelectedSubCategory(subCategory);
                         setToggleEditForm(true)
                       }}>Rename</button>
-                    {subCategory.subCategoryName == null ?
-                      null :
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedSubCategory(subCategory);
-                          setToggleDelete(true)
-                        }}>Mark NULL</button>
-                    }
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedSubCategory(subCategory);
+                        setToggleDelete(true)
+                      }}>Delete</button>
+
                   </td>
                 </tr>
               )
