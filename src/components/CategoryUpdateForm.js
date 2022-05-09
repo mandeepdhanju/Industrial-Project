@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
 
-function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
+function CategoryUpdateForm({ handleFormSubmit, closeModal, selectedCategory }) {
 
     const PATH = process.env.REACT_APP_API_URL;
-    const [communityName, setcommunityName] = useState({})
+    const [categoryName, setCategoryName] = useState({})
     const [errorMsg, setErrorMsg] = useState()
 
-    async function addCommunity(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        const response = await axios.post(PATH + "Community", {
-            communityName: communityName
+        const response = await axios.put(PATH + "Category", {
+            categoryID: selectedCategory.categoryID,
+            categoryName: categoryName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -42,20 +43,21 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
             }}
                 onClick={(e) => { e.stopPropagation() }}
             >
-                <form onSubmit={addCommunity}>
+                <form onSubmit={handleSubmit}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Community Name:</label>
+                    <label htmlFor="categoryName">Category Name:</label>
                     <input
                         type="text"
-                        id="communityName"
+                        id="categoryName"
                         required
-                        onChange={(e) => setcommunityName(e.target.value.trim())}></input>
+                        placeholder={selectedCategory.categoryName}
+                        onChange={(e) => setCategoryName(e.target.value.trim())}></input>
                     <br />
-                    <button type="submit">Add</button>
+                    <button type="submit">Update</button>
                 </form >
             </div>
         </div>
     )
 }
 
-export default CommunityUpdateForm
+export default CategoryUpdateForm

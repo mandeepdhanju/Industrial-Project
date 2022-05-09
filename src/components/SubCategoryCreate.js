@@ -1,16 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
-function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
+function SubCategoryCreate({ handleFormSubmit, closeModal }) {
 
     const PATH = process.env.REACT_APP_API_URL;
-    const [communityName, setcommunityName] = useState({})
+
+    const { categoryID } = useParams();
+
+
+    const [subcategoryName, setSubCategory] = useState({})
     const [errorMsg, setErrorMsg] = useState()
 
     async function addCommunity(e) {
         e.preventDefault();
-        const response = await axios.post(PATH + "Community", {
-            communityName: communityName
+        const response = await axios.post(PATH + "SubCategory/" + categoryID, {
+            subCategoryName: subcategoryName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -44,12 +49,12 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
             >
                 <form onSubmit={addCommunity}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Community Name:</label>
+                    <label htmlFor="subcategoryName">SubCategory Name:</label>
                     <input
                         type="text"
-                        id="communityName"
+                        id="subcategoryName"
                         required
-                        onChange={(e) => setcommunityName(e.target.value.trim())}></input>
+                        onChange={(e) => setSubCategory(e.target.value.trim())}></input>
                     <br />
                     <button type="submit">Add</button>
                 </form >
@@ -58,4 +63,4 @@ function CommunityUpdateForm({ handleFormSubmit, closeModal }) {
     )
 }
 
-export default CommunityUpdateForm
+export default SubCategoryCreate

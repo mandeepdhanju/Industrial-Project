@@ -1,94 +1,102 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CommunityUpdateForm from "./CommunityUpdateForm";
+import CommunityDelete from "./CommunityDelete";
 import CommunityAddForm from "./CommunityAddForm";
-const axios = require("axios");
-const path = process.env.REACT_APP_API_URL;
+import ReactDOM from 'react-dom';
 
 function Community() {
-  const [community, setCommunity] = useState([]);
-  const [commObj, setCommObj] = useState({});
-  const [edit, setEdit] = useState(false);
-  const [add, setAdd] = useState(false);
+  const axios = require("axios");
+  const PATH = process.env.REACT_APP_API_URL;
+  const portalElement = document.getElementById("modal");
 
-  let navigate = useNavigate();
+  const [communities, setCommunities] = useState([])
+  const [selectedCommunity, setSelectedCommunity] = useState({})
+
+  //Show Edit Form State
+  const [toggleEditForm, setToggleEditForm] = useState(false);
+  //Show Create Popup
+  const [toggleCreate, setToggleCreate] = useState(false);
+  //Show Delete Popup
+  const [toggleDelete, setToggleDelete] = useState(false);
 
   useEffect(() => {
-    async function getAllCommunities() {
-      const response = await axios.get(path + "Community");
-      console.log(response.data);
-      setCommunity(response.data);
+    async function loadCommunities() {
+      const response = await axios.get(PATH + "Community")
+      console.log(response.data)
+      setCommunities(response.data)
     }
-    getAllCommunities();
-  }, []);
+    loadCommunities()
+  }, [])
 
-  async function updateCommunity() {
-    const response = await axios.put(path + "Community");
-    console.log(response);
-  }
-
-  function getBranchInfo(id) {
-    let path = "/community/" + id;
-    navigate(path);
+  function handleFormSubmit(newArray) {
+    setCommunities(newArray)
+    setToggleEditForm(false)
+    setToggleCreate(false)
+    setToggleDelete(false)
   }
 
   return (
-    <div className="community">
-      <div className="overview">
-        <div className="heading">
-          <h3>Community</h3>
-          <button
-            onClick={() => {
-              setAdd(true);
-              setEdit(false);
-              setCommObj(community);
-            }}
-          >
-            Add Community
-          </button>
-        </div>
+    <main>
+      <div className="community" style={{ margin: '55px' }}>
+        {toggleCreate ? ReactDOM.createPortal(
+          <CommunityAddForm
+            handleFormSubmit={handleFormSubmit}
+            closeModal={() => { setToggleCreate(false) }}>
+          </CommunityAddForm>,
+          portalElement) : null}
 
+        <button onClick={() => setToggleCreate(true)}>Add New Community</button>
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th>Community</th>
+              <th>Community ID</th>
+              <th>Community Name</th>
               <th>Actions</th>
             </tr>
           </thead>
 
-          {community.map((community, index) => {
-            return (
-              <tbody key={community.communityID}>
-                <tr>
-                  <td>{index + 1}</td>
+          <tbody>
+            {communities.map((community, index) => {
+              return (
+                <tr key={index}>
+                  <td>{community.communityID}</td>
                   <td>{community.communityName}</td>
-                  <td className="actions">
+                  <td>
+                    <button
+                      onClick={(e) => {
+                        setSelectedCommunity(community);
+                        setToggleEditForm(true)
+                      }}>Rename</button>
                     <button
                       onClick={() => {
-                        setEdit(true);
-                        setAdd(false);
-                        setCommObj(community);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button>Delete</button>
+                        setSelectedCommunity(community);
+                        setToggleDelete(true)
+                      }}>Delete</button>
                   </td>
                 </tr>
-              </tbody>
-            );
-          })}
+              )
+            })}
+          </tbody>
         </table>
-
-        {edit ? (
-          <CommunityUpdateForm commObj={commObj}></CommunityUpdateForm>
-        ) : (
-          ""
-        )}
-        {add ? <CommunityAddForm commObj={commObj}></CommunityAddForm> : ""}
       </div>
-    </div>
+
+      {toggleEditForm ? ReactDOM.createPortal(
+        <CommunityUpdateForm
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleEditForm(false) }}
+          selectedCommunity={selectedCommunity}>
+        </CommunityUpdateForm>,
+        portalElement) : null}
+
+      {toggleDelete ? ReactDOM.createPortal(
+        <CommunityDelete
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleDelete(false) }}
+          selectedCommunity={selectedCommunity}>
+        </CommunityDelete>,
+        portalElement) : null}
+    </main>
   );
 }
 

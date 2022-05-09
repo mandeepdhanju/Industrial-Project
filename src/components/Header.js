@@ -13,6 +13,9 @@ function Header() {
           <Link className="navLink" to="/organization">
             ORGANIZATIONS
           </Link>
+          <Link className="navLink" to="/dropdown">
+            DROPDOWNS
+          </Link>
           <Link className="navLink" to="/search">
             SEARCH
           </Link>

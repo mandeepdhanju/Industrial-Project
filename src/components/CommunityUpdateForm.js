@@ -1,57 +1,63 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-const path = process.env.REACT_APP_API_URL;
+function CommunityUpdateForm({ handleFormSubmit, closeModal, selectedCommunity }) {
 
-function CommunityUpdateForm({ commObj }) {
-  const [community, setCommunity] = useState({});
+  const PATH = process.env.REACT_APP_API_URL;
+  const [communityName, setcommunityName] = useState({})
+  const [errorMsg, setErrorMsg] = useState()
 
-  useEffect(() => {
-    function loadObj() {
-      setCommunity(commObj);
-    }
-    loadObj();
-  }, []);
-
-  function handleSubmit(e) {
+  async function addCommunity(e) {
     e.preventDefault();
-    commObj = community;
-    console.log(community);
+    const response = await axios.put(PATH + "Community", {
+      communityID: selectedCommunity.communityID,
+      communityName: communityName
+    })
+    if (response.data.error) {
+      setErrorMsg(response.data.error)
+      return
+    }
+    handleFormSubmit(response.data.value)
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="communityName">Community Name:</label>
-      <input
-        type="text"
-        id="communityName"
-        placeholder={commObj.communityName}
-        onChange={(e) =>
-          setCommunity({ ...community, communityName: e.target.value })
-        }
-      ></input>
-      <br />
-      <label htmlFor="website">Website:</label>
-      <input
-        type="text"
-        id="website"
-        placeholder={commObj.website}
-        onChange={(e) =>
-          setCommunity({ ...community, website: e.target.value })
-        }
-      ></input>
-      <br />
-      <label htmlFor="active">Active:</label>
-      <input
-        type="checkbox"
-        checked={community.active ? true : false}
-        onChange={(e) => {
-          setCommunity({ ...community, active: e.target.checked });
-        }}
-      ></input>
-      <br />
-      <button>Save</button>
-    </form>
-  );
+    <div style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100vh",
+      zIndex: 5000,
+      backgroundColor: "rgba(0, 0, 0, 0.75)",
+    }}
+      onClick={closeModal}>
+
+      <div style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)",
+        backgroundColor: "white",
+        padding: "1rem",
+        zIndex: 5001,
+      }}
+        onClick={(e) => { e.stopPropagation() }}
+      >
+        <form onSubmit={addCommunity}>
+          {errorMsg ? <div><p>{errorMsg}</p></div> : null}
+          <label htmlFor="communityName">Community Name:</label>
+          <input
+            type="text"
+            id="communityName"
+            required
+            placeholder={selectedCommunity.communityName}
+            onChange={(e) => setcommunityName(e.target.value.trim())}></input>
+          <br />
+          <button type="submit">Update</button>
+        </form >
+      </div>
+    </div>
+  )
 }
 
-export default CommunityUpdateForm;
+export default CommunityUpdateForm
