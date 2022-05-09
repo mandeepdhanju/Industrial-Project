@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import template from "../template/UploadTemplate.xlsx";
 const axios = require("axios");
@@ -26,7 +26,6 @@ function Upload() {
       });
       if (response.data.includes("Error")) {
         const errorMessageArray = response.data.split("@");
-        console.log(errorMessageArray);
         setMessage("Error! Please check line " + errorMessageArray[1] + ".");
         setErrorDetail(errorMessageArray[2]);
       } else {
@@ -48,11 +47,9 @@ function Upload() {
           }
         });
         setPageData(allArray);
-        console.log(pageData);
       }
     } catch (error) {
       setMessage(error);
-      console.log(error);
     }
   };
 
@@ -66,9 +63,7 @@ function Upload() {
         headers: { "content-type": "application/json" },
       });
       setMessage(response.data);
-      console.log(response.data);
     } catch (err) {
-      console.log(err);
       setMessage(err.message);
     }
   };
@@ -82,7 +77,6 @@ function Upload() {
 
   return (
     <div className="upload">
-      {console.log(pageData)}
       <div className="downloadTemplate">
         <Link type="button" to={template} target="_blank" download>
           Download Template
@@ -146,7 +140,6 @@ function Upload() {
             <button
               onClick={() => {
                 if (pageNum < pageData.length) {
-                  console.log(pageData.length);
                   setPageNum(pageNum + 1);
                 }
               }}
