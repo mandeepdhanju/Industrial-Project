@@ -1,28 +1,27 @@
-// Resets
-
-// Box Sizing Reset
-html {
-    box-sizing: border-box;
-}
-
-*, *:before, *:after {
-    box-sizing: inherit;
-}
+@use './variables' as *;
 
 
-// Image Reset
-img {
-    max-width: 100%;
-    height: auto;
-}
 
-// Table Reset
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-// Remove Margins on the body
-body {
-    margin: 0 auto;
+.upload{
+    margin: 100px 20px;
+    .downloadTemplate{
+        margin-bottom: 30px;
+        a{
+            padding: 10px;
+            border: solid 1px grey;
+            color: white;
+            background-color: $brand-color;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    }
+    
+    .message{
+        max-width: 500px;
+        margin: 30px auto;
+        border: 1px solid red;
+        text-align: center;
+        border-radius: 5px;
+        padding: 20px;
+    }
 }
