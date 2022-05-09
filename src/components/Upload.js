@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import template from "../template/UploadTemplate.xlsx";
 const axios = require("axios");
-const path = "https://localhost:5001/api/Upload";
-const uploadPath = "https://localhost:5001/api/Upload/todb";
-const uploadPath2 = "https://localhost:5001/api/Upload/todb2";
+const previewPath = "https://localhost:5001/api/Upload";
+const uploadPath = "https://localhost:5001/api/Upload/todb2";
 function Upload() {
   const [data, setData] = useState();
-  const [file, setFile] = useState();
   const [message, setMessage] = useState();
+  const [errorDetail, setErrorDetail] = useState();
+  const [display, setDisplay] = useState("none");
+  const [pageData, setPageData] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [pn, setPn] = useState(1);
+
   const fileSelected = async (event) => {
     const file1 = event.target.files[0];
     const formData = new FormData();
@@ -16,16 +20,35 @@ function Upload() {
     try {
       const response = await axios({
         method: "post",
-        url: path,
+        url: previewPath,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response.data);
-      setFile(file1);
       if (response.data.includes("Error")) {
-        throw "error";
+        const errorMessageArray = response.data.split("@");
+        console.log(errorMessageArray);
+        setMessage("Error! Please check line " + errorMessageArray[1] + ".");
+        setErrorDetail(errorMessageArray[2]);
       } else {
-        setData(response.data);
+        const jsonData = response.data;
+        setData(jsonData);
+        let allArray = [];
+        let pArray = [];
+        let count = 0;
+        jsonData.forEach((item, index) => {
+          pArray.push(item);
+          count++;
+          if (count == 10) {
+            allArray.push(pArray);
+            pArray = [];
+            count = 0;
+          }
+          if (index == jsonData.length - 1) {
+            allArray.push(pArray);
+          }
+        });
+        setPageData(allArray);
+        console.log(pageData);
       }
     } catch (error) {
       setMessage(error);
@@ -33,149 +56,56 @@ function Upload() {
     }
   };
 
-  const uploadFile = async (event) => {
+  const upload = async (event) => {
     event.preventDefault();
-    // console.log(data);
-    // try {
-    //   const response = await axios.post(uploadPath, { allData: data });
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    const formData = new FormData();
-    formData.append("file", file);
     try {
       const response = await axios({
         method: "post",
         url: uploadPath,
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
+        data: data,
+        headers: { "content-type": "application/json" },
       });
-      console.log(response.data);
       setMessage(response.data);
-    } catch (error) {
-      setMessage(error);
-      console.log(error);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+      setMessage(err.message);
     }
   };
 
-  const upload2 = async (event) => {
-    event.preventDefault();
-    console.log(data);
-    let jsonData = [
-      {
-        organizationName: "1",
-        organizationWebsite: "2",
-        organizationActive: true,
-        comment: "4",
-        numberOfEmployee: "5",
-        category: "6",
-        subCategory: "Unit 7",
-        branchName: "8",
-        branchActive: false,
-        community: "0",
-        businessAddress1: "11",
-        businessAddress2: "12",
-        businessStreetName: "13",
-        businessCity: "14",
-        businessPostalCode: "15",
-        mailingAddress1: "16",
-        mailingAddress2: "17",
-        mailingStreetName: "18",
-        mailingCity: "19",
-        mailingPostalCode: "20",
-        contactName: "21",
-        email: "22",
-        phoneNumber: "23",
-        fax: "24",
-        jobTitle: "25",
-        primaryContact: true,
-        contactActive: true,
-        contactAddress1: "28",
-        contactAddress2: "",
-        contactStreetName: "",
-        contactCity: "",
-        contactProvince: "",
-        contactPostalCode: "",
-      },
-      {
-        organizationName: "abc",
-        organizationWebsite: "ddd",
-        organizationActive: true,
-        comment: "merong",
-        numberOfEmployee: "5-10",
-        category: "aaa",
-        subCategory: "Unit bbb",
-        branchName: "ccc",
-        branchActive: false,
-        community: "ddd",
-        businessAddress1: "eee",
-        businessAddress2: "www",
-        businessStreetName: "qqq",
-        businessCity: "aaa",
-        businessPostalCode: "ggg",
-        mailingAddress1: "bbb",
-        mailingAddress2: "eee",
-        mailingStreetName: "hhh",
-        mailingCity: "ttt",
-        mailingPostalCode: "rrr",
-        contactName: "yyy",
-        email: "yyy",
-        phoneNumber: "bbb",
-        fax: "vvv",
-        jobTitle: "bbb",
-        primaryContact: false,
-        contactActive: true,
-        contactAddress1: "eee",
-        contactAddress2: "fff",
-        contactStreetName: "aaa",
-        contactCity: "bbb",
-        contactProvince: "nnn",
-        contactPostalCode: "vvv",
-      },
-    ];
-
-    const response = await axios({
-      method: "post",
-      url: uploadPath2,
-      data: data,
-      headers: { "content-type": "application/json" },
-    });
-
-    // try {
-    //   const response = await axios.post(
-    //     uploadPath,
-    //     { abc: "hihi" },
-    //     {
-    //       headers: {
-    //         "content-type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   console.log(response);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
+  function goToPage(e) {
+    const pageInput = e.target.value;
+    if (pageInput != null) {
+      setPn(pageInput);
+    }
+  }
 
   return (
     <div className="upload">
-      <div className="message">
-        <button onClick={upload2}>upload two</button>
-        {message && (
-          <div>
-            <p>{message}</p>
-          </div>
-        )}
-      </div>
+      {console.log(pageData)}
       <div className="downloadTemplate">
         <Link type="button" to={template} target="_blank" download>
           Download Template
         </Link>
       </div>
+      {message && (
+        <div className="message">
+          <p>{message}</p>
+          {errorDetail && (
+            <button
+              onClick={() => {
+                setDisplay("block");
+              }}
+            >
+              Detail
+            </button>
+          )}
+          <p style={{ display: display }}>{errorDetail}</p>
+        </div>
+      )}
       <div className="uploadFileDiv">
         <input onChange={fileSelected} type="file" accept=".xlsx"></input>
-        <button type="button" onClick={uploadFile}>
+        <button type="button" onClick={upload}>
           Upload
         </button>
       </div>
@@ -188,16 +118,63 @@ function Upload() {
                   <th key={i}>{column}</th>
                 ))}
             </tr>
-            {data &&
-              data.map((row, i) => (
+            {pageData &&
+              pageData[pageNum - 1].map((row, i) => (
                 <tr key={i}>
-                  {Object.keys(data[0]).map((item, i) => (
+                  {Object.keys(pageData[pageNum - 1][0]).map((item, i) => (
                     <td key={i}>{row[item].toString()}</td>
                   ))}
                 </tr>
               ))}
           </tbody>
         </table>
+        {pageData && (
+          <>
+            <label>
+              Page: {pageNum} of {pageData.length}
+            </label>
+
+            <button
+              onClick={() => {
+                if (pageNum > 1) {
+                  setPageNum(pageNum - 1);
+                }
+              }}
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => {
+                if (pageNum < pageData.length) {
+                  console.log(pageData.length);
+                  setPageNum(pageNum + 1);
+                }
+              }}
+            >
+              Next
+            </button>
+            <p>Goto Page </p>
+            <input
+              type="text"
+              placeholder={`Max Page: ${pageData.length}`}
+              onChange={goToPage}
+            />
+            <button
+              onClick={() => {
+                if (pn > 0 && pn < pageData.length + 1) {
+                  setMessage("");
+                  setPageNum(pn);
+                } else {
+                  setMessage(
+                    "Please put number between 1 to " + pageData.length
+                  );
+                }
+              }}
+            >
+              Go
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
