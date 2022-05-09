@@ -43,9 +43,7 @@ function SubCategoryDelete({ selectedSubCategory, handleFormSubmit, closeModal }
                 onClick={(e) => { e.stopPropagation() }}
             >
                 {errorMsg ? <div className='errorBox'><p>{errorMsg}</p></div> : null}
-                <h1>You are about to mark {selectedSubCategory.subCategoryName} as NULL.
-                    <p>The subcategory ID will not be deleted, but the subcategory cannot be reported</p>
-                    Please confirm.
+                <h1>You are about to DELETE {selectedSubCategory.subCategoryName}. Please confirm.
                 </h1>
                 <button onClick={() => { handleSubmit() }}>Yes</button>
                 <button onClick={closeModal}>Cancel</button>
