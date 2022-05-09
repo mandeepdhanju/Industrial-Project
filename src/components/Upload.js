@@ -26,8 +26,12 @@ function Upload() {
       });
       if (response.data.includes("Error")) {
         const errorMessageArray = response.data.split("@");
-        setMessage("Error! Please check line " + errorMessageArray[1] + ".");
-        setErrorDetail(errorMessageArray[2]);
+        setMessage("Error!");
+        let errArray = [];
+        for (let i = 2; errorMessageArray.length > i; i++) {
+          errArray.push(errorMessageArray[i]);
+        }
+        setErrorDetail(errArray);
       } else {
         const jsonData = response.data;
         setData(jsonData);
@@ -86,15 +90,26 @@ function Upload() {
         <div className="message">
           <p>{message}</p>
           {errorDetail && (
-            <button
-              onClick={() => {
-                setDisplay("block");
-              }}
-            >
-              Detail
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  if (display == "none") {
+                    setDisplay("block");
+                  } else {
+                    setDisplay("none");
+                  }
+                }}
+              >
+                Detail
+              </button>
+
+              <div style={{ display: display }}>
+                {errorDetail.map((item, index) => (
+                  <p key={index}>{item}</p>
+                ))}
+              </div>
+            </>
           )}
-          <p style={{ display: display }}>{errorDetail}</p>
         </div>
       )}
       <div className="uploadFileDiv">
