@@ -1,16 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
-function CategeoryCreate({ handleFormSubmit, closeModal }) {
+function SubCategoryUpdateForm({ handleFormSubmit, closeModal, selectedSubCategory }) {
 
     const PATH = process.env.REACT_APP_API_URL;
-    const [categoryName, cetCategoryName] = useState({})
+    const [subCategoryName, setSubCategoryName] = useState({})
     const [errorMsg, setErrorMsg] = useState()
+
+    const { categoryID } = useParams()
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await axios.post(PATH + "Category", {
-            categoryName: categoryName
+        const response = await axios.put(PATH + "SubCategory/" + categoryID, {
+            subCategoryID: selectedSubCategory.subCategoryID,
+            subCategoryName: subCategoryName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -44,18 +48,19 @@ function CategeoryCreate({ handleFormSubmit, closeModal }) {
             >
                 <form onSubmit={handleSubmit}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="categoryName">Category Name:</label>
+                    <label htmlFor="subCategoryName">SubCategory Name:</label>
                     <input
                         type="text"
-                        id="categoryName"
+                        id="subCategoryName"
                         required
-                        onChange={(e) => cetCategoryName(e.target.value.trim())}></input>
+                        placeholder={selectedSubCategory.subCategoryName}
+                        onChange={(e) => setSubCategoryName(e.target.value.trim())}></input>
                     <br />
-                    <button type="submit">Add</button>
+                    <button type="submit">Update</button>
                 </form >
             </div>
         </div>
     )
 }
 
-export default CategeoryCreate
+export default SubCategoryUpdateForm

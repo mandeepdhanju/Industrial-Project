@@ -1,17 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-function CategoryEditForm({ handleFormSubmit, closeModal, selectedCategory }) {
+function CategoryUpdateForm({ handleFormSubmit, closeModal, selectedCategory }) {
 
     const PATH = process.env.REACT_APP_API_URL;
-    const [communityName, setcommunityName] = useState({})
+    const [categoryName, setCategoryName] = useState({})
     const [errorMsg, setErrorMsg] = useState()
 
-    async function addCommunity(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const response = await axios.put(PATH + "Category", {
             categoryID: selectedCategory.categoryID,
-            categoryName: communityName
+            categoryName: categoryName
         })
         if (response.data.error) {
             setErrorMsg(response.data.error)
@@ -43,15 +43,15 @@ function CategoryEditForm({ handleFormSubmit, closeModal, selectedCategory }) {
             }}
                 onClick={(e) => { e.stopPropagation() }}
             >
-                <form onSubmit={addCommunity}>
+                <form onSubmit={handleSubmit}>
                     {errorMsg ? <div><p>{errorMsg}</p></div> : null}
-                    <label htmlFor="communityName">Category Name:</label>
+                    <label htmlFor="categoryName">Category Name:</label>
                     <input
                         type="text"
                         id="categoryName"
                         required
                         placeholder={selectedCategory.categoryName}
-                        onChange={(e) => setcommunityName(e.target.value.trim())}></input>
+                        onChange={(e) => setCategoryName(e.target.value.trim())}></input>
                     <br />
                     <button type="submit">Update</button>
                 </form >
@@ -60,4 +60,4 @@ function CategoryEditForm({ handleFormSubmit, closeModal, selectedCategory }) {
     )
 }
 
-export default CategoryEditForm
+export default CategoryUpdateForm

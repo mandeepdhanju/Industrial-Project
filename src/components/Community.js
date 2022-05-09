@@ -38,46 +38,48 @@ function Community() {
 
   return (
     <main>
-      {toggleCreate ? ReactDOM.createPortal(
-        <CommunityAddForm
-          handleFormSubmit={handleFormSubmit}
-          closeModal={() => { setToggleCreate(false) }}>
-        </CommunityAddForm>,
-        portalElement) : null}
+      <div className="community" style={{ margin: '55px' }}>
+        {toggleCreate ? ReactDOM.createPortal(
+          <CommunityAddForm
+            handleFormSubmit={handleFormSubmit}
+            closeModal={() => { setToggleCreate(false) }}>
+          </CommunityAddForm>,
+          portalElement) : null}
 
-      <button onClick={() => setToggleCreate(true)}>Add New Community</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Community ID</th>
-            <th>Community Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+        <button onClick={() => setToggleCreate(true)}>Add New Community</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Community ID</th>
+              <th>Community Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {communities.map((community, index) => {
-            return (
-              <tr key={index}>
-                <td>{community.communityID}</td>
-                <td>{community.communityName}</td>
-                <td>
-                  <button
-                    onClick={(e) => {
-                      setSelectedCommunity(community);
-                      setToggleEditForm(true)
-                    }}>Rename</button>
-                  <button
-                    onClick={() => {
-                      setSelectedCommunity(community);
-                      setToggleDelete(true)
-                    }}>Delete</button>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+          <tbody>
+            {communities.map((community, index) => {
+              return (
+                <tr key={index}>
+                  <td>{community.communityID}</td>
+                  <td>{community.communityName}</td>
+                  <td>
+                    <button
+                      onClick={(e) => {
+                        setSelectedCommunity(community);
+                        setToggleEditForm(true)
+                      }}>Rename</button>
+                    <button
+                      onClick={() => {
+                        setSelectedCommunity(community);
+                        setToggleDelete(true)
+                      }}>Delete</button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {toggleEditForm ? ReactDOM.createPortal(
         <CommunityUpdateForm

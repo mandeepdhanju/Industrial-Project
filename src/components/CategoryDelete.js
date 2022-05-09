@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios";
 import { useState } from "react";
 
-function ContactDelete({ selectedCategory, handleFormSubmit, closeModal }) {
+function CategoryDelete({ selectedCategory, handleFormSubmit, closeModal }) {
     const PATH = process.env.REACT_APP_API_URL;
     const [errorMsg, setErrorMsg] = useState()
 
@@ -47,4 +47,4 @@ function ContactDelete({ selectedCategory, handleFormSubmit, closeModal }) {
     )
 }
 
-export default ContactDelete
+export default CategoryDelete

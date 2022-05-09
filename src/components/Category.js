@@ -40,48 +40,51 @@ function Community() {
 
     return (
         <main>
-            {toggleCreate ? ReactDOM.createPortal(
-                <CategoryCreate
-                    handleFormSubmit={handleFormSubmit}
-                    closeModal={() => { setToggleCreate(false) }}>
-                </CategoryCreate>,
-                portalElement) : null}
+            <div className="category" style={{ margin: '55px' }}>
 
-            <button onClick={() => setToggleCreate(true)}>Add New Category</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Category ID</th>
-                        <th>Category Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+                {toggleCreate ? ReactDOM.createPortal(
+                    <CategoryCreate
+                        handleFormSubmit={handleFormSubmit}
+                        closeModal={() => { setToggleCreate(false) }}>
+                    </CategoryCreate>,
+                    portalElement) : null}
 
-                <tbody>
-                    {categories.map((category, index) => {
-                        return (
-                            <tr key={index} onClick={() => { navigate("/category/" + category.categoryID) }}>
-                                <td>{category.categoryID}</td>
-                                <td>{category.categoryName}</td>
-                                <td>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setSelectedCategory(category);
-                                            setToggleEditForm(true)
-                                        }}>Rename</button>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setSelectedCategory(category);
-                                            setToggleDelete(true)
-                                        }}>Delete</button>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                <button onClick={() => setToggleCreate(true)}>Add New Category</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category ID</th>
+                            <th>Category Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {categories.map((category, index) => {
+                            return (
+                                <tr key={index} onClick={() => { navigate("/category/" + category.categoryID, { state: category }) }}>
+                                    <td>{category.categoryID}</td>
+                                    <td>{category.categoryName}</td>
+                                    <td>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedCategory(category);
+                                                setToggleEditForm(true)
+                                            }}>Rename</button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedCategory(category);
+                                                setToggleDelete(true)
+                                            }}>Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
 
             {toggleEditForm ? ReactDOM.createPortal(
                 <CategoryUpdateForm
