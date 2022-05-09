@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 function ContactCreateForm({ handleFormSubmit, closeModal }) {
   const [contact, setContact] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
   const PATH = process.env.REACT_APP_API_URL;
   const { branchID } = useParams();
@@ -22,6 +23,10 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
       //Backend keeps getting null
       address: contact.address,
     });
+    if (response.data.error) {
+      setErrorMsg(response.data.error)
+      return
+    }
     handleFormSubmit(response.data);
   };
 
@@ -53,18 +58,19 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {errorMsg ? <div className="errorBox"><p>{errorMsg}</p></div> : null}
         <label htmlFor="name">Name</label>
         <input
           name="name"
           onChange={(e) => setContact({ ...contact, name: e.target.value })}
-          required="true"
+          required={true}
         ></input>
 
         <label htmlFor="email">Email</label>
         <input
           name="email"
           onChange={(e) => setContact({ ...contact, email: e.target.value })}
-          required="true"
+          required={true}
         ></input>
 
         <label htmlFor="phoneNumber">Phone Number</label>
@@ -73,7 +79,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
           onChange={(e) =>
             setContact({ ...contact, phoneNumber: e.target.value })
           }
-          required="true"
+          required={true}
         ></input>
 
         <label htmlFor="fax">Fax</label>

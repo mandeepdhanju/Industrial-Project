@@ -142,11 +142,10 @@ function Contact() {
                   <td>{contact.primaryContact ? "Primary" : null}</td>
                   <td>{contact.active ? "Active" : "Inactive"}</td>
                   <td>
-                    {contact.address.address1
-                      ? `${contact.address.address1}  ${contact.address.address2 ?? null
-                      } ${contact.address.streetName} ${contact.address.city
-                      } ${contact.address.province} ${contact.address.postalCode
-                      }`
+                    {contact.address.address1 ?
+                      `${contact.address.address1 ?? ""}  ${contact.address.address2 ?? ""} 
+                      ${contact.address.streetName ?? ""} ${contact.address.city ?? ""} 
+                      ${contact.address.province ?? ""} ${contact.address.postalCode ?? ""}`
                       : null}
                   </td>
                   <td>
