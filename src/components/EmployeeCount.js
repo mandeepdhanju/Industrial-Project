@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import EmployeeCountUpdateForm from "./EmployeeCountUpdateForm";
 import EmployeeCountAddForm from "./EmployeeCountAddForm";
-import EmployeeCountDelete from "./EmployeeCountDelete";
+import EmployeeCountDelete from "./EmployeeCountDelete"
 
 function EmployeeCount() {
   const axios = require("axios");
