@@ -132,7 +132,7 @@ function Organization() {
     {
       columns,
       data,
-      initialState: { pageSize: 15 },
+      initialState: { pageSize: 30 },
       autoResetPage: false,
     },
     useFilters,

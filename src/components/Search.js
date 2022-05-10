@@ -265,7 +265,7 @@ function Search() {
   );
 
   const table = useTable(
-    { columns, data, initialState: { pageSize: 15 } },
+    { columns, data, initialState: { pageSize: 30 } },
     useGlobalFilter,
     useFilters,
     usePagination
