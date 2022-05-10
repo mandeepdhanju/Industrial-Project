@@ -17,21 +17,7 @@ function EmployeeCountAddForm({ handleFormSubmit, closeModal }) {
         setErrorMsg(response.data.error)
         return
     }
-<<<<<<< HEAD
     handleFormSubmit(response.data.value)
-=======
-
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="employeeCountRange">EmployeeCount Range:</label>
-            <input type="text" id="employeeCountRange" placeholder={empCountObj.employeeCountRange} onChange={(e) => setEmpCount({ ...empCount, employeeCountRange: e.target.value })}></input>
-            <br />
-            <button>Save</button> 
-        </form >
-        
-    )
->>>>>>> a053fcacea6417a5c06c85fe0f6e64e4fb5c6070
 }
 
 return (
