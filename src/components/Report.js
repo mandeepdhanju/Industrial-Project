@@ -113,7 +113,6 @@ function Report() {
   }
 
   function downloadXlsx() {
-    console.log(checkedArray, "hello");
     if (checkedArray != "") {
       let exportData = [{ sheet: "exported data", columns: [], content: [] }];
       let newColumnArray = [];
@@ -139,6 +138,8 @@ function Report() {
         extraLength: 2, // A bigger number means that columns will be wider
       };
       xlsx(exportData, settings);
+    } else {
+      alert("Please select column(s) for xlsx download");
     }
   }
 
