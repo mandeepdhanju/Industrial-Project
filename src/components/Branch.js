@@ -35,7 +35,7 @@ function Branch() {
       return;
     }
     const response = await axios.get(PATH + "Branch/" + organizationID);
-    console.log(response.data);
+    // console.log(response.data);
     setBranches(response.data);
   }
 
@@ -59,7 +59,7 @@ function Branch() {
   return (
     <main>
       <div className="sidebar">
-      {toggleCreate ? ReactDOM.createPortal(
+        {toggleCreate ? ReactDOM.createPortal(
           <BranchCreateForm
             handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleCreate(false) }}>
@@ -88,20 +88,28 @@ function Branch() {
               branches.map((branch) => {
                 return (
                   <tbody key={branch.branchID}>
-                    <tr onClick={() => { navigate("/organization/" + organizationID + "/" + branch.branchID, { state: { branch, organizationName: location.state.organizationName } }) }}>
+                    <tr onClick={() => {
+                      navigate("/organization/" + organizationID + "/" + branch.branchID,
+                        {
+                          state: {
+                            branch,
+                            organizationName: location.state ? location.state.organizationName : "Unknown"
+                          }
+                        })
+                    }}>
                       <td>{branch.branchName}</td>
                       <td>{branch.community}</td>
                       <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
                       <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
                       <td>{branch.active ? "Active" : "Inactive"}</td>
                       <td className="actions">
-                        <button className="icon edit"  onClick={(e) => {
+                        <button className="icon edit" onClick={(e) => {
                           e.stopPropagation();
                           prepareEditForm(branch)
                         }}><i class="fa-solid fa-pen"></i></button>
 
 
-                        <button className="icon delete" 
+                        <button className="icon delete"
                           disabled={branch.active ? false : true}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -117,7 +125,7 @@ function Branch() {
           </table>
           : <p>There are no branches under this organization</p>}
 
-        
+
 
         {toggleEditForm ? ReactDOM.createPortal(
           <BranchUpdateForm

@@ -93,6 +93,8 @@ function Contact() {
         {location.state ?
           <div className="branchDetails">
 
+            <h1>{location.state.organizationName}</h1>
+
             <label>Branch</label><p>{location.state.branch.branchName}</p>
 
             <label>Community</label> <p>{location.state.branch.community}</p>
