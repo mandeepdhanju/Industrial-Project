@@ -19,6 +19,38 @@
     .pagination{
         position: relative;
     }
+    td:last-child, th:last-child{
+        min-width: 100px;
+        position: -webkit-sticky;
+        position: sticky;
+        right: 0;
+        box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.2);
+        clip-path: inset(0px 0 0px -50px);
+    }
+    .actions{
+        display: flex;
+        justify-content: center;
+    }
+}
+.branch{
+    td:last-child, th:last-child{
+        min-width: 100px;
+        position: -webkit-sticky;
+        position: sticky;
+        right: 0;
+        box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.2);
+        clip-path: inset(0px 0 0px -50px);
+    }
+    .actions{
+        display: flex;
+        justify-content: center;
+    }
+}
+.edit:hover{
+    color: rgb(8, 97, 197);
+}
+.delete:hover{
+    color: red;
 }
 .branches h1{
     margin-left: 10vw;
@@ -195,6 +227,74 @@ tr:nth-child(odd) td {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.sidebar form{
+    width: 100%;
+}
+.sidebar h2{
+    margin: 50px 0 0;
+}
+.dropdown-page{
+    min-width: 608px;
+    td:nth-child(2), th:nth-child(2){
+        min-width: 400px;
+        text-align: left;
+        padding-left: 15px;
+    }
+    td:last-child, th:last-child{
+        min-width: 120px;
+    }
+    .actions{
+        display: flex;
+        justify-content: center;
+    }
+}
+.close-modal{
+    position: absolute;
+    right: 10px;
+}
+
+#modal{
+    button[type="submit"]{
+        margin-top: 20px;
+    }
+    form label{
+        margin-bottom: 0px;
+        margin-top: 20px;
+    }
+    .submit{
+        margin-top: 20px;
+    }
+}
+.community table{
+    width: 100%;
+    height: calc(100vh - 120px);
+}
+.icon{
+    padding: 8px;
+    background: none;
+    margin: 0 2px;
+}
+.branch{
+    padding: 0px 50px;
+    button{
+        padding: 8px;
+        background: none;
+    }
+
+}
+
+.jump-page{
+    margin-top:10px;
+    input{
+        width: 40px;
+        padding: 5px 3px;
+        margin: 0 5px;
+    }
+}
+.sidebar textarea{
+    margin-bottom: 20px;
+    margin-top: 0;
 }
 form{
     display: flex;

@@ -33,22 +33,20 @@ function EmployeeCount() {
   }
 
   return (
-    <div className="employeeCount">
-      <div className="overview">
-        <div className="heading">
-          <h3>EmployeeCount</h3>
-          <button
-            onClick={() => {
-              setAdd(true);
-              setEdit(false);
-              setEmpCountObj(empCount);
-            }}
-          >
-            Add EmployeeCount
+    <main>
+      <div className="sidebar">
+        <button
+              onClick={() => {
+                setAdd(true);
+                setEdit(false);
+                setEmpCountObj(empCount);
+              }}
+            >
+              Add EmployeeCount
           </button>
-        </div>
-
-        <table>
+      </div>
+      <div className="dropdown-page">
+      <table>
           <thead>
             <tr>
               <th>#</th>
@@ -64,16 +62,17 @@ function EmployeeCount() {
                   <td>{index + 1}</td>
                   <td>{employeeCount.employeeCountRange}</td>
                   <td className="actions">
-                    <button
+                    <button className="icon edit" 
                       onClick={() => {
                         setEdit(true);
                         setAdd(false);
                         setEmpCountObj(employeeCount);
                       }}
                     >
-                      Edit
+                      <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button>Delete</button>
+                    <button
+                    className="icon delete" ><i class="fa-solid fa-ban"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -96,7 +95,7 @@ function EmployeeCount() {
           ""
         )}
       </div>
-    </div>
+    </main>
   );
 }
 

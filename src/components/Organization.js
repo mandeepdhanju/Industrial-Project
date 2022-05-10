@@ -117,7 +117,7 @@ function Organization() {
         disableFilters: true,
         Cell: (row) => {
           return (
-            <div>
+            <div className="actions">
               <OrganizationEdit row={row} getData={getData} />
               <OrganizationDelete row={row} getData={getData} />
             </div>

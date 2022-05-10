@@ -40,9 +40,8 @@ function SubCategory() {
 
   return (
     <main>
-      <div className="subcategory" style={{ margin: '55px' }}>
-
-        {toggleCreate ? ReactDOM.createPortal(
+      <div className="sidebar">
+      {toggleCreate ? ReactDOM.createPortal(
           <SubCategoryCreate
             handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleCreate(false) }}>
@@ -50,8 +49,8 @@ function SubCategory() {
           portalElement) : null}
 
         <button onClick={() => setToggleCreate(true)}>Add New SubCategory</button>
-
-
+      </div>
+      <div className="subcategory dropdown-page">
         {location.state == null ?
           <h1>SubCategoryes for Category ID {categoryID}</h1> :
           <h1>SubCategories for {location.state.categoryName}</h1>
@@ -72,19 +71,19 @@ function SubCategory() {
                   <td>{subCategory.subCategoryID}</td>
                   <td>{subCategory.subCategoryName}</td>
                   <td>
-                    <button
+                    <button className="icon edit" 
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedSubCategory(subCategory);
                         setToggleEditForm(true)
-                      }}>Rename</button>
+                      }}><i class="fa-solid fa-pen"></i></button>
 
-                    <button
+                    <button className="icon delete" 
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedSubCategory(subCategory);
                         setToggleDelete(true)
-                      }}>Delete</button>
+                      }}><i class="fa-solid fa-ban"></i></button>
 
                   </td>
                 </tr>

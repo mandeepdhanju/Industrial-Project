@@ -61,7 +61,7 @@ function OrganizationDelete({ row, getData }) {
   const portalElement = document.getElementById("modal");
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      <button onClick={() => setIsOpened(true)}>Delete</button>
+      <button title="Deactivate" className="icon delete" onClick={() => setIsOpened(true)}><i class="fa-solid fa-ban"></i></button>
       {isOpened &&
         ReactDOM.createPortal(
           <Modal

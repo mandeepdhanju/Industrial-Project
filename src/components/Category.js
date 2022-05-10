@@ -40,20 +40,23 @@ function Category() {
 
     return (
         <main>
-            <div className="category" style={{ margin: '55px' }}>
-
+            <div className="sidebar">
                 {toggleCreate ? ReactDOM.createPortal(
-                    <CategoryCreate
-                        handleFormSubmit={handleFormSubmit}
-                        closeModal={() => { setToggleCreate(false) }}>
-                    </CategoryCreate>,
-                    portalElement) : null}
+                <CategoryCreate
+                    handleFormSubmit={handleFormSubmit}
+                    closeModal={() => { setToggleCreate(false) }}>
+                </CategoryCreate>,
+                portalElement) : null}
 
                 <button onClick={() => setToggleCreate(true)}>Add New Category</button>
+                    
+            </div>
+            <div className="category dropdown-page">
+
                 <table>
                     <thead>
                         <tr>
-                            <th>Category ID</th>
+                            <th>ID</th>
                             <th>Category Name</th>
                             <th>Actions</th>
                         </tr>
@@ -66,18 +69,18 @@ function Category() {
                                     <td>{category.categoryID}</td>
                                     <td>{category.categoryName}</td>
                                     <td>
-                                        <button
+                                        <button className="icon edit" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setSelectedCategory(category);
                                                 setToggleEditForm(true)
-                                            }}>Rename</button>
-                                        <button
+                                            }}><i class="fa-solid fa-pen"></i></button>
+                                        <button className="icon delete"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setSelectedCategory(category);
                                                 setToggleDelete(true)
-                                            }}>Delete</button>
+                                            }}><i class="fa-solid fa-ban"></i></button>
                                     </td>
                                 </tr>
                             )

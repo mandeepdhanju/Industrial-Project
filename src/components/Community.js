@@ -38,8 +38,8 @@ function Community() {
 
   return (
     <main>
-      <div className="community" style={{ margin: '55px' }}>
-        {toggleCreate ? ReactDOM.createPortal(
+      <div className="sidebar">
+      {toggleCreate ? ReactDOM.createPortal(
           <CommunityAddForm
             handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleCreate(false) }}>
@@ -47,10 +47,13 @@ function Community() {
           portalElement) : null}
 
         <button onClick={() => setToggleCreate(true)}>Add New Community</button>
+        
+      </div>
+      <div className="community dropdown-page">
         <table>
           <thead>
             <tr>
-              <th>Community ID</th>
+              <th>ID</th>
               <th>Community Name</th>
               <th>Actions</th>
             </tr>
@@ -63,16 +66,16 @@ function Community() {
                   <td>{community.communityID}</td>
                   <td>{community.communityName}</td>
                   <td>
-                    <button
+                    <button className="icon edit" 
                       onClick={(e) => {
                         setSelectedCommunity(community);
                         setToggleEditForm(true)
-                      }}>Rename</button>
-                    <button
+                      }}><i class="fa-solid fa-pen"></i></button>
+                    <button className="icon delete" 
                       onClick={() => {
                         setSelectedCommunity(community);
                         setToggleDelete(true)
-                      }}>Delete</button>
+                      }}><i class="fa-solid fa-ban"></i></button>
                   </td>
                 </tr>
               )
