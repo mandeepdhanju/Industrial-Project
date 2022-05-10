@@ -1,102 +1,106 @@
 import { useEffect, useState } from "react";
+import ReactDOM from 'react-dom';
 import { useNavigate } from "react-router-dom";
 import EmployeeCountUpdateForm from "./EmployeeCountUpdateForm";
 import EmployeeCountAddForm from "./EmployeeCountAddForm";
-const axios = require("axios");
-const path = process.env.REACT_APP_API_URL;
+import EmployeeCountDelete from "./EmployeeCountDelete";
+
 
 function EmployeeCount() {
-  const [empCount, setEmpCount] = useState([]);
-  const [empCountObj, setEmpCountObj] = useState({});
-  const [edit, setEdit] = useState(false);
-  const [add, setAdd] = useState(false);
+  const axios = require("axios");
+  const path = process.env.REACT_APP_API_URL;
+  const portalElement = document.getElementById("modal");
 
-  let navigate = useNavigate();
+  const [empCount, setEmpCount] = useState([]);
+  const [selectedEmpCount, setSelectedEmpCount] = useState({})
+
+
+    //Show Edit Form State
+    const [toggleEditForm, setToggleEditForm] = useState(false);
+    //Show Create Popup
+    const [toggleCreate, setToggleCreate] = useState(false);
+    //Show Delete Popup
+    const [toggleDelete, setToggleDelete] = useState(false);
+
+  // let navigate = useNavigate();
 
   useEffect(() => {
-    async function getAllEmpCount() {
-      const response = await axios.get(path + "EmployeeCount");
-      console.log(response.data);
-      setEmpCount(response.data);
+    async function loadEmpCount() {
+      const response = await axios.get(path + "EmployeeCount")
+      console.log(response.data)
+      setEmpCount(response.data)
     }
-    getAllEmpCount();
-  }, []);
+    loadEmpCount()
+  }, [])
 
-  async function updateCommunity() {
-    const response = await axios.put(path + "EmployeeCount");
-    console.log(response);
-  }
-
-  function getBranchInfo(id) {
-    let path = "/employeeCount/" + id;
-    navigate(path);
+  function handleFormSubmit(newArray) {
+    setEmpCount(newArray)
+    setToggleEditForm(false)
+    setToggleCreate(false)
+    setToggleDelete(false)
   }
 
   return (
-    <div className="employeeCount">
-      <div className="overview">
-        <div className="heading">
-          <h3>EmployeeCount</h3>
-          <button
-            onClick={() => {
-              setAdd(true);
-              setEdit(false);
-              setEmpCountObj(empCount);
-            }}
-          >
-            Add EmployeeCount
-          </button>
-        </div>
+    <main>
+      <div className="empCount" style={{ margin: '55px' }}>
+        {toggleCreate ? ReactDOM.createPortal(
+          <EmployeeCountAddForm
+            handleFormSubmit={handleFormSubmit}
+            closeModal={() => { setToggleCreate(false) }}>
+          </EmployeeCountAddForm>,
+          portalElement) : null}
 
+        <button onClick={() => setToggleCreate(true)}>Add New EmployeeCount</button>
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th>EmployeeCount</th>
+              <th>EmployeeCount ID</th>
+              <th>EmployeeCount Range</th>
               <th>Actions</th>
             </tr>
           </thead>
 
-          {empCount.map((employeeCount, index) => {
-            return (
-              <tbody key={employeeCount.employeeCountID}>
-                <tr>
-                  <td>{index + 1}</td>
+          <tbody>
+            {empCount.map((employeeCount, index) => {
+              return (
+                <tr key={index}>
+                  <td>{employeeCount.employeeCountID}</td>
                   <td>{employeeCount.employeeCountRange}</td>
-                  <td className="actions">
+                  <td>
+                    <button
+                      onClick={(e) => {
+                        setSelectedEmpCount(employeeCount);
+                        setToggleEditForm(true)
+                      }}>Rename</button>
                     <button
                       onClick={() => {
-                        setEdit(true);
-                        setAdd(false);
-                        setEmpCountObj(employeeCount);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button>Delete</button>
+                        setSelectedEmpCount(employeeCount);
+                        setToggleDelete(true)
+                      }}>Delete</button>
                   </td>
                 </tr>
-              </tbody>
-            );
-          })}
+              )
+            })}
+          </tbody>
         </table>
-
-        {edit ? (
-          <EmployeeCountUpdateForm
-            empCountObj={empCountObj}
-          ></EmployeeCountUpdateForm>
-        ) : (
-          ""
-        )}
-        {add ? (
-          <EmployeeCountAddForm
-            empCountObj={empCountObj}
-          ></EmployeeCountAddForm>
-        ) : (
-          ""
-        )}
       </div>
-    </div>
+
+      {toggleEditForm ? ReactDOM.createPortal(
+        <EmployeeCountUpdateForm
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleEditForm(false) }}
+          selectedEmpCount={selectedEmpCount}>
+        </EmployeeCountUpdateForm>,
+        portalElement) : null}
+
+      {toggleDelete ? ReactDOM.createPortal(
+        <EmployeeCountDelete
+          handleFormSubmit={handleFormSubmit}
+          closeModal={() => { setToggleDelete(false) }}
+          selectedEmpCount={selectedEmpCount}>
+        </EmployeeCountDelete>,
+        portalElement) : null}
+    </main>
   );
 }
 
