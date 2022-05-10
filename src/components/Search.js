@@ -333,6 +333,7 @@ function Search() {
             <button
               className="download"
               onClick={() => navigate("/Report", { state: toReports })}
+              disabled={rows.length === 0}
             >
               Download
             </button>
