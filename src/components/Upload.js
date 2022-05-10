@@ -14,6 +14,12 @@ function Upload() {
   const [pn, setPn] = useState(1);
 
   const fileSelected = async (event) => {
+    setData("");
+    setMessage("");
+    setErrorDetail("");
+    setDisplay("none");
+    setPageData("");
+    setPageNum(1);
     if (event.target.files[0] != null) {
       const file1 = event.target.files[0];
       const formData = new FormData();
