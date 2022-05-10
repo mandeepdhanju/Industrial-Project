@@ -12,8 +12,9 @@ import Branch from "./components/Branch";
 import Community from "./components/Community";
 import EmployeeCount from "./components/EmployeeCount";
 import Dropdown from "./components/Dropdown";
-import Category from "./components/Category"
+import Category from "./components/Category";
 import SubCategory from "./components/SubCategory";
+import Uploadws from "./components/Uploadws";
 
 
 function App() {
@@ -24,7 +25,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/organization" element={<Organization />} />
         <Route path="/organization/:organizationID" element={<Branch />} />
-        <Route path="/organization/:organizationID/:branchID" element={<Contact />} />
+        <Route
+          path="/organization/:organizationID/:branchID"
+          element={<Contact />}
+        />
 
         <Route path="/dropdown" element={<Dropdown />} />
         <Route path="/community" element={<Community />} />
@@ -33,10 +37,10 @@ function App() {
         <Route path="/category" element={<Category />} />
         <Route path="/category/:categoryID" element={<SubCategory />} />
 
-
         <Route path="/search" element={<Search />} />
         <Route path="/report" element={<Report />} />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/uploadws" element={<Uploadws />} />
       </Routes>
       <Footer />
     </BrowserRouter>

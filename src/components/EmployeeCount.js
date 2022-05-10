@@ -42,6 +42,7 @@ function EmployeeCount() {
 
   return (
     <main>
+<<<<<<< HEAD
       <div className="empCount" style={{ margin: '55px' }}>
         {toggleCreate ? ReactDOM.createPortal(
           <EmployeeCountAddForm
@@ -52,6 +53,21 @@ function EmployeeCount() {
 
         <button onClick={() => setToggleCreate(true)}>Add New EmployeeCount</button>
         <table>
+=======
+      <div className="sidebar">
+        <button
+              onClick={() => {
+                setAdd(true);
+                setEdit(false);
+                setEmpCountObj(empCount);
+              }}
+            >
+              Add EmployeeCount
+          </button>
+      </div>
+      <div className="dropdown-page">
+      <table>
+>>>>>>> a053fcacea6417a5c06c85fe0f6e64e4fb5c6070
           <thead>
             <tr>
               <th>EmployeeCount ID</th>
@@ -66,6 +82,7 @@ function EmployeeCount() {
                 <tr key={index}>
                   <td>{employeeCount.employeeCountID}</td>
                   <td>{employeeCount.employeeCountRange}</td>
+<<<<<<< HEAD
                   <td>
                     <button
                       onClick={(e) => {
@@ -77,6 +94,20 @@ function EmployeeCount() {
                         setSelectedEmpCount(employeeCount);
                         setToggleDelete(true)
                       }}>Delete</button>
+=======
+                  <td className="actions">
+                    <button className="icon edit" 
+                      onClick={() => {
+                        setEdit(true);
+                        setAdd(false);
+                        setEmpCountObj(employeeCount);
+                      }}
+                    >
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button
+                    className="icon delete" ><i class="fa-solid fa-ban"></i></button>
+>>>>>>> a053fcacea6417a5c06c85fe0f6e64e4fb5c6070
                   </td>
                 </tr>
               )
@@ -84,6 +115,7 @@ function EmployeeCount() {
           </tbody>
         </table>
       </div>
+<<<<<<< HEAD
 
       {toggleEditForm ? ReactDOM.createPortal(
         <EmployeeCountUpdateForm
@@ -100,6 +132,8 @@ function EmployeeCount() {
           selectedEmpCount={selectedEmpCount}>
         </EmployeeCountDelete>,
         portalElement) : null}
+=======
+>>>>>>> a053fcacea6417a5c06c85fe0f6e64e4fb5c6070
     </main>
   );
 }

@@ -58,9 +58,8 @@ function Branch() {
 
   return (
     <main>
-      <div className="branch" style={{ margin: '55px' }}>
-
-        {toggleCreate ? ReactDOM.createPortal(
+      <div className="sidebar">
+      {toggleCreate ? ReactDOM.createPortal(
           <BranchCreateForm
             handleFormSubmit={handleFormSubmit}
             closeModal={() => { setToggleCreate(false) }}>
@@ -68,8 +67,10 @@ function Branch() {
           portalElement) : null}
 
         <button onClick={() => { setToggleCreate(true) }}>Create New Branch</button>
-
-
+        <h2>Add a comment</h2>
+        <Comment></Comment>
+      </div>
+      <div className="branch">
         {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
         {branches.length > 0 ?
           <table>
@@ -93,19 +94,19 @@ function Branch() {
                       <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
                       <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
                       <td>{branch.active ? "Active" : "Inactive"}</td>
-                      <td>
-                        <button onClick={(e) => {
+                      <td className="actions">
+                        <button className="icon edit"  onClick={(e) => {
                           e.stopPropagation();
                           prepareEditForm(branch)
-                        }}>Edit</button>
+                        }}><i class="fa-solid fa-pen"></i></button>
 
 
-                        <button
+                        <button className="icon delete" 
                           disabled={branch.active ? false : true}
                           onClick={(e) => {
                             e.stopPropagation();
                             prepareDeactive(branch)
-                          }}>Deactivate</button>
+                          }}><i class="fa-solid fa-ban"></i></button>
 
                       </td>
                     </tr>
@@ -116,7 +117,7 @@ function Branch() {
           </table>
           : <p>There are no branches under this organization</p>}
 
-        <Comment></Comment>
+        
 
         {toggleEditForm ? ReactDOM.createPortal(
           <BranchUpdateForm

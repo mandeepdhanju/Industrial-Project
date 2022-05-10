@@ -41,8 +41,8 @@ function Comment() {
             })}
             <form onSubmit={(e) => { addNewComment(e) }}>
                 <label htmlFor="Add a new comment"></label>
-                <textarea onChange={(e) => setNewComment(e.target.value)}></textarea>
-                <button type='submit'>Add</button>
+                <textarea rows="7" onChange={(e) => setNewComment(e.target.value)}></textarea>
+                <button type='submit'>Submit</button>
             </form>
         </div>
     )

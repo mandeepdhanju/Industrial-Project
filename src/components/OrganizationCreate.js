@@ -122,10 +122,18 @@ function Modal({ closeModal, getData }) {
           e.stopPropagation();
         }}
       >
+        <button className="close-modal icon"
+          onClick={(e) => {
+            e.stopPropagation();
+            closeModal();
+          }}
+        >
+          <i className="fa-solid fa-xmark"></i>
+        </button>
         <h1>Create Organization</h1>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <form onSubmit={submit}>
-          <label htmlFor="organization">Organization Name*</label>
+          <label htmlFor="organization">Organization Name *</label>
           <input
             id="organization"
             type="text"
@@ -143,7 +151,7 @@ function Modal({ closeModal, getData }) {
             onChange={(e) => setWebsite(e.target.value)}
           ></input>
 
-          <label htmlFor="employeeCount">Employee Count*</label>
+          <label htmlFor="employeeCount">Employee Count *</label>
           <select
             name="employeeCount"
             id="employeeCount"
@@ -167,7 +175,7 @@ function Modal({ closeModal, getData }) {
             onChange={(e) => setComment(e.target.value)}
           ></input>
 
-          <label htmlFor="category">Category*</label>
+          <label htmlFor="category">Category *</label>
           <select
             name="category"
             id="category"
@@ -186,7 +194,7 @@ function Modal({ closeModal, getData }) {
             })}
           </select>
 
-          <label htmlFor="subCategory">Sub Category*</label>
+          <label htmlFor="subCategory">Sub Category *</label>
           <select
             name="subCategory"
             id="subCategory"
@@ -204,16 +212,9 @@ function Modal({ closeModal, getData }) {
               );
             })}
           </select>
-          <button type="submit">Submit</button>
+          <button className="submit" type="submit">Submit</button>
         </form>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            closeModal();
-          }}
-        >
-          Close
-        </button>
+        
       </div>
     </div>
   );

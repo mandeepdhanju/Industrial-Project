@@ -113,30 +113,34 @@ function Report() {
   }
 
   function downloadXlsx() {
-    let exportData = [{ sheet: "exported data", columns: [], content: [] }];
-    let newColumnArray = [];
-    let newContentArray = [];
-    checkedArray.forEach((i) => {
-      newColumnArray.push({ label: i, value: i });
-    });
-    exportArray.forEach((all) => {
-      let obj = {};
-      checkedArray.forEach((col) => {
-        let newObj = {};
-        let item = all[col];
-        newObj[col] = item;
-        Object.assign(obj, newObj);
+    if (checkedArray != "") {
+      let exportData = [{ sheet: "exported data", columns: [], content: [] }];
+      let newColumnArray = [];
+      let newContentArray = [];
+      checkedArray.forEach((i) => {
+        newColumnArray.push({ label: i, value: i });
       });
-      newContentArray.push(obj);
-    });
-    exportData[0].columns = newColumnArray;
-    exportData[0].content = newContentArray;
+      exportArray.forEach((all) => {
+        let obj = {};
+        checkedArray.forEach((col) => {
+          let newObj = {};
+          let item = all[col];
+          newObj[col] = item;
+          Object.assign(obj, newObj);
+        });
+        newContentArray.push(obj);
+      });
+      exportData[0].columns = newColumnArray;
+      exportData[0].content = newContentArray;
 
-    let settings = {
-      fileName: "MySpreadsheet", // Name of the resulting spreadsheet
-      extraLength: 2, // A bigger number means that columns will be wider
-    };
-    xlsx(exportData, settings);
+      let settings = {
+        fileName: "MySpreadsheet", // Name of the resulting spreadsheet
+        extraLength: 2, // A bigger number means that columns will be wider
+      };
+      xlsx(exportData, settings);
+    } else {
+      alert("Please select column(s) for xlsx download");
+    }
   }
 
   return (

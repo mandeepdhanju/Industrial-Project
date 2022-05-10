@@ -265,7 +265,7 @@ function Search() {
   );
 
   const table = useTable(
-    { columns, data, initialState: { pageSize: 15 } },
+    { columns, data, initialState: { pageSize: 30 } },
     useGlobalFilter,
     useFilters,
     usePagination
@@ -310,9 +310,9 @@ function Search() {
 
           {headerGroups.map((headerGroup) =>
             headerGroup.headers.map(
-              (column) =>
+              (column, i) =>
                 column.canFilter && (
-                  <div>
+                  <div key={i}>
                     <p>{column.render("Header")}</p>
                     {column.render("Filter")}
                   </div>
@@ -333,6 +333,7 @@ function Search() {
             <button
               className="download"
               onClick={() => navigate("/Report", { state: toReports })}
+              disabled={rows.length === 0}
             >
               Download
             </button>

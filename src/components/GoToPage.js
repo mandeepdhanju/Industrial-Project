@@ -27,24 +27,23 @@ function GoToPage({ gotoPage, pageLength }) {
     }
   };
   return (
-    <div>
-      <label>Goto Page</label>
+    <div className="jump-page">
+      <label>Jump to: </label>
       <input
         type="text"
         value={page}
         max={pageLength}
         onChange={sanitize}
-        placeholder={`Max ${pageLength}`}
       />
       {errorMessage && <p>{errorMessage}</p>}
-      <button
+      <button title="Jump to" 
         onClick={() => {
           gotoPage(page - 1);
           setPage("");
         }}
         disabled={disabled}
       >
-        Go
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   );
