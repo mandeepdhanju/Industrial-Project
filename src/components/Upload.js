@@ -48,12 +48,12 @@ function Upload() {
           jsonData.forEach((item, index) => {
             pArray.push(item);
             count++;
-            if (count == 10) {
+            if (count === 10) {
               allArray.push(pArray);
               pArray = [];
               count = 0;
             }
-            if (index == jsonData.length - 1) {
+            if (index === jsonData.length - 1) {
               allArray.push(pArray);
             }
           });
@@ -101,7 +101,7 @@ function Upload() {
             <>
               <button
                 onClick={() => {
-                  if (display == "none") {
+                  if (display === "none") {
                     setDisplay("block");
                   } else {
                     setDisplay("none");
