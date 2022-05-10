@@ -310,9 +310,9 @@ function Search() {
 
           {headerGroups.map((headerGroup) =>
             headerGroup.headers.map(
-              (column) =>
+              (column, i) =>
                 column.canFilter && (
-                  <div>
+                  <div key={i}>
                     <p>{column.render("Header")}</p>
                     {column.render("Filter")}
                   </div>
