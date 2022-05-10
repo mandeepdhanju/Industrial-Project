@@ -15,6 +15,7 @@ import Dropdown from "./components/Dropdown";
 import Category from "./components/Category"
 import SubCategory from "./components/SubCategory";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/dropdown" element={<Dropdown />} />
         <Route path="/community" element={<Community />} />
         <Route path="/employeeCount" element={<EmployeeCount />} />
+        {/* <Route path="/employeeCount" element={<EmployeeCount />} /> */}
         <Route path="/category" element={<Category />} />
         <Route path="/category/:categoryID" element={<SubCategory />} />
 
