@@ -14,46 +14,54 @@ function Upload() {
   const [pn, setPn] = useState(1);
 
   const fileSelected = async (event) => {
-    const file1 = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file1);
-    try {
-      const response = await axios({
-        method: "post",
-        url: previewPath,
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      if (response.data.includes("Error")) {
-        const errorMessageArray = response.data.split("@");
-        setMessage("Error!");
-        let errArray = [];
-        for (let i = 2; errorMessageArray.length > i; i++) {
-          errArray.push(errorMessageArray[i]);
-        }
-        setErrorDetail(errArray);
-      } else {
-        const jsonData = response.data;
-        setData(jsonData);
-        let allArray = [];
-        let pArray = [];
-        let count = 0;
-        jsonData.forEach((item, index) => {
-          pArray.push(item);
-          count++;
-          if (count == 10) {
-            allArray.push(pArray);
-            pArray = [];
-            count = 0;
-          }
-          if (index == jsonData.length - 1) {
-            allArray.push(pArray);
-          }
+    setData("");
+    setMessage("");
+    setErrorDetail("");
+    setDisplay("none");
+    setPageData("");
+    setPageNum(1);
+    if (event.target.files[0] != null) {
+      const file1 = event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file1);
+      try {
+        const response = await axios({
+          method: "post",
+          url: previewPath,
+          data: formData,
+          headers: { "Content-Type": "multipart/form-data" },
         });
-        setPageData(allArray);
+        if (response.data.includes("Error")) {
+          const errorMessageArray = response.data.split("@");
+          setMessage("Error!");
+          let errArray = [];
+          for (let i = 2; errorMessageArray.length > i; i++) {
+            errArray.push(errorMessageArray[i]);
+          }
+          setErrorDetail(errArray);
+        } else {
+          const jsonData = response.data;
+          setData(jsonData);
+          let allArray = [];
+          let pArray = [];
+          let count = 0;
+          jsonData.forEach((item, index) => {
+            pArray.push(item);
+            count++;
+            if (count == 10) {
+              allArray.push(pArray);
+              pArray = [];
+              count = 0;
+            }
+            if (index == jsonData.length - 1) {
+              allArray.push(pArray);
+            }
+          });
+          setPageData(allArray);
+        }
+      } catch (error) {
+        setMessage(error);
       }
-    } catch (error) {
-      setMessage(error);
     }
   };
 
@@ -123,7 +131,7 @@ function Upload() {
           <tbody>
             <tr>
               {data &&
-                Object.keys(data[0]).map((column, i) => (
+                Object.keys(pageData[0][0]).map((column, i) => (
                   <th key={i}>{column}</th>
                 ))}
             </tr>
@@ -171,7 +179,7 @@ function Upload() {
               onClick={() => {
                 if (pn > 0 && pn < pageData.length + 1) {
                   setMessage("");
-                  setPageNum(pn);
+                  setPageNum(parseInt(pn));
                 } else {
                   setMessage(
                     "Please put number between 1 to " + pageData.length
@@ -184,6 +192,7 @@ function Upload() {
           </>
         )}
       </div>
+      {console.log(pageNum)}
     </div>
   );
 }
