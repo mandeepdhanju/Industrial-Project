@@ -69,6 +69,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
         <label htmlFor="email">Email</label>
         <input
           name="email"
+          type="email"
           onChange={(e) => setContact({ ...contact, email: e.target.value })}
           required={true}
         ></input>
@@ -76,6 +77,11 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
         <label htmlFor="phoneNumber">Phone Number</label>
         <input
           name="phoneNumber"
+          type="tel"
+
+          placeholder="123-456-7890"
+          title="Format: XXX-XXX-XXXX"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           onChange={(e) =>
             setContact({ ...contact, phoneNumber: e.target.value })
           }
