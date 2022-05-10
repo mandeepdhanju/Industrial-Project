@@ -1,5 +1,5 @@
 @use './variables.scss' as *;
-body{
+body, textarea{
     font-family: 'Fira Sans', sans-serif;
 }
 button{

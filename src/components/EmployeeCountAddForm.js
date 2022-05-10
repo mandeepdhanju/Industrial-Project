@@ -25,6 +25,7 @@ function EmployeeCountAddForm({ empCountObj }) {
             <br />
             <button>Save</button> 
         </form >
+        
     )
 }
 

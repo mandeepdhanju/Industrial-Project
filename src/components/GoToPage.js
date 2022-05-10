@@ -28,7 +28,7 @@ function GoToPage({ gotoPage, pageLength }) {
   };
   return (
     <div className="jump-page">
-      <label>Page: </label>
+      <label>Jump to: </label>
       <input
         type="text"
         value={page}
