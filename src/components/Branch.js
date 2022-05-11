@@ -71,6 +71,7 @@ function Branch() {
         <Comment></Comment>
       </div>
       <div className="branch">
+        
         {location.state == null ? <h1>Branches for Organization ID: {organizationID}</h1> : <h1>Branches for {location.state.organizationName}</h1>}
         {branches.length > 0 ?
           <table>

@@ -1,11 +1,68 @@
 @use './variables' as *;
-.organizations, .branches{
+.organization, .branch{
     overflow: hidden;
-   
+    tr:hover{
+        cursor: pointer;
+    }
+}
+table{
+    height: calc(100vh - 120px);
+    overflow-x: scroll;
+}
+.upload-head{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+.upload table{
+    height: calc(80vh - 120px);
 }
 #modal{
     position: absolute;
     z-index: 999;
+    
+}
+#modal .split-col{
+    form{
+        display: flex;
+        flex-direction: row;
+        width: 80vw;
+        max-width: 800px;
+        padding: 20px 0px;
+    }
+    .col-1, .col-2{
+        flex-basis: 50%;
+        width: 50%;
+        margin: 0 20px;
+    }
+}
+
+.submenu{
+    list-style-type: none;
+    background-color: #006751;
+    padding: 0;
+    position: relative;
+    z-index: -1;
+    top: -200px;
+    opacity: 0;
+    transition: .2s ease-in;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+.dropdown:hover .submenu{
+    top: 0px;
+    opacity: 1;
+    z-index: -1;
+    transition: .2s ease-in;
+}
+.submenu li:hover{
+    background-color: #004936;
+    transition: .2s ease-in;
+    
+}
+.dropdown{
+    position: relative;
+    z-index: 99;
+    transition: .2s ease-in;
 }
 #modal div div{
     border-radius: 10px;
@@ -27,6 +84,7 @@
         box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.2);
         clip-path: inset(0px 0 0px -50px);
     }
+    
     .actions{
         display: flex;
         justify-content: center;

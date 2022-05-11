@@ -89,62 +89,46 @@ function Upload() {
 
   return (
     <div className="upload">
-      <div className="downloadTemplate">
-        <Link type="button" to={template} target="_blank" download>
-          Download Template
-        </Link>
-      </div>
-      {message && (
-        <div className="message">
-          <p>{message}</p>
-          {errorDetail && (
-            <>
-              <button
-                onClick={() => {
-                  if (display === "none") {
-                    setDisplay("block");
-                  } else {
-                    setDisplay("none");
-                  }
-                }}
-              >
-                Detail
-              </button>
+      <div className="upload-head">
+        <div className="container">
+          <div className="downloadTemplate">
+            <Link type="button" to={template} target="_blank" download>
+              Download Template
+            </Link>
+          </div>
+          {message && (
+            <div className="message">
+              <p>{message}</p>
+              {errorDetail && (
+                <>
+                  <button
+                    onClick={() => {
+                      if (display === "none") {
+                        setDisplay("block");
+                      } else {
+                        setDisplay("none");
+                      }
+                    }}
+                  >
+                    Detail
+                  </button>
 
-              <div style={{ display: display }}>
-                {errorDetail.map((item, index) => (
-                  <p key={index}>{item}</p>
-                ))}
-              </div>
-            </>
+                  <div style={{ display: display }}>
+                    {errorDetail.map((item, index) => (
+                      <p key={index}>{item}</p>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           )}
+          <div className="uploadFileDiv">
+            <input onChange={fileSelected} type="file" accept=".xlsx"></input>
+            <button type="button" onClick={upload}>
+              Upload
+            </button>
+          </div>
         </div>
-      )}
-      <div className="uploadFileDiv">
-        <input onChange={fileSelected} type="file" accept=".xlsx"></input>
-        <button type="button" onClick={upload}>
-          Upload
-        </button>
-      </div>
-      <div className="uploadPreview">
-        <table>
-          <tbody>
-            <tr>
-              {data &&
-                Object.keys(pageData[0][0]).map((column, i) => (
-                  <th key={i}>{column}</th>
-                ))}
-            </tr>
-            {pageData &&
-              pageData[pageNum - 1].map((row, i) => (
-                <tr key={i}>
-                  {Object.keys(pageData[pageNum - 1][0]).map((item, i) => (
-                    <td key={i}>{row[item].toString()}</td>
-                  ))}
-                </tr>
-              ))}
-          </tbody>
-        </table>
         {pageData && (
           <div className="paginationBUpload">
             <label>
@@ -169,8 +153,7 @@ function Upload() {
             >
               Next
             </button>
-            <p>Goto Page </p>
-            <input
+            <p>Goto Page <input
               type="text"
               placeholder={`Max Page: ${pageData.length}`}
               onChange={goToPage}
@@ -188,9 +171,31 @@ function Upload() {
               }}
             >
               Go
-            </button>
+            </button></p>
+            
           </div>
         )}
+      </div>
+      <div className="uploadPreview">
+        <table>
+          <tbody>
+            <tr>
+              {data &&
+                Object.keys(pageData[0][0]).map((column, i) => (
+                  <th key={i}>{column}</th>
+                ))}
+            </tr>
+            {pageData &&
+              pageData[pageNum - 1].map((row, i) => (
+                <tr key={i}>
+                  {Object.keys(pageData[pageNum - 1][0]).map((item, i) => (
+                    <td key={i}>{row[item].toString()}</td>
+                  ))}
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        
       </div>
       {console.log(pageNum)}
     </div>

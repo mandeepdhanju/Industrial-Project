@@ -14,9 +14,9 @@ function Header() {
             ORGANIZATIONS
           </Link>
 
-          <Link className="navLink" to="/dropdown">
+          <Link className="navLink dropdown" to="/dropdown">
             DROPDOWNS
-            <ul>
+            <ul className="submenu">
               <li><Link className="navLink" to="/community">Community</Link></li>
               <li><Link className="navLink" to="/employeeCount">Number of Employees</Link></li>
               <li><Link className="navLink" to="/category">Category</Link></li>
