@@ -59,14 +59,21 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
         onClick={(e) => e.stopPropagation()}
       >
         {errorMsg ? <div className="errorBox"><p>{errorMsg}</p></div> : null}
-        <label htmlFor="name">Name</label>
+
+        <div className="required">
+          <label htmlFor="name">Name</label>
+        </div>
+
         <input
           name="name"
           onChange={(e) => setContact({ ...contact, name: e.target.value })}
           required={true}
         ></input>
 
-        <label htmlFor="email">Email</label>
+        <div className="required">
+          <label htmlFor="email">Email</label>
+        </div>
+
         <input
           name="email"
           type="email"
@@ -74,7 +81,10 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
           required={true}
         ></input>
 
-        <label htmlFor="phoneNumber">Phone Number</label>
+        <div className="required">
+          <label htmlFor="phoneNumber">Phone Number</label>
+        </div>
+
         <input
           name="phoneNumber"
           type="tel"
