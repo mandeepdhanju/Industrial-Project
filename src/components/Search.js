@@ -109,6 +109,31 @@ function Search() {
         Filter: ColumnFilter,
       },
       {
+        Header: "Website",
+        accessor: "organizationWebsite",
+        disableFilters: true,
+        disableSortBy: true,
+        Cell: (row) => {
+          let websiteUrl = row.row.original.organizationWebsite;
+          let websiteDisplay;
+          if (
+            websiteUrl !== "" &&
+            websiteUrl !== null &&
+            !websiteUrl.startsWith("http")
+          ) {
+            websiteUrl = "https://" + websiteUrl;
+            websiteDisplay = new URL(websiteUrl).hostname;
+          }
+          if (row.row.original.website !== "") {
+            return (
+              <a href={websiteUrl} target="_blank" rel="noreferrer">
+                {websiteDisplay}
+              </a>
+            );
+          }
+        },
+      },
+      {
         Header: "Employee Count",
         accessor: "employeeCount",
         Filter: SelectColumnFilter,
