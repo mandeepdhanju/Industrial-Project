@@ -24,4 +24,21 @@
         border-radius: 5px;
         padding: 20px;
     }
+    .paginationBUpload{
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid grey;
+        max-width: fit-content;
+        border-radius: 5px;
+        background-color: #ededed;
+        button{
+            width: 100px;
+            text-align: center;
+            padding: 5px;
+            color: white;
+            background-color: $brand-color;
+            border: none;
+            margin-left: 5px;
+        }
+    }
 }
