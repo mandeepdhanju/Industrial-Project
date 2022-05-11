@@ -61,6 +61,7 @@ function Contact() {
 
   function handleFormSubmit(newArray) {
     setContacts(newArray);
+    setErrorMsg();
     setToggleEditForm(false);
     setToggleCreate(false);
   }
