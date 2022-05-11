@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import template from "../template/UploadTemplate.xlsx";
 const axios = require("axios");
-const previewPath = "https://localhost:5001/api/Upload";
-const uploadPath = "https://localhost:5001/api/Upload/todb2";
+const previewPath = process.env.REACT_APP_API_URL + "Upload";
+const uploadPath = process.env.REACT_APP_API_URL + "Upload/todb2";
 function Upload() {
   const [data, setData] = useState();
   const [message, setMessage] = useState();
@@ -146,7 +146,7 @@ function Upload() {
           </tbody>
         </table>
         {pageData && (
-          <>
+          <div className="paginationBUpload">
             <label>
               Page: {pageNum} of {pageData.length}
             </label>
@@ -189,7 +189,7 @@ function Upload() {
             >
               Go
             </button>
-          </>
+          </div>
         )}
       </div>
       {console.log(pageNum)}
