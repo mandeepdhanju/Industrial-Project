@@ -71,11 +71,48 @@ function Report() {
     pageInsert();
   }, [exportArray, page]);
 
+  let bULPrepArray = [
+    "organizationName",
+    "organizationWebsite",
+    "organizationActive",
+    "comment",
+    "employeeCount",
+    "categoryName",
+    "subcategoryName",
+    "branchName",
+    "branchActive",
+    "community",
+    "businessAddress1",
+    "businessAddress2",
+    "businessStreetName",
+    "businessCity",
+    "businessProvince",
+    "businessPostalCode",
+    "mailingAddress1",
+    "mailingAddress2",
+    "mailingStreetName",
+    "mailingCity",
+    "mailingProvince",
+    "mailingPostalCode",
+    "contactName",
+    "contactEmail",
+    "contactPhoneNumber",
+    "contactFax",
+    "contactJobTitle",
+    "primaryContact",
+    "contactActive",
+    "contactAddress1",
+    "contactAddress2",
+    "contactStreetName",
+    "contactCity",
+    "contactProvince",
+    "contactPostalCode",
+  ];
   useEffect(() => {
     function reOrganize() {
       if (tempArray) {
         setCheckedArray("");
-        columnName.forEach((item) => {
+        bULPrepArray.forEach((item) => {
           tempArray.forEach((item2) => {
             if (item === item2) {
               setCheckedArray((checked) => [...checked, item2]);
