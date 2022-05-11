@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Organization />} />
         <Route path="/organization" element={<Organization />} />
         <Route path="/organization/:organizationID" element={<Branch />} />
         <Route

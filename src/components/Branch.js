@@ -101,7 +101,9 @@ function Branch() {
                       <td>{branch.community}</td>
                       <td>{branch.businessAddress ? (`${branch.businessAddress}  ${branch.businessAddress2 ?? ""} ${branch.businessStreet ?? ""} ${branch.businessCity ?? ""} ${branch.businessProvince ?? ""} ${branch.businessPostalCode ?? ""}`) : ""}</td>
                       <td>{branch.mailingAddress ? (`${branch.mailingAddress}  ${branch.mailingAddress2 ?? ""} ${branch.mailingStreet ?? ""} ${branch.mailingCity ?? ""} ${branch.mailingProvince ?? ""} ${branch.mailingPostalCode ?? ""}`) : ""}</td>
-                      <td>{branch.active ? "Active" : "Inactive"}</td>
+                      <td>
+                        {branch.active ? <div className="active">Active</div> : <div className="inactive">InActive</div>}
+                      </td>
                       <td className="actions">
                         <button className="icon edit" onClick={(e) => {
                           e.stopPropagation();

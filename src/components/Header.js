@@ -13,9 +13,16 @@ function Header() {
           <Link className="navLink" to="/organization">
             ORGANIZATIONS
           </Link>
+
           <Link className="navLink" to="/dropdown">
             DROPDOWNS
+            <ul>
+              <li><Link className="navLink" to="/community">Community</Link></li>
+              <li><Link className="navLink" to="/employeeCount">Number of Employees</Link></li>
+              <li><Link className="navLink" to="/category">Category</Link></li>
+            </ul>
           </Link>
+
           <Link className="navLink" to="/search">
             SEARCH
           </Link>
