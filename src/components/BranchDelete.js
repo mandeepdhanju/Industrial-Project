@@ -41,9 +41,7 @@ function BranchDelete({ selectedBranch, closeModal, handleFormSubmit }) {
             }}
                 onClick={(e) => { e.stopPropagation() }}
             >
-                {errorMsg ? <div className='errorBox'>
-                    <p>{errorMsg}</p></div>
-                    : null}
+                {errorMsg ? <div className="errorBox"><p>{errorMsg}</p></div> : null}
                 <h1>You are about to mark {selectedBranch.branchName ?? "Branch ID " + selectedBranch.branchID} as INACTIVE. Please confirm</h1>
                 <button onClick={() => { deactiveBranch(selectedBranch) }}>Yes</button>
                 <button onClick={closeModal}>Cancel</button>

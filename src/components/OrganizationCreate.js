@@ -133,7 +133,11 @@ function Modal({ closeModal, getData }) {
         <h1>Create Organization</h1>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <form onSubmit={submit}>
-          <label htmlFor="organization">Organization Name *</label>
+
+          <div className="required">
+            <label htmlFor="organization">Organization Name</label>
+          </div>
+
           <input
             id="organization"
             type="text"
@@ -151,7 +155,10 @@ function Modal({ closeModal, getData }) {
             onChange={(e) => setWebsite(e.target.value)}
           ></input>
 
-          <label htmlFor="employeeCount">Employee Count *</label>
+          <div className="required">
+            <label htmlFor="employeeCount">Employee Count</label>
+          </div>
+
           <select
             name="employeeCount"
             id="employeeCount"
@@ -175,7 +182,10 @@ function Modal({ closeModal, getData }) {
             onChange={(e) => setComment(e.target.value)}
           ></input>
 
-          <label htmlFor="category">Category *</label>
+          <div className="required">
+            <label htmlFor="category">Category</label>
+          </div>
+
           <select
             name="category"
             id="category"
@@ -194,7 +204,10 @@ function Modal({ closeModal, getData }) {
             })}
           </select>
 
-          <label htmlFor="subCategory">Sub Category *</label>
+          <div className="required">
+            <label htmlFor="subCategory">Sub Category</label>
+          </div>
+          
           <select
             name="subCategory"
             id="subCategory"
@@ -214,7 +227,7 @@ function Modal({ closeModal, getData }) {
           </select>
           <button className="submit" type="submit">Submit</button>
         </form>
-        
+
       </div>
     </div>
   );

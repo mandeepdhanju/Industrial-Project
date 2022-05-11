@@ -77,7 +77,7 @@ function BranchCreateForm({ handleFormSubmit, closeModal }) {
       }
 
       //No error, go get request and send back to Parent component
-      const branchArray = await axios.get(PATH + "Branch/"+organizationID)
+      const branchArray = await axios.get(PATH + "Branch/" + organizationID)
       handleFormSubmit(branchArray.data)
     }
     createBranch();
@@ -108,6 +108,9 @@ function BranchCreateForm({ handleFormSubmit, closeModal }) {
       }}
         onClick={(e) => { e.stopPropagation() }}
       >
+
+        {errorMsg ? <div className="errorBox"><p>{errorMsg}</p></div> : null}
+
         <form onSubmit={loadFormData}>
         <div className="col-1">
           <label>

@@ -106,21 +106,30 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <label htmlFor="name">Name</label>
+        <div className="required">
+          <label htmlFor="name">Name</label>
+        </div>
+
         <input
           name="name"
           placeholder={contact.name}
           onChange={(e) => setContact({ ...contact, name: e.target.value })}
         ></input>
 
-        <label htmlFor="email">Email</label>
+        <div className="required">
+          <label htmlFor="email">Email</label>
+        </div>
+
         <input
           name="email"
           placeholder={contact.email}
           onChange={(e) => setContact({ ...contact, email: e.target.value })}
         ></input>
 
-        <label htmlFor="phoneNumber">Phone Number</label>
+        <div className="required">
+          <label htmlFor="phoneNumber">Phone Number</label>
+        </div>
+
         <input
           name="phoneNumber"
           placeholder={contact.phoneNumber}

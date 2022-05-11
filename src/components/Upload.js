@@ -20,6 +20,7 @@ function Upload() {
     setDisplay("none");
     setPageData("");
     setPageNum(1);
+    setMessage("Please wait");
     if (event.target.files[0] != null) {
       const file1 = event.target.files[0];
       const formData = new FormData();
@@ -58,15 +59,17 @@ function Upload() {
             }
           });
           setPageData(allArray);
+          setMessage("");
         }
       } catch (error) {
-        setMessage(error);
+        setMessage(error.message);
       }
     }
   };
 
   const upload = async (event) => {
     event.preventDefault();
+    setMessage("Please wait!");
     try {
       const response = await axios({
         method: "post",
