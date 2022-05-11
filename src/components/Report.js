@@ -200,7 +200,7 @@ function Report() {
           <>
             <button
               onClick={() => {
-                setPage(page + 10);
+                if (exportArray.length > page) setPage(page + 10);
               }}
             >
               Load More...
