@@ -9,11 +9,11 @@ ws.addEventListener("open", () => {
   console.log("connected to websocket");
 });
 function Uploadws() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState();
   useEffect(() => {
     ws.addEventListener("message", (event) => {
       console.log(event.data);
-      setMessage(event.data);
+      setMessage(JSON.parse(event.data));
     });
   }, []);
 
@@ -33,7 +33,7 @@ function Uploadws() {
     <div style={{ position: "relative" }}>
       <div style={{ top: "-60px", position: "absolute" }}>
         <h1>Upload</h1>
-        <p>{message}</p>
+        <p>{message?.message}</p>
         <form onSubmit={submit}>
           <input type="file" accept=".xlsx"></input>
           <button type="submit">Upload</button>
