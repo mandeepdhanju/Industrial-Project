@@ -143,7 +143,7 @@ function Contact() {
                   <td>{contact.fax}</td>
                   <td>{contact.jobTitle}</td>
                   <td>{contact.primaryContact ? "Primary" : null}</td>
-                  <td>{contact.active ? "Active" : "Inactive"}</td>
+                  <td>{contact.active ? <div className="active">Active</div> : <div className="inactive">InActive</div>}</td>
                   <td>
                     {contact.address.address1 ?
                       `${contact.address.address1 ?? ""}  ${contact.address.address2 ?? ""} 

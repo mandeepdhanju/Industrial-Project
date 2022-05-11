@@ -7,7 +7,6 @@ import Report from "./components/Report";
 import Search from "./components/Search";
 import Upload from "./components/Upload";
 import Contact from "./components/Contact";
-import Footer from "./components/Footer";
 import Branch from "./components/Branch";
 import Community from "./components/Community";
 import EmployeeCount from "./components/EmployeeCount";
@@ -42,7 +41,6 @@ function App() {
         <Route path="/upload" element={<Upload />} />
         <Route path="/uploadws" element={<Uploadws />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
