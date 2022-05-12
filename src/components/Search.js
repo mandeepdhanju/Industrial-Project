@@ -356,7 +356,7 @@ function Search() {
               Clear Filters
             </button>
             <button
-              className="download"
+              className={"download" + (toReports.length > 0 ? "" : " disabled")}
               onClick={() => navigate("/Report", { state: toReports })}
               disabled={rows.length === 0}
             >
