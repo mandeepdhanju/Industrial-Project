@@ -18,7 +18,9 @@ body{
     width: calc(23% - 50px);
     border-radius: 5px;
     position: fixed;
-
+    max-height: 70vh;
+    overflow: hidden;
+    overflow-y: scroll;
     select, input{
         width: 100%;
         padding: 5px;
@@ -65,8 +67,8 @@ body{
     bottom: 20px;
     left: 30px;
     background-color: #ededed;
-    padding: 15px 25px;
-    border-radius: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
     span{
         margin: 0 20px;

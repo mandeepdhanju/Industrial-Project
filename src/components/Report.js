@@ -206,12 +206,14 @@ function Report() {
             </div>
           ))}
       </div>
-
-      <div className="reportPreview">
-        <CsvDownload data={exportArray} className="download">
+      <div className="buttons">
+      <CsvDownload data={exportArray} className="download">
           CSV Download
         </CsvDownload>
         <button onClick={downloadXlsx}>xlsx Download</button>
+      </div>
+      <div className="reportPreview">
+        
         <h1>PREVIEW</h1>
         <table>
           <tbody>

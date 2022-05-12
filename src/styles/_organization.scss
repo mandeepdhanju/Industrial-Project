@@ -35,6 +35,9 @@ table{
         width: 50%;
         margin: 0 20px;
     }
+    input{
+        width: 100%;
+    }
 }
 
 .submenu{
@@ -354,6 +357,31 @@ tr:nth-child(odd) td {
     margin-bottom: 20px;
     margin-top: 0;
 }
+.error-page{
+    font-size: 12px;
+    opacity: .5;
+    color: red;
+    margin: 5px 0 0 0;
+}
+.comment-list{
+    list-style-type: none;
+    padding: 20px 0 0 0;
+    height: 300px;
+    overflow-y: scroll;
+    p{
+        margin: 0 0 5px 0;
+    }
+    li{
+        padding-bottom: 15px;
+    }
+}
+.comment-list .date{
+    font-size: 12px;
+    opacity: .5;
+}
+textarea{
+    resize: none;
+}
 form{
     display: flex;
     flex-direction: column;
@@ -377,6 +405,6 @@ form{
     button{
         padding: 10px;
         
-        max-width: 100px;
+        max-width: 200px;
     }
 }

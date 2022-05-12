@@ -30,7 +30,7 @@ function GoToPage({ gotoPage, pageLength }) {
     <div className="jump-page">
       <label>Jump to: </label>
       <input type="text" value={page} max={pageLength} onChange={sanitize} />
-      {errorMessage && <p>{errorMessage}</p>}
+      
       <button
         title="Jump to"
         onClick={() => {
@@ -41,6 +41,7 @@ function GoToPage({ gotoPage, pageLength }) {
       >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
+      {errorMessage && <p className="error-page">{errorMessage}</p>}
     </div>
   );
 }

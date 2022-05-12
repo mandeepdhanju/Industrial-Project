@@ -31,19 +31,22 @@ function Comment() {
 
     return (
         <div>
-            {comments.map((comment) => {
-                return (
-                    <div key={comment.commentId}>
-                        <p>{new Date(comment.created).toLocaleString()}</p>
-                        <p>{comment.comment}</p>
-                    </div>
-                )
-            })}
+            
             <form onSubmit={(e) => { addNewComment(e) }}>
                 <label htmlFor="Add a new comment"></label>
-                <textarea rows="7" onChange={(e) => setNewComment(e.target.value)}></textarea>
+                <textarea rows="5" onChange={(e) => setNewComment(e.target.value)}></textarea>
                 <button type='submit'>Submit</button>
             </form>
+            <ul className='comment-list'>
+            {comments.map((comment) => {
+                return (
+                    <li key={comment.commentId}>
+                        <p>{comment.comment}</p>
+                        <p className='date'>{new Date(comment.created).toLocaleString()}</p>
+                    </li>
+                )
+            })}
+            </ul>
         </div>
     )
 }

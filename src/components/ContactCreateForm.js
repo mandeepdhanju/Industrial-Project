@@ -31,7 +31,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
   };
 
   return (
-    <div
+    <div className="split-col"
       style={{
         position: "fixed",
         top: 0,
@@ -43,7 +43,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
       }}
       onClick={closeModal}
     >
-      <form
+      <form 
         style={{
           position: "absolute",
           top: "50%",
@@ -58,6 +58,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="col-1">
         {errorMsg ? <div className="errorBox"><p>{errorMsg}</p></div> : null}
 
         <div className="required">
@@ -103,22 +104,25 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
           name="fax"
           onChange={(e) => setContact({ ...contact, fax: e.target.value })}
         ></input>
-
+        
         <label htmlFor="jobTitle">Job Title</label>
         <input
           name="jobTitle"
           onChange={(e) => setContact({ ...contact, jobTitle: e.target.value })}
         ></input>
 
-        <label htmlFor="primaryContact">Primary Contact?</label>
+        <label style={{"display": "inline",}}>Primary Contact?
         <input
+        style={{"width": "50px",}}
           type="checkbox"
           name="primaryContact"
           onChange={(e) =>
             setContact({ ...contact, primaryContact: e.target.checked })
           }
-        ></input>
-
+        />
+        </label>
+        </div>
+        <div className="col-2">
         <div className="addressForm">
           <h1>Contact Address</h1>
 
@@ -195,6 +199,7 @@ function ContactCreateForm({ handleFormSubmit, closeModal }) {
           ></input>
         </div>
         <button type="submit">Create New Contact</button>
+        </div>
       </form>
     </div>
   );
