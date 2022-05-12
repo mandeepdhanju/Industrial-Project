@@ -27,6 +27,7 @@ function Uploadws() {
 
   const submit = async function (e) {
     e.preventDefault();
+    setMessage({ message: "uploading..." });
     const file = e.target[0].files[0];
     // axios send the file to the endpoint
     const formData = new FormData();
