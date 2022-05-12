@@ -219,7 +219,13 @@ function OrganizationEdit({ row, getData }) {
   const portalElement = document.getElementById("modal");
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      <button title="Edit"  className="icon edit" onClick={() => setIsOpen(true)}><i class="fa-solid fa-pen"></i></button>
+      <button
+        title="Edit"
+        className="icon edit"
+        onClick={() => setIsOpen(true)}
+      >
+        <i className="fa-solid fa-pen"></i>
+      </button>
       {isOpen &&
         ReactDOM.createPortal(
           <Modal

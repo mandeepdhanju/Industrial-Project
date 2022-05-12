@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import EmployeeCountUpdateForm from "./EmployeeCountUpdateForm";
 import EmployeeCountAddForm from "./EmployeeCountAddForm";
-import EmployeeCountDelete from "./EmployeeCountDelete"
+import EmployeeCountDelete from "./EmployeeCountDelete";
 
 function EmployeeCount() {
   const axios = require("axios");
@@ -52,13 +52,12 @@ function EmployeeCount() {
               portalElement
             )
           : null}
-           
+
         <button onClick={() => setToggleCreate(true)}>
           Add New EmployeeCount
         </button>
-
-        </div>
-        <div className="employeeCount dropdown-page">
+      </div>
+      <div className="employeeCount dropdown-page">
         <table>
           <thead>
             <tr>
@@ -75,21 +74,23 @@ function EmployeeCount() {
                   <td>{employeeCount.employeeCountID}</td>
                   <td>{employeeCount.employeeCountRange}</td>
                   <td>
-                    <button className="icon edit"
+                    <button
+                      className="icon edit"
                       onClick={(e) => {
                         setSelectedEmpCount(employeeCount);
                         setToggleEditForm(true);
                       }}
                     >
-                       <i class="fa-solid fa-pen"></i>
+                      <i className="fa-solid fa-pen"></i>
                     </button>
-                    <button className="icon delete"
+                    <button
+                      className="icon delete"
                       onClick={() => {
                         setSelectedEmpCount(employeeCount);
                         setToggleDelete(true);
                       }}
                     >
-                      <i class="fa-solid fa-ban"></i>
+                      <i className="fa-solid fa-ban"></i>
                     </button>
                   </td>
                 </tr>
