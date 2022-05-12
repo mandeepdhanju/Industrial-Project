@@ -26,6 +26,7 @@ function ColumnFilter({ column }) {
 
 function Organization() {
   const [data, setData] = useState([]);
+  const [copyMode, setCopyMode] = useState(false);
   const navigate = useNavigate();
 
   async function getData() {
@@ -159,6 +160,9 @@ function Organization() {
     <main>
       <div className="sidebar">
         <OrganizationCreate getData={getData} />
+        <button onClick={() => setCopyMode(!copyMode)}>
+          Copy Mode: {copyMode ? "Enabled" : "Disabled"}
+        </button>
         <div className="pagination">
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             &#10094;
@@ -170,7 +174,6 @@ function Organization() {
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             &#10095;
           </button>
-
           <GoToPage gotoPage={gotoPage} pageLength={pageOptions.length} />
         </div>
       </div>
@@ -197,11 +200,13 @@ function Organization() {
               return (
                 <tr
                   {...row.getRowProps()}
-                  onClick={() =>
-                    navigate("/organization/" + row.values.organizationID, {
-                      state: row.values,
-                    })
-                  }
+                  onClick={() => {
+                    if (!copyMode) {
+                      navigate("/organization/" + row.values.organizationID, {
+                        state: row.values,
+                      });
+                    }
+                  }}
                 >
                   {row.cells.map((cell) => {
                     return (
