@@ -29,21 +29,17 @@ function GoToPage({ gotoPage, pageLength }) {
   return (
     <div className="jump-page">
       <label>Jump to: </label>
-      <input
-        type="text"
-        value={page}
-        max={pageLength}
-        onChange={sanitize}
-      />
+      <input type="text" value={page} max={pageLength} onChange={sanitize} />
       {errorMessage && <p>{errorMessage}</p>}
-      <button title="Jump to" 
+      <button
+        title="Jump to"
         onClick={() => {
           gotoPage(page - 1);
           setPage("");
         }}
         disabled={disabled}
       >
-        <i class="fa-solid fa-arrow-right"></i>
+        <i className="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   );
