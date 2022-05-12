@@ -30,13 +30,20 @@ table{
         max-width: 800px;
         padding: 20px 0px;
     }
+    h1{
+        font-size: 20px;
+    }
     .col-1, .col-2{
         flex-basis: 50%;
         width: 50%;
         margin: 0 20px;
     }
-    input{
+    input, select{
         width: 100%;
+        max-width: 100%;
+    }
+    input[type="checkbox"]{
+        width: 50px;
     }
 }
 
@@ -70,6 +77,11 @@ table{
 #modal div div{
     border-radius: 10px;
 }
+#modal{
+    label{
+        width: 100%;
+    }
+}
 .organization{
     width: 78%;
     margin: 0;
@@ -93,6 +105,10 @@ table{
         justify-content: center;
     }
 }
+.copy-mode{
+    padding: 10px;
+    margin-top: 20px;
+}
 .branch{
     td:last-child, th:last-child{
         min-width: 100px;
@@ -105,6 +121,24 @@ table{
     .actions{
         display: flex;
         justify-content: center;
+    }
+}
+.contact{
+    .branchDetails{
+        height: 18vh;
+        display: flex;
+        justify-content: space-between;
+    }
+    h2{
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+    p{
+        margin: 0;
+    }
+    table{
+        height: 70vh;
+        
     }
 }
 .edit:hover{
@@ -321,7 +355,7 @@ tr:nth-child(odd) td {
     }
     form label{
         margin-bottom: 0px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     .submit{
         margin-top: 20px;
@@ -394,7 +428,7 @@ form{
     }
     input, textarea{
         max-width: 400px;
-        padding: 10px 5px;
+        padding: 7px 5px;
         margin-top: 5px;
     }
     select{

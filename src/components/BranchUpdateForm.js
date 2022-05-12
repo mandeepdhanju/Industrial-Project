@@ -137,7 +137,8 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
     }, [branch])
 
     return (
-        <div style={{
+        <div className="split-col"
+            style={{
             position: "fixed",
             top: 0,
             left: 0,
@@ -160,6 +161,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                 }}
                 onSubmit={(e) => { submitForm(e) }}
                 onClick={(e) => e.stopPropagation()}>
+            <div className="col-1">
                 <label htmlFor='branchName'>Branch Name</label>
                 <input
                     name="branchName"
@@ -169,6 +171,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
 
                 <label htmlFor='communityID'>Community</label>
                 <select
+                style={{"margin-bottom": "20px",}}
                     name="communityID"
                     onChange={(e) => setBranch({ ...branch, communityID: e.target.value })}>
                     <option disabled>Please select a community</option>
@@ -181,21 +184,21 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                     })}
                 </select>
 
-                <label htmlFor='active'>Active?</label>
+                <label style={{"display": "inline",}}>Active?
                 <input
                     type='checkbox'
                     name="active"
                     defaultChecked={branch.active}
                     onClick={(e) => setBranch({ ...branch, active: e.target.checked })}
-                ></input>
-
-                <label htmlFor='active'>Mailing Address?</label>
+               />
+                </label>        
+                <label style={{"display": "inline",}}>Mailing Address?
                 <input
                     type='checkbox'
                     defaultChecked={branch.mailingAddress}
                     onClick={(e) => setmailingAddress({ exists: e.target.checked })}
-                ></input>
-
+                />
+                </label>
                 <div className="businessAddressForm">
                     <h1>Business Address</h1>
 
@@ -237,7 +240,8 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                         onChange={(e) => setBusinessAddress({ ...businessAddress, postalCode: e.target.value, addressChanged: true })}></input>
 
                 </div>
-
+                </div>
+        <div className="col-2">
                 {mailingAddress.exists ?
                     <div className="mailingAddressForm">
                         <h1>Mailing Address</h1>
@@ -281,6 +285,7 @@ function BranchUpdateForm({ selectedBranch, handleFormSubmit, closeModal }) {
                     </div>
                     : null}
                 <button type='submit'>Save Changes</button>
+                </div>
             </form>
         </div >
     )

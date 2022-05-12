@@ -160,7 +160,7 @@ function Organization() {
     <main>
       <div className="sidebar">
         <OrganizationCreate getData={getData} />
-        <button onClick={() => setCopyMode(!copyMode)}>
+        <button className="copy-mode" onClick={() => setCopyMode(!copyMode)}>
           Copy Mode: {copyMode ? "Enabled" : "Disabled"}
         </button>
         <div className="pagination">

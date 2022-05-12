@@ -88,25 +88,28 @@ function Contact() {
           Create New Contact
         </button>
       </div>
-      <div className="contact" style={{ margin: "55px" }}>
+      <div className="contact">
         <div className="errorBox"><p>{errorMsg}</p></div>
-
+        <h1>{location.state.organizationName}</h1>
         {location.state ?
           <div className="branchDetails">
+            <div className="col-1">
+              
 
-            <h1>{location.state.organizationName}</h1>
+              <h2>Branch</h2>
+              <p>{location.state.branch.branchName}</p>
 
-            <label>Branch</label><p>{location.state.branch.branchName}</p>
-
-            <label>Community</label> <p>{location.state.branch.community}</p>
-
-            <label>Business Address</label>
+              <h2>Community</h2> 
+              <p>{location.state.branch.community}</p>
+            </div>
+            <div className="col-2">
+            <h2>Business Address</h2>
             <p>{`${location.state.branch.businessAddress2 ?? ""} ${location.state.branch.businessAddress ?? ""} ${location.state.branch.businessStreet ?? ""} ${location.state.branch.businessCity ?? ""} ${location.state.branch.businessProvince ?? ""} ${location.state.branch.businessPostalCode ?? ""}`}</p>
 
             {
               location.state.branch.mailingAddressId ?
                 <div className="mailingAddresss">
-                  <label>Mailing Address</label>
+                  <h2>Mailing Address</h2>
                   <p>{`${location.state.branch.mailingAddress2 ?? ""} ${location.state.branch.mailingAddress ?? ""} ${location.state.branch.mailingStreet ?? ""} ${location.state.branch.mailingCity ?? ""} ${location.state.branch.mailingProvince ?? ""} ${location.state.branch.mailingPostalCode ?? ""}`}</p>
                 </div>
                 : null
@@ -115,6 +118,7 @@ function Contact() {
             {
               location.state.branch.active ? <div className="active">Active</div> : <div className="inactive">InActive</div>
             }
+            </div>
           </div>
           : null
         }
@@ -153,19 +157,21 @@ function Contact() {
                   </td>
                   <td>
                     <button
+                    className="icon edit"
                       onClick={() => {
                         prepareEditForm(contact);
                       }}
                     >
-                      Edit
+                      <i className="fa-solid fa-pen"></i>
                     </button>
 
                     <button
+                    className="icon delete"
                       disabled={contact.active ? false : true}
                       onClick={() => {
                         prepareDeactive(contact);
                       }}
-                    >Deactivate
+                    ><i className="fa-solid fa-ban"></i>
                     </button>
 
                   </td>

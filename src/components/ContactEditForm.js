@@ -79,7 +79,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
   }, [contact]);
 
   return (
-    <div
+    <div className="split-col"
       style={{
         position: "fixed",
         top: 0,
@@ -106,6 +106,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="col-1">
         <div className="required">
           <label htmlFor="name">Name</label>
         </div>
@@ -152,7 +153,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
           onChange={(e) => setContact({ ...contact, jobTitle: e.target.value })}
         ></input>
 
-        <label htmlFor="primaryContact">Primary Contact?</label>
+        <label style={{"display": "inline",}}>Primary Contact?
         <input
           type="checkbox"
           name="primaryContact"
@@ -160,16 +161,18 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
           onChange={(e) =>
             setContact({ ...contact, primaryContact: e.target.checked })
           }
-        ></input>
-
-        <label htmlFor="active">Active?</label>
+        />
+      </label>
+        <label style={{"display": "inline",}}>Active?
         <input
           type="checkbox"
           name="active"
           defaultChecked={contact.active}
           onChange={(e) => setContact({ ...contact, active: e.target.checked })}
-        ></input>
-
+       />
+        </label>
+        </div>
+        <div className="col-2">
         <div className="addressForm">
           <h1>Contact Address</h1>
 
@@ -252,6 +255,7 @@ function ContactEditForm({ selectedContact, handleFormSubmit, closeModal }) {
           ></input>
         </div>
         <button type="submit">Save Changes</button>
+        </div>
       </form>
     </div>
   );
