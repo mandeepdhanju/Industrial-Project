@@ -37,6 +37,7 @@ function Uploadws() {
     });
     // the file path is returned and we tell the websocket where the file is to then start parsing
     ws.send(response.data.filePath);
+    e.target.reset();
   };
   return (
     <div style={{ position: "relative" }}>
