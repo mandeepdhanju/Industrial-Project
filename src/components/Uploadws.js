@@ -10,12 +10,20 @@ ws.addEventListener("open", () => {
 });
 function Uploadws() {
   const [message, setMessage] = useState();
-  useEffect(() => {
+  const [errorList, setErrorList] = useState([]);
+  const [websocketIsOpen, setWebsocketIsOpen] = useState(false);
+
+  if (!websocketIsOpen) {
     ws.addEventListener("message", (event) => {
       console.log(event.data);
-      setMessage(JSON.parse(event.data));
+      const messageParse = JSON.parse(event.data);
+      if (Object.keys(messageParse).includes("error")) {
+        setErrorList((errors) => [...errors, messageParse]);
+      }
+      setMessage(messageParse);
     });
-  }, []);
+    setWebsocketIsOpen(true);
+  }
 
   const submit = async function (e) {
     e.preventDefault();
@@ -33,7 +41,17 @@ function Uploadws() {
     <div style={{ position: "relative" }}>
       <div style={{ top: "-60px", position: "absolute" }}>
         <h1>Upload</h1>
-        <p>{message?.message}</p>
+        {message && <p>{message.message ? message.message : message.error}</p>}
+        {errorList && (
+          <ul className="errors">
+            {errorList.map((error, index) => (
+              <li key={index}>
+                {" "}
+                Line {error.line} : {error.error}
+              </li>
+            ))}
+          </ul>
+        )}
         <form onSubmit={submit}>
           <input type="file" accept=".xlsx"></input>
           <button type="submit">Upload</button>
