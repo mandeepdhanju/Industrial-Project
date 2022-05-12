@@ -251,6 +251,11 @@ function Report() {
             >
               Load Less...
             </button>
+            {page && (
+              <p>
+                {pageArray.length} of {all.length}
+              </p>
+            )}
           </>
         )}
       </div>
