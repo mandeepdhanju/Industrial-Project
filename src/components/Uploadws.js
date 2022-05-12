@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL + "websocket/upload";
 
-const ws = new WebSocket("wss://localhost:5001/ws");
+const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET);
 
 ws.addEventListener("open", () => {
   console.log("connected to websocket");
