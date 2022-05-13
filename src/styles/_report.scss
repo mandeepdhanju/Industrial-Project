@@ -10,6 +10,7 @@
     }
     button:hover{
         background-color: $brand-color;
+        color: white;
     }
     display: flex;
     width: 100%;
@@ -30,12 +31,17 @@
         }
     }
     .reportPreview{
-        height: 90vh;
-        width: calc(100% - 300px);
-        overflow-y: scroll;
+        width: 75%;
+        
+        
         margin: 0 30px;
+        h1{
+            margin: 0 0 20px 0;
+        }
         table{
-            max-width: 100%;
+            
+            max-height: 65vh;
+            overflow-y: scroll;
         }
         button{
             background-color: #006751;
@@ -46,6 +52,7 @@
         }
         button:hover{
             background-color: #00392d;
+            color: white;
         }
         th:nth-child(1),
         td:nth-child(1){
@@ -54,6 +61,9 @@
             min-width: 50px;
             left: 0px;
             z-index: 99;
+        }
+        th:nth-child(1){
+            top: 0; z-index: 100;
         }
     }
     

@@ -182,6 +182,7 @@ function Report() {
 
   return (
     <div className="report">
+      <div className="sidebar">
       <div className="columnSelection">
         <button id="allSB" onClick={selectAllFunc}>
           Select All
@@ -211,6 +212,7 @@ function Report() {
           CSV Download
         </CsvDownload>
         <button onClick={downloadXlsx}>xlsx Download</button>
+      </div>
       </div>
       <div className="reportPreview">
         

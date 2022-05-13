@@ -26,7 +26,7 @@ function Header() {
           <Link className="navLink" to="/search">
             SEARCH
           </Link>
-          <Link className="navLink" to="/upload">
+          <Link className="navLink" to="/uploadws">
             BULK UPLOAD
           </Link>
         </div>
