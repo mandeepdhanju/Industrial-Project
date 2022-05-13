@@ -14,6 +14,7 @@ function Uploadws() {
   const [message, setMessage] = useState();
   const [errorList, setErrorList] = useState([]);
   const [websocketIsOpen, setWebsocketIsOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   if (!websocketIsOpen) {
     ws.addEventListener("message", (event) => {
@@ -22,6 +23,9 @@ function Uploadws() {
       if (Object.keys(messageParse).includes("error")) {
         setErrorList((errors) => [...errors, messageParse]);
       }
+      if (messageParse?.message === "Done") {
+        setUploading(false);
+      }
       setMessage(messageParse);
     });
     setWebsocketIsOpen(true);
@@ -29,6 +33,7 @@ function Uploadws() {
 
   const submit = async function (e) {
     e.preventDefault();
+    setUploading(true);
     setMessage({ message: "uploading..." });
     const file = e.target[0].files[0];
     // axios send the file to the endpoint
@@ -39,33 +44,36 @@ function Uploadws() {
     });
     // the file path is returned and we tell the websocket where the file is to then start parsing
     ws.send(response.data.filePath);
-    e.target.reset();
   };
   return (
     <main>
-    <div style={{ position: "relative" }}>
-      <div>
-        <h1>Upload</h1>
-        <Link type="button" to={template} target="_blank" download>
-          Download Template
-        </Link>
-        {message && <p>{message.message ? message.message : message.error}</p>}
-        {errorList && (
-          <ul className="errors">
-            {errorList.map((error, index) => (
-              <li key={index}>
-                {" "}
-                Line {error.line} : {error.error}
-              </li>
-            ))}
-          </ul>
-        )}
-        <form onSubmit={submit}>
-          <input type="file" accept=".xlsx"></input>
-          <button type="submit">Upload</button>
-        </form>
+      <div style={{ position: "relative" }}>
+        <div>
+          <h1>Upload</h1>
+          <Link type="button" to={template} target="_blank" download>
+            Download Template
+          </Link>
+          {message && (
+            <p>{message.message ? message.message : message.error}</p>
+          )}
+          {errorList && (
+            <ul className="errors">
+              {errorList.map((error, index) => (
+                <li key={index}>
+                  {" "}
+                  Line {error.line} : {error.error}
+                </li>
+              ))}
+            </ul>
+          )}
+          <form onSubmit={submit}>
+            <input type="file" accept=".xlsx"></input>
+            <button type="submit" disabled={uploading}>
+              Upload
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </main>
   );
 }
