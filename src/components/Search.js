@@ -58,7 +58,10 @@ function SelectColumnFilter({
         options.add(value);
       }
     });
-    return [...options.values()];
+    const sorted = [...options].sort((a, b) => {
+      return parseInt(a, 10) - parseInt(b, 10);
+    });
+    return sorted;
   }, [id, preFilteredRows]);
 
   // Render a multi-select box
