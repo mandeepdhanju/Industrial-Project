@@ -40,8 +40,9 @@ function Uploadws() {
     e.target.reset();
   };
   return (
+    <main>
     <div style={{ position: "relative" }}>
-      <div style={{ top: "-60px", position: "absolute" }}>
+      <div>
         <h1>Upload</h1>
         {message && <p>{message.message ? message.message : message.error}</p>}
         {errorList && (
@@ -60,6 +61,7 @@ function Uploadws() {
         </form>
       </div>
     </div>
+    </main>
   );
 }
 

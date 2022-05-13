@@ -5,6 +5,20 @@
         cursor: pointer;
     }
 }
+.errorBox{
+    p{
+        margin: 0;
+        color: red;
+        font-size: 15px;
+    }
+    padding: 10px;
+    max-height: 200px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #f0ffc6;
+    border: 1px solid rgb(196, 53, 1);
+}
 table{
     height: calc(100vh - 120px);
     overflow-x: scroll;
@@ -81,6 +95,17 @@ table{
     label{
         width: 100%;
     }
+}
+.required label{
+    display: flex;
+    flex-direction: row;
+}
+.required label:after{
+    display: inline;
+    content: '*';
+    color: red;
+    width: 15px;
+    margin-left: 2px;
 }
 .organization{
     width: 78%;

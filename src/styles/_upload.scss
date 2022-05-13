@@ -15,7 +15,9 @@
             border-radius: 5px;
         }
     }
-    
+    .uploadFileDiv button{
+        margin-left: 10px;
+    }
     .message{
         max-width: 500px;
         margin: 30px auto;
@@ -31,14 +33,23 @@
         max-width: fit-content;
         border-radius: 5px;
         background-color: #ededed;
+        label{
+            margin: 0 20px;
+        }
+        p{
+            margin: 10px 0 0 0;
+        }
         button{
-            width: 100px;
+            width: 40px;
             text-align: center;
             padding: 5px;
-            color: white;
-            background-color: $brand-color;
+            background-color: white;
             border: none;
             margin-left: 5px;
+        }
+        input{
+            width: 40px;
+            padding: 5px 3px;
         }
     }
 }

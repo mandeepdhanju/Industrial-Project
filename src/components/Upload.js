@@ -100,7 +100,7 @@ function Upload() {
             </Link>
           </div>
           {message && (
-            <div className="message">
+            <div className="errorBox">
               <p>{message}</p>
               {errorDetail && (
                 <>
@@ -134,10 +134,6 @@ function Upload() {
         </div>
         {pageData && (
           <div className="paginationBUpload">
-            <label>
-              Page: {pageNum} of {pageData.length}
-            </label>
-
             <button
               onClick={() => {
                 if (pageNum > 1) {
@@ -145,8 +141,13 @@ function Upload() {
                 }
               }}
             >
-              Previous
+              &#10094;
             </button>
+
+            <label>
+              Page {pageNum} of {pageData.length}
+            </label>
+
             <button
               onClick={() => {
                 if (pageNum < pageData.length) {
@@ -154,11 +155,10 @@ function Upload() {
                 }
               }}
             >
-              Next
+              &#10095;
             </button>
-            <p>Goto Page <input
+            <p>Jump to <input
               type="text"
-              placeholder={`Max Page: ${pageData.length}`}
               onChange={goToPage}
             />
             <button
@@ -173,7 +173,7 @@ function Upload() {
                 }
               }}
             >
-              Go
+              <i className="fa-solid fa-arrow-right"></i>
             </button></p>
             
           </div>
