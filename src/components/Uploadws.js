@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import template from "../template/UploadTemplate.xlsx";
+import { Link } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_API_URL + "websocket/upload";
 
-const ws = new WebSocket("wss://localhost:5001/ws");
+const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET);
 
 ws.addEventListener("open", () => {
   console.log("connected to websocket");
@@ -44,6 +46,9 @@ function Uploadws() {
     <div style={{ position: "relative" }}>
       <div>
         <h1>Upload</h1>
+        <Link type="button" to={template} target="_blank" download>
+          Download Template
+        </Link>
         {message && <p>{message.message ? message.message : message.error}</p>}
         {errorList && (
           <ul className="errors">
