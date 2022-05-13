@@ -130,7 +130,7 @@ function Search() {
           if (row.row.original.website !== "") {
             return (
               <a href={websiteUrl} target="_blank" rel="noreferrer">
-                {websiteDisplay}
+                {websiteUrl}
               </a>
             );
           }
